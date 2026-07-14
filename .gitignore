@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Backup files
+style-backup-gradient-themes.css
+*.bak
+
+# Large binary assets we don't need in the repo
+drida_logo.pdf
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo

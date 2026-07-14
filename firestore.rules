@@ -1,0 +1,63 @@
+// ============================================================
+// FIRESTORE SECURITY RULES
+// ------------------------------------------------------------
+// This is the file that actually enforces "who can see what."
+// It does NOT live in your website's HTML/JS - you paste this
+// into the Firebase Console: Firestore Database -> Rules tab ->
+// replace everything -> Publish.
+//
+// Key idea: a user can read their OWN profile (and therefore
+// see which courses they're enrolled in), but can NEVER write
+// their own "enrolledCourses" list. Only you can change that,
+// by editing it directly in the Firebase Console when someone
+// pays and you want to enroll them. That's what makes this safe -
+// even a tech-savvy user poking at the website's code cannot
+// grant themselves access to a paid course.
+// ============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Each user's own profile: phone number, last login time,
+    // and the list of course IDs they're enrolled in.
+    match /users/{userId} {
+      // A user can read only their own profile.
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // A user can create their own profile on first login,
+      // but only with phone/lastLogin - they cannot set enrolledCourses.
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && !('enrolledCourses' in request.resource.data);
+
+      // A user can update their own profile, but the
+      // enrolledCourses field must stay exactly as it already was -
+      // i.e. they cannot add or remove courses themselves.
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.enrolledCourses == resource.data.enrolledCourses;
+    }
+
+    // Course titles/descriptions/price/payment-link are public
+    // marketing info - anyone can read them (so a new course you
+    // post about on Instagram/WhatsApp shows up on the public site
+    // too, with a "Pay & Get Access" button). Nobody writes from the
+    // website - add/edit courses yourself via the Firebase Console.
+    match /courses/{courseId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // The actual playlist (an array of YouTube links, one per
+    // session) for a course. Only readable if this course ID appears
+    // in the logged-in user's OWN enrolledCourses list (checked
+    // above) - i.e. only after you've manually enrolled them
+    // following payment.
+    match /courseContent/{courseId} {
+      allow read: if request.auth != null &&
+        courseId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.enrolledCourses;
+      allow write: if false;
+    }
+  }
+}

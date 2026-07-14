@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trips &amp; Events — Drida</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .trips-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .trips-section h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .trips-section .section-sub {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .trip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .trip-card {
+      background: var(--paper-alt);
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trip-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-3px);
+    }
+
+    .trip-poster {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+      background: var(--line-soft);
+    }
+
+    .trip-poster.landscape {
+      aspect-ratio: 4/3;
+    }
+
+    .trip-poster-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, rgba(204,40,40,0.06) 0%, rgba(224,80,20,0.04) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .trip-poster-placeholder svg {
+      opacity: 0.2;
+    }
+
+    .trip-body {
+      padding: 1rem 1.25rem 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .trip-label {
+      display: inline-block;
+      background: var(--grad);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      width: fit-content;
+      margin-bottom: 0.15rem;
+    }
+
+    .trip-label.fun {
+      background: linear-gradient(135deg, #1e7f6e 0%, #2dab91 100%);
+    }
+
+    .trip-card h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.3;
+    }
+
+    .trip-card p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .trip-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+    }
+
+    .trip-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--line-soft);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .badge-ladies {
+      background: linear-gradient(135deg, #d63f7a, #e87e4e);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .trip-card .btn {
+      margin-top: 0.75rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Gallery strip for multi-photo trips */
+    .trip-gallery {
+      display: flex;
+      gap: 0.25rem;
+      padding: 0 0.25rem 0.25rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .trip-gallery::-webkit-scrollbar { display: none; }
+
+    .trip-gallery img {
+      height: 72px;
+      width: 96px;
+      object-fit: cover;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    .trips-divider {
+      border: none;
+      border-top: 1px solid var(--line-soft);
+      margin: 2.5rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-float-bubble" aria-hidden="true">
+    <img src="drida_logo.svg" alt="">
+  </div>
+
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <span class="logo-badge"><img src="drida_logo.svg" alt="Drida logo" class="logo"></span>
+        <span class="brand-name">Drida</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="trips.html" class="active">Trips &amp; Events</a>
+        <a href="products.html">Products</a>
+        <a href="meetups.html">Meet-ups</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </div>
+    <div class="hero">
+      <h1>Trips &amp; Events</h1>
+      <p>Sacred pilgrimages and soulful getaways — journeys that nourish the mind, body &amp; spirit.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ======================== PILGRIMAGES ======================== -->
+    <section class="trips-section" id="pilgrimages">
+      <h2>🛕 Pilgrimages</h2>
+      <p class="section-sub">Drida organises group pilgrimages to powerful spiritual destinations across India. To register interest for upcoming pilgrimages, send us a WhatsApp message.</p>
+
+      <div class="trip-grid">
+
+        <!-- Adikailash Yatra -->
+        <div class="trip-card">
+          <img class="trip-poster" src="images/trip-pil-adikailash.png" alt="Adikailash Yatra"
+               onerror="tryAltExt(this)">
+          <div class="trip-body">
+            <span class="trip-label">Pilgrimage</span>
+            <h3>Adikailash Yatra</h3>
+            <p>A divine trek to Adikailash — the ancient abode of Lord Shiva nestled in the Himalayas of Uttarakhand. A journey of faith, endurance and inner transformation.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Uttarakhand</span>
+              <span class="badge-ladies">Ladies Only</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Adikailash%20Yatra%20organised%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Kasardevi Yatra -->
+        <div class="trip-card">
+          <img class="trip-poster" src="images/trip-pil-kasar-devi.png" alt="Kasardevi Yatra"
+               onerror="tryAltExt(this)">
+          <div class="trip-gallery">
+            <img src="images/trip-pil-kasar-devi1.jpeg" alt="Kasardevi" onerror="this.style.display='none'">
+            <img src="images/trip-pil-kasar-devi2.jpeg" alt="Kasardevi" onerror="this.style.display='none'">
+            <img src="images/trip-pil-kasar-jageswartemple.jpeg" alt="Jageswar Temple" onerror="this.style.display='none'">
+            <img src="images/trip-pil-kasar-suntemple.jpeg" alt="Sun Temple" onerror="this.style.display='none'">
+          </div>
+          <div class="trip-body">
+            <span class="trip-label">Pilgrimage</span>
+            <h3>Kasardevi Yatra</h3>
+            <p>A spiritually charged journey to Kasardevi temple in Almora, with visits to the ancient Jageswar Temples and the Katarmal Sun Temple — sacred sites of immense cosmic energy.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Almora, Uttarakhand</span>
+              <span class="badge-ladies">Ladies Only</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Kasardevi%20Yatra%20organised%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Maha Kumbh Prayagraj -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-pil-mahakumbh-prayagraj.jpeg" alt="Maha Kumbh Mela, Prayagraj"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label">Pilgrimage</span>
+            <h3>Maha Kumbh Mela — Prayagraj</h3>
+            <p>The world's largest spiritual gathering. Drida joined the sacred Maha Kumbh 2025 at Prayagraj — taking a holy dip at the Triveni Sangam and experiencing the divine energy of millions of devotees.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Prayagraj, UP</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20future%20Kumbh%20or%20pilgrimage%20trips%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Enquire for Next Trip</a>
+          </div>
+        </div>
+
+        <!-- Mookambika -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-pil-mookambika.jpeg" alt="Mookambika Temple"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label">Pilgrimage</span>
+            <h3>Mookambika Temple, Kollur</h3>
+            <p>A deeply devotional visit to the sacred Mookambika Devi temple in Kollur, one of the most revered Shakti shrines of South India, nestled at the foothills of the Western Ghats.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Kollur, Karnataka</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Mookambika%20pilgrimage%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Rameshwaram -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-pil-rameshwaram.jpeg" alt="Rameshwaram"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label">Pilgrimage</span>
+            <h3>Rameshwaram</h3>
+            <p>A sacred pilgrimage to Rameshwaram — one of the four dhams — where the land meets the sea and where Lord Rama worshipped Shiva. Includes holy baths in the sacred theerthams.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Tamil Nadu</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Rameshwaram%20pilgrimage%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Kottiyoor -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-pil-kottiyoor.jpeg" alt="Kottiyoor Temple"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label">Pilgrimage</span>
+            <h3>Kottiyoor Mahashivaratri</h3>
+            <p>The ancient Kottiyoor temple in Kannur — open only for 28 days a year — is home to a unique Shiva ritual performed in an open-air forest shrine with a natural stream.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Kannur, Kerala</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Kottiyoor%20pilgrimage%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Kudajagri -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-pil-kudajagri.jpeg" alt="Kudajagri"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label">Pilgrimage</span>
+            <h3>Kudajagri</h3>
+            <p>A trek to the beautiful Kudajagri hilltop temple — a place of spiritual power and stunning natural beauty, often visited alongside Mookambika.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Karnataka</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Kudajagri%20pilgrimage%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Isha Foundation -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-pil-ishafoundation.jpeg" alt="Isha Foundation"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label">Pilgrimage</span>
+            <h3>Isha Foundation — Velliangiri</h3>
+            <p>A visit to Isha Foundation's Dhyanalinga and the sacred Velliangiri mountains in Coimbatore — the abode of Shiva, offering a powerful experience of stillness and presence.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Coimbatore, Tamil Nadu</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20an%20Isha%20Foundation%20trip%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="trips-divider">
+
+    <!-- ======================== FUN TRIPS ======================== -->
+    <section class="trips-section" id="fun-trips">
+      <h2>🌿 Fun Trips</h2>
+      <p class="section-sub">Relaxing getaways for the Drida community — nature, fresh air, and good company.</p>
+
+      <div class="trip-grid">
+
+        <!-- Nelliyampathy -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-admins-nelliyampathy.jpeg" alt="Nelliyampathy"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label fun">Fun Trip</span>
+            <h3>Nelliyampathy Hills</h3>
+            <p>A refreshing escape to the scenic Nelliyampathy hills in Palakkad — tea and coffee estates, cool mountain air, and breathtaking valley views.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Palakkad, Kerala</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Nelliyampathy%20trip%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Malakkappara -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-malakkappara.jpeg" alt="Malakkappara"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label fun">Fun Trip</span>
+            <h3>Malakkappara</h3>
+            <p>Deep into the lush forests of the Anamalai Tiger Reserve — Malakkappara offers a serene retreat surrounded by misty mountains, tea estates and winding forest roads.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Thrissur, Kerala</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Malakkappara%20trip%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Nainital -->
+        <div class="trip-card">
+          <img class="trip-poster landscape" src="images/trip-nainital.jpeg" alt="Nainital"
+               onerror="this.style.display='none'">
+          <div class="trip-body">
+            <span class="trip-label fun">Fun Trip</span>
+            <h3>Nainital</h3>
+            <p>The jewel of Kumaon — a beautiful hill station set around the sparkling Naini Lake, surrounded by forested ridges and colonial charm. A perfect blend of peace and adventure.</p>
+            <div class="trip-meta-row">
+              <span class="trip-chip">📍 Uttarakhand</span>
+            </div>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Nainital%20trip%20by%20Drida.%20Please%20share%20details."
+               target="_blank" rel="noopener noreferrer">Register Interest</a>
+          </div>
+        </div>
+
+        <!-- Upcoming placeholder -->
+        <div class="trip-card" style="border-style: dashed; opacity: 0.7;">
+          <div class="trip-poster-placeholder">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+          </div>
+          <div class="trip-body">
+            <span class="trip-label fun">Coming Soon</span>
+            <h3>More trips planned</h3>
+            <p>Malampuzha-Palakkad, Athirapally-Vazhachaal, Tanjore-Chidambaram-Tiruvannamalai and more are being planned. Stay tuned!</p>
+            <a class="btn"
+               href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20know%20about%20upcoming%20Drida%20trips.%20Please%20add%20me%20to%20the%20notification%20list."
+               target="_blank" rel="noopener noreferrer">Notify Me</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Drida Foundation</p>
+    <p class="social">
+      <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <span class="icon-chip" style="background:#FF0000;"><svg viewBox="0 0 24 24" width="22" height="22" fill="#fff" aria-hidden="true"><path d="M9.5 7.5v9l8-4.5-8-4.5z"/></svg></span>
+      </a>
+      <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <span class="icon-chip" style="background:linear-gradient(135deg, #FEDA75, #D62976, #4F5BD5);"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="#fff" stroke="none"/></svg></span>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <span class="icon-chip" style="background:#1877F2;"><svg viewBox="0 0 320 512" width="16" height="26" fill="#fff" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg></span>
+      </a>
+    </p>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  </footer>
+
+  <script>
+    function tryAltExt(img) {
+      var src = img.src;
+      if (src.indexOf('images/') === -1) { img.style.display = 'none'; return; }
+      if (src.match(/\.png(\?|$)/i)) {
+        img.onerror = function() { this.style.display = 'none'; };
+        img.src = src.replace(/\.png(\?|$)/i, '.jpg$1');
+      } else if (src.match(/\.jpg(\?|$)/i)) {
+        img.onerror = function() { this.style.display = 'none'; };
+        img.src = src.replace(/\.jpg(\?|$)/i, '.png$1');
+      } else {
+        img.style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>

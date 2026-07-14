@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Drida</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="logo-float-bubble" aria-hidden="true">
+    <img src="drida_logo.svg" alt="">
+  </div>
+
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <span class="logo-badge"><img src="drida_logo.svg" alt="Drida logo" class="logo"></span>
+        <span class="brand-name">Drida</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="trips.html">Trips &amp; Events</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="meetups.html">Meet-ups</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </div>
+    <div class="hero">
+      <h1>Products</h1>
+      <p>Natural wellness products from Drida's partner brands.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="kasar">
+      <h2>Kasar Naturals</h2>
+      <p>
+        Natural skincare and haircare rooted in tradition. Kasar Naturals blends
+        Ayurvedic ingredients like rosemary, kesar, and panchpushp into safe,
+        chemical-free products - free from sulfates and parabens.
+      </p>
+      <div class="card-grid">
+        <div class="card">
+          <img src="https://kasarnaturals.com/wp-content/uploads/2025/06/Resized-2-1-499x333.jpg" alt="Kasar Panchpushp Face Toner">
+          <h3>Panchpushp Face Toner</h3>
+          <p>Inspired by ancient beauty rituals - Kewda, Kesar and five sacred flowers, for hydrated, glowing skin.</p>
+          <p class="price">&#8377;630.00</p>
+          <a class="btn" href="https://kasarnaturals.com/product/panchpushp-toner/" target="_blank" rel="noopener noreferrer">View on Kasar Naturals</a>
+        </div>
+        <div class="card">
+          <img src="https://kasarnaturals.com/wp-content/uploads/2025/06/Resized-4-1-499x333.jpg" alt="Rosemary Hair Mist">
+          <h3>Rosemary Hair Mist</h3>
+          <p>A lightweight mist that refreshes and revives hair, reduces frizz, and adds natural shine.</p>
+          <p class="price">&#8377;430.00</p>
+          <a class="btn" href="https://kasarnaturals.com/product/rosemary-hair-mist/" target="_blank" rel="noopener noreferrer">View on Kasar Naturals</a>
+        </div>
+        <div class="card">
+          <img src="https://kasarnaturals.com/wp-content/uploads/2025/06/Resized-1-1-499x333.jpg" alt="Rosemary Herbal Shampoo">
+          <h3>Rosemary Herbal Shampoo</h3>
+          <p>Strengthens roots and promotes hair growth with pure rosemary extract - no harsh chemicals.</p>
+          <p class="price">&#8377;539.00</p>
+          <a class="btn" href="https://kasarnaturals.com/product/rosemary-herbal-shampoo/" target="_blank" rel="noopener noreferrer">View on Kasar Naturals</a>
+        </div>
+      </div>
+      <p style="margin-top: 1.25rem;">
+        <a class="btn" href="https://kasarnaturals.com/shop-2/" target="_blank" rel="noopener noreferrer">Shop all Kasar Naturals products</a>
+      </p>
+    </section>
+
+    <section id="more-products">
+      <h2>More from Drida</h2>
+      <p>More product lines are on the way - check back soon.</p>
+      <div class="card-grid">
+        <div class="card">
+          <img src="images/product-drida-crystal.png" alt="Drida Crystal Chakra Bracelets"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="product-placeholder" style="display:none">
+            <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+              <rect width="120" height="80" fill="none"/>
+              <circle cx="60" cy="40" r="28" fill="none" stroke="currentColor" stroke-width="2" opacity="0.25"/>
+              <circle cx="60" cy="40" r="20" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.18"/>
+              <circle cx="60" cy="12" r="3" fill="currentColor" opacity="0.3"/>
+              <circle cx="83" cy="24" r="3" fill="currentColor" opacity="0.3"/>
+              <circle cx="83" cy="56" r="3" fill="currentColor" opacity="0.3"/>
+              <circle cx="60" cy="68" r="3" fill="currentColor" opacity="0.3"/>
+              <circle cx="37" cy="56" r="3" fill="currentColor" opacity="0.3"/>
+              <circle cx="37" cy="24" r="3" fill="currentColor" opacity="0.3"/>
+              <circle cx="60" cy="40" r="5" fill="currentColor" opacity="0.3"/>
+            </svg>
+          </div>
+          <h3>Drida Crystal — Chakra Bracelets</h3>
+          <p>Handcrafted chakra bracelets — each bracelet is energised and aligned to specific chakras for balance and wellbeing.</p>
+          <div id="upi-crystal" style="display:flex;flex-direction:column;gap:0.45rem;margin-top:0.5rem">
+            <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
+            <input id="n-upi-crystal" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
+            <input id="p-upi-crystal" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal','Drida Crystal Chakra Bracelet',500)">Buy via UPI</button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="images/product-eksel4u.png" alt="EK.SEL4U Nightwear"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="product-placeholder" style="display:none">
+            <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+              <rect width="120" height="80" fill="none"/>
+              <path d="M45 15 L35 30 L25 28 L32 45 L32 70 L88 70 L88 45 L95 28 L85 30 L75 15 Q60 22 45 15 Z"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" opacity="0.25"/>
+              <path d="M45 15 Q60 10 75 15" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.2"/>
+            </svg>
+          </div>
+          <h3>EK.SEL4U — Nightwear</h3>
+          <p>Comfortable, stylish nightwear from Drida's own brand — crafted for quality sleep and relaxed living.</p>
+          <div id="upi-eksel4u" style="display:flex;flex-direction:column;gap:0.45rem;margin-top:0.5rem">
+            <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
+            <input id="n-upi-eksel4u" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
+            <input id="p-upi-eksel4u" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
+            <button class="btn" type="button" onclick="showProductUpi('upi-eksel4u','EK.SEL4U Nightwear',799)">Buy via UPI</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Drida Foundation</p>
+    <p class="social">
+      <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <span class="icon-chip" style="background:#FF0000;"><svg viewBox="0 0 24 24" width="22" height="22" fill="#fff" aria-hidden="true"><path d="M9.5 7.5v9l8-4.5-8-4.5z"/></svg></span>
+      </a>
+      <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <span class="icon-chip" style="background:linear-gradient(135deg, #FEDA75, #D62976, #4F5BD5);"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="#fff" stroke="none"/></svg></span>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <span class="icon-chip" style="background:#1877F2;"><svg viewBox="0 0 320 512" width="16" height="26" fill="#fff" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg></span>
+      </a>
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    function tryAltExt(img) {
+      var src = img.src;
+      if (src.indexOf('images/') === -1) { img.style.display = 'none'; return; }
+      if (src.match(/\.png(\?|$)/i)) {
+        img.onerror = function() { this.style.display = 'none'; };
+        img.src = src.replace(/\.png(\?|$)/i, '.jpg$1');
+      } else if (src.match(/\.jpg(\?|$)/i)) {
+        img.onerror = function() { this.style.display = 'none'; };
+        img.src = src.replace(/\.jpg(\?|$)/i, '.png$1');
+      } else {
+        img.style.display = 'none';
+      }
+    }
+
+    var DRIDA_UPI = 'drida@ybl'; // ← replace with actual UPI ID
+
+    function showProductUpi(blockId, productName, amount) {
+      var name  = (document.getElementById('n-' + blockId) || {}).value || '';
+      var phone = (document.getElementById('p-' + blockId) || {}).value || '';
+      if (!name.trim() || !phone.trim()) {
+        alert('Please fill in your name and phone number so we can confirm your order.');
+        return;
+      }
+      var note = encodeURIComponent(productName + ' | ' + name.trim() + ' | ' + phone.trim());
+      var upiLink = 'upi://pay?pa=' + encodeURIComponent(DRIDA_UPI) +
+                    '&pn=' + encodeURIComponent('Drida Foundation') +
+                    '&am=' + amount + '&cu=INR&tn=' + note;
+      var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(upiLink);
+
+      document.getElementById(blockId).innerHTML =
+        '<img style="width:160px;height:160px;display:block;margin:0 auto 0.5rem" src="' + qrSrc + '" alt="Scan to pay via UPI" onerror="this.style.display=\'none\'">' +
+        '<a class="btn" style="display:block;text-align:center" href="' + upiLink + '">Pay via UPI App</a>' +
+        '<p style="font-size:0.78rem;color:var(--muted);text-align:center;margin:0.5rem 0 0">After payment WhatsApp your screenshot &amp; delivery address to <a href="https://wa.me/918075471581">Smitha Ma\'am</a>.</p>';
+    }
+  </script>
+</body>
+</html>
