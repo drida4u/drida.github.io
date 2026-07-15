@@ -36,6 +36,8 @@
       transition: box-shadow 0.2s ease, transform 0.2s ease;
       display: flex;
       flex-direction: column;
+      position: relative;
+      z-index: 1;
     }
 
     .trip-card:hover {
@@ -45,14 +47,11 @@
 
     .trip-poster {
       width: 100%;
-      aspect-ratio: 3/4;
-      object-fit: cover;
+      height: auto;
+      max-height: 420px;
+      object-fit: contain;
       display: block;
-      background: var(--line-soft);
-    }
-
-    .trip-poster.landscape {
-      aspect-ratio: 4/3;
+      background: #f4f0ec;
     }
 
     .trip-poster-placeholder {
@@ -248,7 +247,7 @@
 
         <!-- Maha Kumbh Prayagraj -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-pil-mahakumbh-prayagraj.jpeg" alt="Maha Kumbh Mela, Prayagraj"
+          <img class="trip-poster" src="images/trip-pil-mahakumbh-prayagraj.jpeg" alt="Maha Kumbh Mela, Prayagraj"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -265,7 +264,7 @@
 
         <!-- Mookambika -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-pil-mookambika.jpeg" alt="Mookambika Temple"
+          <img class="trip-poster" src="images/trip-pil-mookambika.jpeg" alt="Mookambika Temple"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -282,7 +281,7 @@
 
         <!-- Rameshwaram -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-pil-rameshwaram.jpeg" alt="Rameshwaram"
+          <img class="trip-poster" src="images/trip-pil-rameshwaram.jpeg" alt="Rameshwaram"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -299,7 +298,7 @@
 
         <!-- Kottiyoor -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-pil-kottiyoor.jpeg" alt="Kottiyoor Temple"
+          <img class="trip-poster" src="images/trip-pil-kottiyoor.jpeg" alt="Kottiyoor Temple"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -316,7 +315,7 @@
 
         <!-- Kudajagri -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-pil-kudajagri.jpeg" alt="Kudajagri"
+          <img class="trip-poster" src="images/trip-pil-kudajagri.jpeg" alt="Kudajagri"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -333,7 +332,7 @@
 
         <!-- Isha Foundation -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-pil-ishafoundation.jpeg" alt="Isha Foundation"
+          <img class="trip-poster" src="images/trip-pil-ishafoundation.jpeg" alt="Isha Foundation"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -362,7 +361,7 @@
 
         <!-- Nelliyampathy -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-admins-nelliyampathy.jpeg" alt="Nelliyampathy"
+          <img class="trip-poster" src="images/trip-admins-nelliyampathy.jpeg" alt="Nelliyampathy"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label fun">Fun Trip</span>
@@ -379,7 +378,7 @@
 
         <!-- Malakkappara -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-malakkappara.jpeg" alt="Malakkappara"
+          <img class="trip-poster" src="images/trip-malakkappara.jpeg" alt="Malakkappara"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label fun">Fun Trip</span>
@@ -396,7 +395,7 @@
 
         <!-- Nainital -->
         <div class="trip-card">
-          <img class="trip-poster landscape" src="images/trip-nainital.jpeg" alt="Nainital"
+          <img class="trip-poster" src="images/trip-nainital.jpeg" alt="Nainital"
                onerror="this.style.display='none'">
           <div class="trip-body">
             <span class="trip-label fun">Fun Trip</span>
