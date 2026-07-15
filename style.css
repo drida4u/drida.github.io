@@ -39,8 +39,7 @@ body {
   font-family: 'Inter', system-ui, Arial, sans-serif;
   line-height: 1.65;
   color: var(--ink);
-  background: #ffffff;
-  background-color: #ffffff;
+  background: var(--paper);
 }
 
 /* ── Floating logo aura bubble ──────────────────────────────────
@@ -711,16 +710,19 @@ section > p {
    browser width, like the dark strip on isha.sadhguru.org. */
 
 .band-dark {
-  background: #1a0e0c;
-  color: #f2f2f2;
+  /* Light theme: warm parchment / cream separator (Isha-style) */
+  background: #faf5ef;
+  color: var(--ink);
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding: 3rem calc(50vw - 50% + 1.5rem);
+  border-top: 1px solid #e8ddd0;
+  border-bottom: 1px solid #e8ddd0;
 }
 
-.band-dark h3 { color: #fff; }
-.band-dark p { color: #d8c9c2; }
+.band-dark h3 { color: var(--ink); }
+.band-dark p  { color: var(--ink-2); }
 
 .band-row {
   display: flex;
@@ -743,12 +745,12 @@ section > p {
   height: 220px;
   border-radius: 14px;
   overflow: hidden;
-  background: #1a1a1a;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+  background: var(--paper-alt);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
 }
 
 #follow .band-photo {
-  background: #1a1a1a;
+  background: var(--paper-alt);
 }
 
 .band-photo img {
@@ -1082,20 +1084,262 @@ footer .social a:hover .icon-chip,
   }
 }
 
-/* ---------- Responsive tweaks ---------- */
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE / MOBILE
+   ═══════════════════════════════════════════════════════════════ */
 
-@media (max-width: 600px) {
+/* ── Scale the logo bubble down so it doesn't overflow on phones ── */
+@media (max-width: 768px) {
+  .logo-float-bubble {
+    width: 300px;
+    height: 300px;
+  }
+  .logo-float-bubble img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* ── Hamburger nav for phones & small tablets ─────────────────── */
+@media (max-width: 768px) {
+  /* Topbar: single row, no wrapping */
   .topbar {
-    padding: 0.75rem 1.25rem;
+    flex-wrap: nowrap;
+    padding: 0.65rem 1rem;
+    position: relative;   /* anchor for the dropdown */
+    align-items: center;
   }
 
-  nav {
-    width: 100%;
+  /* Shrink brand slightly so everything fits */
+  .logo-badge { width: 44px; height: 44px; padding: 5px; }
+  .brand-name { font-size: 1.05rem; }
+
+  /* Hide nav by default; it becomes a dropdown */
+  .topbar nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--paper);
+    border-top: 1px solid var(--line-soft);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+    z-index: 100;
+    padding: 0.3rem 0 0.5rem;
+    gap: 0;
+  }
+
+  .topbar nav.nav-open { display: flex; }
+
+  /* Nav links: full-width, easy tap targets */
+  .topbar nav a {
+    padding: 0.9rem 1.5rem;
+    margin: 0;
+    border-radius: 0;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .topbar nav a:last-child { border-bottom: none; }
+
+  /* No underline animation in dropdown */
+  .topbar nav a::after { display: none; }
+
+  /* Login pill gets a bit of space to breathe */
+  .topbar nav a[href$="login.html"] {
+    margin: 0.6rem 1.25rem 0;
+    border-radius: 999px;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  /* ── Hamburger button ── */
+  #nav-toggle {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 0.5rem;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    margin-left: 0.5rem;
+    border-radius: 6px;
+    flex-shrink: 0;
+    min-width: 40px;
+    min-height: 40px;
   }
 
-  main {
-    padding: 2rem 1.25rem;
+  #nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    pointer-events: none;
   }
+
+  /* Animate to × when open */
+  #nav-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #nav-toggle.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #nav-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Give theme toggle breathing room next to hamburger */
+  #theme-toggle { margin-left: 0.5rem; }
+
+  /* Main content: tighter on phones */
+  main { padding: 1.75rem 1rem; }
+
+  section h2 { font-size: 1.3rem; }
+}
+
+/* Hide hamburger on desktop */
+@media (min-width: 769px) {
+  #nav-toggle { display: none; }
+}
+
+/* ── Landscape phone: reduce hero padding so content stays visible ── */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero { padding: 1.25rem 1.5rem; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero p  { font-size: 0.9rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK THEME
+   Applied when <html data-theme="dark"> is set (manual toggle)
+   OR when the device prefers dark (media query below).
+   Rule: white ↔ black, text ↔ bg. Gradient accent stays the same.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Variables for dark mode */
+:root[data-theme="dark"] {
+  --paper:        #141210;
+  --paper-alt:    #1e1a16;
+  --ink:          #e8ddd4;
+  --ink-2:        #a89888;
+  --muted:        #807060;
+  --line-soft:    #2e2620;
+  --accent:       #e84030;
+  --accent-dark:  #cc2828;
+  --shadow:       0 4px 20px rgba(0, 0, 0, 0.50);
+  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.70);
+}
+
+/* Also respect system preference if no manual override is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:        #141210;
+    --paper-alt:    #1e1a16;
+    --ink:          #e8ddd4;
+    --ink-2:        #a89888;
+    --muted:        #807060;
+    --line-soft:    #2e2620;
+    --accent:       #e84030;
+    --accent-dark:  #cc2828;
+    --shadow:       0 4px 20px rgba(0, 0, 0, 0.50);
+    --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.70);
+  }
+}
+
+/* Dark-specific overrides that can't be done via variables alone */
+:root[data-theme="dark"] body,
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body }
+{
+  background: #0f0d0b;
+}
+
+/* Simpler way to handle body bg + targeted element overrides */
+:root[data-theme="dark"] body { background: #0f0d0b; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body { background: #0f0d0b; }
+
+  :root:not([data-theme="light"]) .topbar {
+    background: #141210;
+    border-bottom-color: #2e2620;
+  }
+
+  :root:not([data-theme="light"]) input,
+  :root:not([data-theme="light"]) .upi-input {
+    background: #1e1a16;
+    color: #e8ddd4;
+    border-color: #2e2620;
+  }
+
+  :root:not([data-theme="light"]) .hero {
+    background: linear-gradient(160deg, #1a0a08 0%, #0f0d0b 100%);
+  }
+}
+
+/* Dark theme: restore dark band sections */
+:root[data-theme="dark"] .band-dark {
+  background: #1a0e0c;
+  color: #f2f2f2;
+  border-color: #2e1a14;
+}
+:root[data-theme="dark"] .band-dark h3 { color: #fff; }
+:root[data-theme="dark"] .band-dark p  { color: #d8c9c2; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .band-dark {
+    background: #1a0e0c;
+    color: #f2f2f2;
+    border-color: #2e1a14;
+  }
+  :root:not([data-theme="light"]) .band-dark h3 { color: #fff; }
+  :root:not([data-theme="light"]) .band-dark p  { color: #d8c9c2; }
+}
+
+:root[data-theme="dark"] .topbar {
+  background: #141210;
+  border-bottom-color: #2e2620;
+}
+
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] .upi-input {
+  background: #1e1a16;
+  color: #e8ddd4;
+  border-color: #2e2620;
+}
+
+:root[data-theme="dark"] .hero {
+  background: linear-gradient(160deg, #1a0a08 0%, #0f0d0b 100%);
+}
+
+/* ── Theme toggle button ─────────────────────────────────────── */
+#theme-toggle {
+  background: none;
+  border: 1.5px solid var(--line-soft);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  color: var(--ink);
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+
+#theme-toggle:hover {
+  background: var(--paper-alt);
+  border-color: var(--accent);
+}
+
+#theme-toggle svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }

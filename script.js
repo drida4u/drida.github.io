@@ -1,3 +1,104 @@
+// ── Theme toggle ────────────────────────────────────────────────────────────
+// Reads saved preference from localStorage. Falls back to device preference.
+// Injects a sun/moon button into the nav on every page automatically.
+(() => {
+  const STORAGE_KEY = 'drida-theme';
+  const root = document.documentElement;
+
+  // SVG icons
+  const sunSVG = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+  const moonSVG = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+
+  function isDark() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return saved === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  function applyTheme(dark) {
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    const btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.innerHTML = dark ? sunSVG : moonSVG;
+      btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+      btn.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+  }
+
+  function injectButton() {
+    const nav = document.querySelector('.topbar nav');
+    if (!nav || document.getElementById('theme-toggle')) return;
+    const btn = document.createElement('button');
+    btn.id = 'theme-toggle';
+    btn.type = 'button';
+    nav.appendChild(btn);
+    btn.addEventListener('click', () => {
+      const nowDark = root.getAttribute('data-theme') === 'dark';
+      localStorage.setItem(STORAGE_KEY, nowDark ? 'light' : 'dark');
+      applyTheme(!nowDark);
+    });
+  }
+
+  // Apply immediately on load, then inject button once DOM is ready
+  applyTheme(isDark());
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => { injectButton(); applyTheme(isDark()); });
+  } else {
+    injectButton();
+  }
+
+  // Also react if user changes system preference while on the page
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem(STORAGE_KEY)) applyTheme(e.matches);
+  });
+})();
+
+// ---------- Mobile hamburger nav ----------
+// Injects a ☰ button into the topbar on every page. On phones the nav links
+// collapse into a dropdown; the button animates to × when open.
+(() => {
+  function injectHamburger() {
+    const topbar = document.querySelector('.topbar');
+    const nav    = document.querySelector('.topbar nav');
+    if (!topbar || !nav || document.getElementById('nav-toggle')) return;
+
+    const ham = document.createElement('button');
+    ham.id   = 'nav-toggle';
+    ham.type = 'button';
+    ham.setAttribute('aria-label', 'Open navigation menu');
+    ham.setAttribute('aria-expanded', 'false');
+    ham.innerHTML = '<span></span><span></span><span></span>';
+    topbar.appendChild(ham);
+
+    const close = () => {
+      nav.classList.remove('nav-open');
+      ham.classList.remove('is-open');
+      ham.setAttribute('aria-expanded', 'false');
+    };
+
+    ham.addEventListener('click', e => {
+      e.stopPropagation();
+      const isOpen = nav.classList.toggle('nav-open');
+      ham.classList.toggle('is-open', isOpen);
+      ham.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Close on outside tap
+    document.addEventListener('click', e => {
+      if (!topbar.contains(e.target)) close();
+    });
+
+    // Close when a link inside the dropdown is tapped
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectHamburger);
+  } else {
+    injectHamburger();
+  }
+})();
+
 // JavaScript adds behavior/interactivity. This runs after the page loads.
 
 // Find the <span id="year"> in the HTML and fill it with the current year,
