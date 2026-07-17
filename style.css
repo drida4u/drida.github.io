@@ -3,7 +3,7 @@
 /* Google Fonts: Poppins for headings (bold, modern), Inter for body text
    (clean and easy to read). Loaded here so every page that links style.css
    automatically gets the fonts, without editing every HTML file. */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
 
 * {
   /* Removes default browser spacing so layouts are predictable */
@@ -13,20 +13,22 @@
 }
 
 /* ── LIGHT THEME (default) ──────────────────────────────────────
-   White backgrounds, black text. Gradient (red → light orange)
-   used ONLY as small accents. Subtle aura glow in key spots.   */
+   Warm parchment cream body — matches Isha's theme-color #e4ded4.
+   Pure white looked flat; this reads warmer and more spiritual.  */
 :root {
-  --paper:       #ffffff;
-  --paper-alt:   #f5f5f5;   /* cards, alternate sections */
-  --ink:         #111111;   /* main text = black */
-  --ink-2:       #555555;
-  --line-soft:   #e0e0e0;
-  --muted:       #888888;
+  --paper:       #faf7f3;   /* warm parchment cream — Isha uses #e4ded4 */
+  --paper-alt:   #f0ebe3;   /* deeper cream for cards / alt sections */
+  --ink:         #1a1410;   /* warm near-black (not cold grey-black) */
+  --ink-2:       #4a3f35;   /* warm mid-tone for secondary text */
+  --line-soft:   #ddd5c8;   /* warm divider lines */
+  --muted:       #7a6e64;   /* warm muted text */
   --accent:      #cc2828;   /* red */
   --accent-dark: #991e1e;
-  /* Gradient: red → light orange. Used minimally on buttons,
-     underlines, icon chips. No yellow. No large fills.         */
-  --grad: linear-gradient(135deg, #cc2828 0%, #e06020 100%);
+  /* Gradient: Drida red → warm orange → golden-yellow.
+     Used on buttons, overlays, CTA bands, accents, borders.   */
+  --grad: linear-gradient(135deg, #cc2828 0%, #e05c1e 40%, #e89020 100%);
+  --grad-h: linear-gradient(90deg, #cc2828 0%, #e05c1e 40%, #e89020 100%);
+  --grad-v: linear-gradient(180deg, #cc2828 0%, #e05c1e 40%, #e89020 100%);
   --shadow:      0 4px 16px rgba(0, 0, 0, 0.07);
   --shadow-hover:0 10px 24px rgba(0, 0, 0, 0.13);
 }
@@ -39,7 +41,11 @@ body {
   font-family: 'Inter', system-ui, Arial, sans-serif;
   line-height: 1.65;
   color: var(--ink);
-  background: var(--paper);
+  /* Subtle red-to-transparent bloom at the top — mirrors dark mode's glow.
+     Gives visual warmth and depth without being distracting on light bg. */
+  background:
+    radial-gradient(ellipse 80% 35% at 50% 0%, rgba(204, 40, 40, 0.07) 0%, transparent 65%),
+    var(--paper);
 }
 
 /* ── Floating logo aura bubble ──────────────────────────────────
@@ -59,19 +65,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Sun halo: deep orange-red core → reddish-orange mid → dark red fade */
+  /* Boosted radial gradient — cream bg needs much higher alpha to look visible */
   background: radial-gradient(ellipse 80% 80% at 50% 50%,
-    rgba(255, 100, 20,  0.32) 0%,
-    rgba(230, 60,  20,  0.26) 20%,
-    rgba(204, 40,  30,  0.18) 42%,
-    rgba(160, 20,  20,  0.10) 62%,
+    rgba(255, 110, 30,  0.58) 0%,
+    rgba(230, 60,  20,  0.44) 20%,
+    rgba(204, 40,  30,  0.28) 42%,
+    rgba(160, 20,  20,  0.12) 62%,
     transparent 82%);
-  /* layered corona rings: orange → red-orange → deep red */
+  /* Boosted corona rings */
   box-shadow:
-    0 0  60px 22px  rgba(255, 100, 20,  0.28),
-    0 0 130px 55px  rgba(230, 60,  20,  0.20),
-    0 0 220px 90px  rgba(200, 40,  20,  0.14),
-    0 0 340px 130px rgba(160, 20,  20,  0.08);
+    0 0  70px 28px  rgba(255, 110, 30,  0.48),
+    0 0 150px 65px  rgba(230, 60,  20,  0.36),
+    0 0 260px 110px rgba(200, 40,  20,  0.24),
+    0 0 400px 150px rgba(160, 20,  20,  0.10);
   /* gentle breathe / pulse */
   animation: solarPulse 5s ease-in-out infinite;
 }
@@ -86,18 +92,123 @@ body {
   height: 280px;
   object-fit: contain;
   display: block;
-  opacity: 0.20;
-  /* logo radiates: hot orange-white core → reddish-orange → deep red */
+  opacity: 0.22;
+  /* Light mode: show regular logo as a faint watermark over the orange halo */
   filter:
-    drop-shadow(0 0  10px rgba(255, 160,  80, 0.95))
-    drop-shadow(0 0  28px rgba(240,  90,  30, 0.75))
-    drop-shadow(0 0  55px rgba(200,  40,  20, 0.55))
-    drop-shadow(0 0 100px rgba(255, 200, 150, 0.20));
+    drop-shadow(0 0  18px rgba(255, 160,  80, 0.80))
+    drop-shadow(0 0  45px rgba(240,  90,  30, 0.70))
+    drop-shadow(0 0  90px rgba(200,  40,  20, 0.50));
 }
 
 
 h1, h2, h3 {
-  font-family: 'Poppins', system-ui, Arial, sans-serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Secondary topstrip ────────────────────────────────────
+   Thin strip above the main topbar: social icons + quick links.
+   Mirrors Isha Foundation's secondary nav strip pattern.            */
+
+.topstrip {
+  background: var(--paper-alt);
+  border-bottom: 1px solid var(--line-soft);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 1.5rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  flex-wrap: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  z-index: 11; /* above sticky topbar */
+}
+
+.topstrip-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-right: 0.1rem;
+}
+
+.topstrip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-2);
+  opacity: 0.75;
+  transition: opacity 0.18s, color 0.18s;
+  flex-shrink: 0;
+  padding: 2px;
+}
+
+.topstrip-icon:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+
+/* Flexible spacer pushes the text links to the right */
+.topstrip-sep {
+  flex: 1;
+  min-width: 1rem;
+}
+
+.topstrip-link {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.15rem 0.45rem;
+  border-radius: 99px;
+  transition: color 0.18s, background 0.18s;
+}
+
+.topstrip-link:hover {
+  color: var(--ink);
+  background: var(--line-soft);
+}
+
+.topstrip-donate {
+  background: var(--grad);
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.topstrip-donate:hover {
+  opacity: 0.88;
+  background: var(--grad);
+}
+
+/* Dark mode topstrip */
+[data-theme="dark"] .topstrip {
+  background: rgba(255,255,255,0.04);
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+
+[data-theme="dark"] .topstrip-icon {
+  color: rgba(255,255,255,0.65);
+}
+
+[data-theme="dark"] .topstrip-icon:hover {
+  color: rgba(255, 180, 100, 0.95);
+}
+
+[data-theme="dark"] .topstrip-link {
+  color: rgba(255,255,255,0.55);
+}
+
+[data-theme="dark"] .topstrip-link:hover {
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.08);
+}
+
+/* Hide topstrip label on narrow screens to save space */
+@media (max-width: 480px) {
+  .topstrip-label { display: none; }
+  .topstrip { gap: 0.4rem; padding: 0.3rem 1rem; }
 }
 
 /* ---------- Header / nav ---------- */
@@ -106,14 +217,17 @@ h1, h2, h3 {
   background: var(--paper);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.5rem;
   padding: 0.9rem 2rem;
-  border-bottom: 1px solid var(--line-soft);
-  flex-wrap: wrap;
+  /* gradient hairline at bottom: 2px gradient stripe instead of flat border */
+  border-bottom: none;
+  box-shadow:
+    0 1px 0 0 transparent,
+    inset 0 -1px 0 0 rgba(204, 40, 40, 0.20),
+    0 2px 12px rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
   transition: padding 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -166,6 +280,7 @@ nav {
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+  margin-left: auto; /* push nav + controls to right side of topbar */
 }
 
 nav a {
@@ -234,31 +349,43 @@ a.pillar-card {
 /* ---------- Hero ---------- */
 
 .hero {
-  background-color: var(--ink);
+  background-color: #111111;
   color: var(--paper);
-  padding: clamp(2.5rem, 6vw, 4.5rem) 1.5rem;
+  padding: clamp(4.5rem, 10vw, 7rem) 1.5rem;
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  /* Gradient stripe at the bottom + very faint warm aura blobs inside */
+  /* Warm red-orange aura blobs + thick gradient stripe at bottom */
   background-image:
-    radial-gradient(ellipse 55% 60% at 20% 55%, rgba(204, 40, 40, 0.09), transparent),
-    radial-gradient(ellipse 40% 50% at 80% 45%, rgba(224, 96, 32, 0.06), transparent),
-    linear-gradient(to right, #cc2828, #e06020);
-  background-size: 100% 100%, 100% 100%, 100% 3px;
+    radial-gradient(ellipse 60% 70% at 25% 55%, rgba(204, 40, 40, 0.14), transparent 65%),
+    radial-gradient(ellipse 45% 55% at 80% 45%, rgba(232, 144, 32, 0.10), transparent 60%),
+    linear-gradient(90deg, #cc2828 0%, #e05c1e 40%, #e89020 100%);
+  background-size: 100% 100%, 100% 100%, 100% 5px;
   background-repeat: no-repeat, no-repeat, no-repeat;
   background-position: center, center, bottom;
 }
 
 .hero h1 {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  margin-bottom: 0.6rem;
-  letter-spacing: 0.5px;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.3px;
+  /* Gradient text: white → warm golden — works in all modern browsers */
+  background: linear-gradient(135deg, #ffffff 0%, #ffe0a0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #fff; /* fallback for very old browsers */
 }
 
 .hero p {
   color: #d8d8d8;
-  font-size: 1.05rem;
-  max-width: 560px;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  max-width: 600px;
   margin: 0 auto;
+  line-height: 1.7;
 }
 
 /* ---------- Pillar row: overlapping zoom cards ----------
@@ -281,7 +408,7 @@ a.pillar-card {
 .pillar-card {
   position: relative;
   flex: 0 1 260px;
-  height: 320px;
+  height: 380px;
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
@@ -324,13 +451,19 @@ a.pillar-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center; /* anchor to top so subjects aren't cut off */
 }
 
 .pillar-card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent 55%);
+  background: linear-gradient(
+    to top,
+    rgba(150, 18, 12, 0.82) 0%,
+    rgba(100, 20, 10, 0.35) 40%,
+    transparent 70%
+  );
 }
 
 .pillar-label {
@@ -360,18 +493,63 @@ a.pillar-card {
 }
 
 @media (max-width: 700px) {
+  /* ── Swipe carousel ── */
   .pillar-row {
-    flex-wrap: wrap;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0;
     margin-top: 1rem;
+    align-items: stretch;
   }
+  .pillar-row::-webkit-scrollbar { display: none; }
+
   .pillar-card {
-    flex: 1 1 100%;
-    margin: 0 0 1rem !important;
-    height: 220px;
+    flex: 0 0 100%;
+    min-width: 0;
+    width: 100%;
+    margin: 0 !important;
+    height: 260px;
+    border-radius: 12px;
+    scroll-snap-align: start;
+    /* Reset all desktop tilts/offsets */
+    animation: none !important;
+    transform: none !important;
   }
-  .pillar-card:nth-child(2) {
-    transform: none;
+  /* Kill the zoom JS effect on touch screens */
+  .pillar-card.is-active,
+  .pillar-card.is-dimmed {
+    transform: none !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
   }
+
+  /* Dot indicators (injected by JS) */
+  .pillar-dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 0.65rem;
+  }
+  .pillar-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line-soft);
+    transition: background 0.25s, transform 0.25s;
+    flex-shrink: 0;
+  }
+  .pillar-dot.is-active {
+    background: var(--accent);
+    transform: scale(1.4);
+  }
+}
+
+/* Hide dots on desktop */
+@media (min-width: 701px) {
+  .pillar-dots { display: none; }
 }
 
 /* ---------- Main layout ---------- */
@@ -379,16 +557,17 @@ a.pillar-card {
 main {
   max-width: 960px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 4.5rem 1.5rem;
 }
 
 section {
-  margin-bottom: 3.5rem;
+  margin-bottom: 5rem;
 }
 
 section h2 {
-  font-size: 1.6rem;
-  margin-bottom: 0.4rem;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  margin-bottom: 0.5rem;
+  line-height: 1.15;
 }
 
 section h2::after {
@@ -420,17 +599,23 @@ section > p {
 .card {
   background: var(--paper);
   border: 1px solid var(--line-soft);
+  border-top: 2px solid transparent;                    /* gradient top border */
+  background-image:
+    linear-gradient(var(--paper), var(--paper)),
+    linear-gradient(90deg, #cc2828 0%, #e05c1e 50%, #e89020 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
   border-radius: 18px;
   padding: 1.5rem;
   box-shadow: var(--shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
   position: relative;
   z-index: 1;
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover), 0 0 0 1px rgba(204, 40, 40, 0.10), 0 8px 24px rgba(204, 40, 40, 0.07);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover), 0 0 0 1px rgba(204, 40, 40, 0.12), 0 12px 32px rgba(204, 40, 40, 0.09);
 }
 
 .card h3 {
@@ -446,11 +631,13 @@ section > p {
 
 .card img {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  height: 200px;             /* fixed height — same on every card */
+  object-fit: cover;         /* fills the box — no black gaps */
+  object-position: top center; /* keeps top of image (title/subject) visible */
   border-radius: 12px;
   margin-bottom: 0.75rem;
   transition: transform 0.45s ease;
+  display: block;
 }
 
 /* Product/course images zoom in slightly on hover - the same small
@@ -479,6 +666,7 @@ section > p {
   max-width: 380px;
   height: 240px;
   object-fit: cover;
+  object-position: top center;
   border-radius: 18px;
   box-shadow: var(--shadow);
 }
@@ -679,13 +867,19 @@ section > p {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
 }
 
 .impact-panel::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 55%);
+  background: linear-gradient(
+    to top,
+    rgba(140, 18, 12, 0.80) 0%,
+    rgba(90, 20, 10, 0.30) 45%,
+    transparent 72%
+  );
 }
 
 .impact-panel:hover {
@@ -736,6 +930,103 @@ section > p {
   margin-bottom: 0;
 }
 
+/* ── Isha-style full-width section backgrounds ───────────────────
+   .section-warm  : warm parchment cream — alternating sections
+   .section-deep  : deep maroon — "Impact" / special sections
+   Both use the same negative-margin trick as .band-dark to break
+   out of main's 960px max-width and span the full viewport.      */
+
+.section-warm {
+  background: #f0ebe3;
+  border-top: 1px solid #ddd5c8;
+  border-bottom: 1px solid #ddd5c8;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 5rem calc(50vw - 50% + 1.5rem);
+}
+
+.section-deep {
+  background: #2d0d08;
+  color: #f0e8e0;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 5rem calc(50vw - 50% + 1.5rem);
+}
+
+.section-deep h2 { color: #f0e8e0; }
+.section-deep h2::after { background: var(--grad); box-shadow: none; }
+.section-deep > p { color: #c8b8a8; }
+
+/* ── CTA band — full-width gradient (mirrors Isha's Inner Engineering banner) ── */
+.band-cta {
+  background: var(--grad);
+  color: #fff;
+  text-align: center;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 5rem calc(50vw - 50% + 1.5rem);
+}
+.band-cta h2 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.band-cta h2::after {
+  background: rgba(255,255,255,0.4);
+  box-shadow: none;
+}
+.band-cta > p {
+  color: rgba(255,255,255,0.9);
+  max-width: 560px;
+  margin: 0 auto 1.75rem;
+}
+
+/* White button — for use on coloured/dark backgrounds.
+   MUST use double-class (.btn.btn-white) so specificity (0,2,0)
+   beats the later "button, .btn" rule at (0,1,0) that applies the gradient. */
+.btn.btn-white,
+a.btn-white {
+  background: #ffffff !important;
+  color: var(--accent) !important;
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+}
+.btn.btn-white:hover,
+a.btn-white:hover {
+  background: rgba(255,255,255,0.92) !important;
+  opacity: 1 !important;
+  color: var(--accent) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+}
+
+/* Dark mode: warm sections go darker, deep stays deep */
+:root[data-theme="dark"] .section-warm,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .section-warm {}
+}
+:root[data-theme="dark"] .section-warm {
+  background: linear-gradient(160deg, #271f15 0%, #1a1410 100%);
+  border-top-color: rgba(232, 90, 32, 0.28);
+  border-bottom-color: rgba(232, 90, 32, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .section-warm {
+    background: linear-gradient(160deg, #271f15 0%, #1a1410 100%);
+    border-top-color: rgba(232, 90, 32, 0.28);
+    border-bottom-color: rgba(232, 90, 32, 0.18);
+  }
+}
+
 .band-row.reverse {
   flex-direction: row-reverse;
 }
@@ -757,6 +1048,7 @@ section > p {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   display: block;
   transition: transform 0.4s ease;
 }
@@ -832,7 +1124,8 @@ section > p {
 .offering-photo img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;       /* show full graphic — no cropping */
+  object-position: center;
   display: block;
   transition: transform 0.4s ease;
 }
@@ -992,31 +1285,227 @@ button:hover,
   font-size: 0.9rem;
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer ----------
+   Rich multi-column footer, always dark (ignores page theme).
+   Inspired by Isha Foundation's footer layout.               */
 
-footer {
-  text-align: center;
-  padding: 2rem 1.5rem;
-  color: var(--muted);
-  font-size: 0.9rem;
-  border-top: 1px solid var(--line-soft);
+.site-footer {
+  background: #0d0c0a;
+  color: rgba(255,255,255,0.65);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  position: relative;
+  /* gradient accent line at very top */
+  border-top: 2px solid transparent;
+  background-clip: padding-box;
 }
 
-footer p {
-  margin-bottom: 0.5rem;
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: 0; right: 0;
+  height: 2px;
+  background: var(--grad-h);
 }
 
-footer .social {
+/* ── Footer top: logo + subscribe ── */
+.footer-top {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.1rem;
 }
 
-footer .social a {
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-logo-wrap {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  flex-shrink: 0;
+  padding: 6px;
+}
+
+.footer-logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.footer-brand-name {
+  font-family: 'Poppins', system-ui, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  display: block;
+  letter-spacing: 0.3px;
+}
+
+.footer-tagline {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.42);
+  margin: 0.1rem 0 0;
+  letter-spacing: 0.02em;
+}
+
+.footer-newsletter {
+  text-align: right;
+}
+
+.footer-newsletter p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.75rem;
+}
+
+.footer-subscribe-btn {
+  display: inline-block;
+  background: var(--grad);
+  color: #fff;
   text-decoration: none;
+  padding: 0.55rem 1.4rem;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: opacity 0.18s;
+}
+
+.footer-subscribe-btn:hover { opacity: 0.85; }
+
+/* ── Footer columns ── */
+.footer-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: 2.5rem 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.footer-col h4 {
+  font-family: 'Poppins', system-ui, Arial, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 1rem;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.footer-col ul li a {
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.18s;
+  display: inline-block;
+}
+
+.footer-col ul li a:hover {
+  color: rgba(255, 200, 110, 0.95);
+}
+
+/* ── Footer bottom bar ── */
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.1rem 3rem;
+  flex-wrap: wrap;
+}
+
+.footer-copy {
+  color: rgba(255,255,255,0.3);
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+.footer-social {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s, transform 0.18s;
+}
+
+.footer-social a:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.footer-legal {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  margin: 0;
+}
+
+.footer-legal a {
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.footer-legal a:hover {
+  color: rgba(255,255,255,0.7);
+}
+
+/* ── Footer mobile responsive ── */
+@media (max-width: 768px) {
+  .footer-top {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+  .footer-newsletter { text-align: left; }
+  .footer-cols {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+    gap: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .footer-cols { grid-template-columns: 1fr; }
 }
 
 .icon-chip {
@@ -1091,12 +1580,12 @@ footer .social a:hover .icon-chip,
 /* ── Scale the logo bubble down so it doesn't overflow on phones ── */
 @media (max-width: 768px) {
   .logo-float-bubble {
-    width: 300px;
-    height: 300px;
+    width: 220px;
+    height: 220px;
   }
   .logo-float-bubble img {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
   }
 }
 
@@ -1210,111 +1699,326 @@ footer .social a:hover .icon-chip,
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   DARK THEME
-   Applied when <html data-theme="dark"> is set (manual toggle)
-   OR when the device prefers dark (media query below).
-   Rule: white ↔ black, text ↔ bg. Gradient accent stays the same.
+   DARK THEME — clean charcoal-black, vivid red bloom
+   Replaces the muddy warm-brown that was hard to distinguish.
+   Base: near-neutral charcoal (#0c0c0f). Accent glow: vivid red.
+   Sections use strongly contrasting maroon/deep-red gradients.
    ═══════════════════════════════════════════════════════════════ */
 
-/* Variables for dark mode */
 :root[data-theme="dark"] {
-  --paper:        #141210;
-  --paper-alt:    #1e1a16;
-  --ink:          #e8ddd4;
-  --ink-2:        #a89888;
-  --muted:        #807060;
-  --line-soft:    #2e2620;
-  --accent:       #e84030;
+  --paper:        #111114;   /* clean neutral charcoal — no brown */
+  --paper-alt:    #1c1c22;   /* slightly lighter charcoal for cards */
+  --ink:          #f0ede8;   /* warm cream text */
+  --ink-2:        #b0aaa4;   /* muted cream */
+  --muted:        #706a64;
+  --line-soft:    #2a2830;   /* cool dark divider */
+  --accent:       #f04838;   /* brighter red — pops on dark bg */
   --accent-dark:  #cc2828;
-  --shadow:       0 4px 20px rgba(0, 0, 0, 0.50);
-  --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.70);
+  --grad:         linear-gradient(135deg, #f04838 0%, #e86820 40%, #e89a20 100%);
+  --grad-h:       linear-gradient(90deg,  #f04838 0%, #e86820 40%, #e89a20 100%);
+  --grad-v:       linear-gradient(180deg, #f04838 0%, #e86820 40%, #e89a20 100%);
+  --shadow:       0 4px 20px rgba(0, 0, 0, 0.70);
+  --shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.85);
 }
 
-/* Also respect system preference if no manual override is set */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper:        #141210;
-    --paper-alt:    #1e1a16;
-    --ink:          #e8ddd4;
-    --ink-2:        #a89888;
-    --muted:        #807060;
-    --line-soft:    #2e2620;
-    --accent:       #e84030;
+    --paper:        #111114;
+    --paper-alt:    #1c1c22;
+    --ink:          #f0ede8;
+    --ink-2:        #b0aaa4;
+    --muted:        #706a64;
+    --line-soft:    #2a2830;
+    --accent:       #f04838;
     --accent-dark:  #cc2828;
-    --shadow:       0 4px 20px rgba(0, 0, 0, 0.50);
-    --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.70);
+    --grad:         linear-gradient(135deg, #f04838 0%, #e86820 40%, #e89a20 100%);
+    --grad-h:       linear-gradient(90deg,  #f04838 0%, #e86820 40%, #e89a20 100%);
+    --grad-v:       linear-gradient(180deg, #f04838 0%, #e86820 40%, #e89a20 100%);
+    --shadow:       0 4px 20px rgba(0, 0, 0, 0.70);
+    --shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.85);
   }
 }
 
-/* Dark-specific overrides that can't be done via variables alone */
-:root[data-theme="dark"] body,
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body }
-{
-  background: #0f0d0b;
+/* Body — charcoal base + vivid red bloom at top-centre (not faint anymore) */
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse 75% 42% at 50% 0%, rgba(220, 30, 15, 0.38) 0%, rgba(160, 15, 8, 0.14) 55%, transparent 78%),
+    #0c0c0f;
 }
-
-/* Simpler way to handle body bg + targeted element overrides */
-:root[data-theme="dark"] body { background: #0f0d0b; }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) body { background: #0f0d0b; }
-
-  :root:not([data-theme="light"]) .topbar {
-    background: #141210;
-    border-bottom-color: #2e2620;
-  }
-
-  :root:not([data-theme="light"]) input,
-  :root:not([data-theme="light"]) .upi-input {
-    background: #1e1a16;
-    color: #e8ddd4;
-    border-color: #2e2620;
-  }
-
-  :root:not([data-theme="light"]) .hero {
-    background: linear-gradient(160deg, #1a0a08 0%, #0f0d0b 100%);
+  :root:not([data-theme="light"]) body {
+    background:
+      radial-gradient(ellipse 75% 42% at 50% 0%, rgba(220, 30, 15, 0.38) 0%, rgba(160, 15, 8, 0.14) 55%, transparent 78%),
+      #0c0c0f;
   }
 }
 
-/* Dark theme: restore dark band sections */
+/* Topbar — clean very dark, orange hairline glow at bottom */
+:root[data-theme="dark"] .topbar {
+  background: #18181c;
+  border-bottom: 1px solid transparent;
+  box-shadow: 0 1px 0 rgba(240, 100, 40, 0.32), 0 2px 20px rgba(0,0,0,0.60);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .topbar {
+    background: #18181c;
+    border-bottom: 1px solid transparent;
+    box-shadow: 0 1px 0 rgba(240, 100, 40, 0.32), 0 2px 20px rgba(0,0,0,0.60);
+  }
+}
+
+/* Hero — dramatic deep red core on charcoal */
+:root[data-theme="dark"] .hero {
+  background-color: #0c0810;
+  background-image:
+    radial-gradient(ellipse 110% 140% at 50% 50%, rgba(190, 25, 12, 0.65) 0%, rgba(100, 12, 6, 0.28) 45%, transparent 68%),
+    radial-gradient(ellipse 55% 50% at 85% 65%, rgba(220, 90, 20, 0.28) 0%, transparent 50%),
+    linear-gradient(90deg, #cc2828 0%, #e05c1e 40%, #e89020 100%);
+  background-size: 100% 100%, 100% 100%, 100% 6px;
+  background-repeat: no-repeat;
+  background-position: center, center, bottom;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero {
+    background-color: #0c0810;
+    background-image:
+      radial-gradient(ellipse 110% 140% at 50% 50%, rgba(190, 25, 12, 0.65) 0%, rgba(100, 12, 6, 0.28) 45%, transparent 68%),
+      radial-gradient(ellipse 55% 50% at 85% 65%, rgba(220, 90, 20, 0.28) 0%, transparent 50%),
+      linear-gradient(90deg, #cc2828 0%, #e05c1e 40%, #e89020 100%);
+    background-size: 100% 100%, 100% 100%, 100% 6px;
+    background-repeat: no-repeat;
+    background-position: center, center, bottom;
+  }
+}
+
+/* Section-warm in dark — clearly different from body (#0c0c0f → #1e1828) */
+:root[data-theme="dark"] .section-warm {
+  background: linear-gradient(155deg, #201828 0%, #181420 100%);
+  border-top-color: rgba(240, 100, 40, 0.30);
+  border-bottom-color: rgba(240, 100, 40, 0.20);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .section-warm {
+    background: linear-gradient(155deg, #201828 0%, #181420 100%);
+    border-top-color: rgba(240, 100, 40, 0.30);
+    border-bottom-color: rgba(240, 100, 40, 0.20);
+  }
+}
+
+/* Section-deep in dark — rich crimson-maroon, very distinct from body */
+:root[data-theme="dark"] .section-deep {
+  background: linear-gradient(145deg, #3a0c08 0%, #260806 50%, #180403 100%);
+  box-shadow: inset 0 1.5px 0 rgba(240, 80, 30, 0.40),
+              inset 0 -1.5px 0 rgba(240, 80, 30, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .section-deep {
+    background: linear-gradient(145deg, #3a0c08 0%, #260806 50%, #180403 100%);
+    box-shadow: inset 0 1.5px 0 rgba(240, 80, 30, 0.40),
+                inset 0 -1.5px 0 rgba(240, 80, 30, 0.25);
+  }
+}
+
+/* Band-dark in dark — deep purple-maroon, very distinct from body */
 :root[data-theme="dark"] .band-dark {
-  background: #1a0e0c;
-  color: #f2f2f2;
-  border-color: #2e1a14;
+  background: linear-gradient(145deg, #28103a 0%, #1c0a28 50%, #120618 100%);
+  color: #f0ede8;
+  border-top: 1px solid rgba(240, 100, 40, 0.32);
+  border-bottom: 1px solid rgba(240, 100, 40, 0.22);
 }
 :root[data-theme="dark"] .band-dark h3 { color: #fff; }
-:root[data-theme="dark"] .band-dark p  { color: #d8c9c2; }
+:root[data-theme="dark"] .band-dark p  { color: #c8c0d8; }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .band-dark {
-    background: #1a0e0c;
-    color: #f2f2f2;
-    border-color: #2e1a14;
+    background: linear-gradient(145deg, #28103a 0%, #1c0a28 50%, #120618 100%);
+    color: #f0ede8;
+    border-top: 1px solid rgba(240, 100, 40, 0.32);
+    border-bottom: 1px solid rgba(240, 100, 40, 0.22);
   }
   :root:not([data-theme="light"]) .band-dark h3 { color: #fff; }
-  :root:not([data-theme="light"]) .band-dark p  { color: #d8c9c2; }
+  :root:not([data-theme="light"]) .band-dark p  { color: #c8c0d8; }
 }
 
-:root[data-theme="dark"] .topbar {
-  background: #141210;
-  border-bottom-color: #2e2620;
+/* Cards in dark — warm gradient instead of flat dark */
+:root[data-theme="dark"] .card {
+  background: linear-gradient(145deg, #201a14 0%, #18120c 100%);
+  border-color: #302418;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .card {
+    background: linear-gradient(145deg, #201a14 0%, #18120c 100%);
+    border-color: #302418;
+  }
+}
+
+/* Input fields dark */
 :root[data-theme="dark"] input,
 :root[data-theme="dark"] .upi-input {
-  background: #1e1a16;
-  color: #e8ddd4;
-  border-color: #2e2620;
+  background: #201a14;
+  color: #f2e8de;
+  border-color: #302418;
 }
 
-:root[data-theme="dark"] .hero {
-  background: linear-gradient(160deg, #1a0a08 0%, #0f0d0b 100%);
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) input,
+  :root:not([data-theme="light"]) .upi-input {
+    background: #201a14;
+    color: #f2e8de;
+    border-color: #302418;
+  }
+}
+
+/* ── Theme toggle icon — Unicode characters ─────────────────────
+   Using CSS content with a text character: no file, no URL,
+   no encoding, no image loading. This is the simplest possible
+   approach and cannot fail.
+   Light mode → ☾ crescent moon (click to go dark)
+   Dark mode  → ☀ sun           (click to go light)            */
+#theme-toggle::before {
+  content: "☾";
+  font-size: 16px;
+  line-height: 1;
+  color: var(--accent);
+  font-style: normal;
+}
+
+[data-theme="dark"] #theme-toggle::before { content: "☀"; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #theme-toggle::before { content: "☀"; }
+}
+
+/* Ensure no leftover SVG children (from any cached HTML) interfere */
+#theme-toggle .icon-sun,
+#theme-toggle .icon-moon { display: none !important; }
+
+/* ── Dark-mode logo: use the actual white SVG (preserves red leaf) ── */
+[data-theme="dark"] .logo-badge img,
+[data-theme="dark"] .logo-float-bubble img {
+  content: url("drida_logo_white.svg");
+  filter: none;
+}
+
+/* Dark mode: white logo more visible + vivid warm glow halo */
+[data-theme="dark"] .logo-float-bubble img {
+  opacity: 0.30;
+}
+
+/* Also boost the bubble's corona ring brightness in dark */
+[data-theme="dark"] .logo-float-bubble {
+  box-shadow:
+    0 0  70px 28px  rgba(255, 110, 30,  0.28),
+    0 0 150px 65px  rgba(230, 60,  20,  0.20),
+    0 0 260px 110px rgba(200, 40,  20,  0.14),
+    0 0 400px 150px rgba(160, 20,  20,  0.07);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-badge img,
+  :root:not([data-theme="light"]) .logo-float-bubble img {
+    content: url("drida_logo_white.svg");
+    filter: none;
+  }
+  :root:not([data-theme="light"]) .logo-float-bubble img {
+    opacity: 0.30;
+  }
+  :root:not([data-theme="light"]) .logo-float-bubble {
+    box-shadow:
+      0 0  70px 28px  rgba(255, 110, 30,  0.28),
+      0 0 150px 65px  rgba(230, 60,  20,  0.20),
+      0 0 260px 110px rgba(200, 40,  20,  0.14),
+      0 0 400px 150px rgba(160, 20,  20,  0.07);
+  }
+}
+
+/* ── Dark theme heading glow + card polish ───────────────────────────────
+   In dark mode, headings pick up a warm glow that echoes the red bloom
+   at the top of the page. Cards get a dark gradient and vivid gradient
+   top border instead of the flat border from light mode.               */
+
+[data-theme="dark"] section h2,
+[data-theme="dark"] .hero h1 {
+  text-shadow:
+    0 0 28px rgba(240, 100, 40, 0.45),
+    0 0 60px rgba(200, 40,  20, 0.25);
+}
+
+[data-theme="dark"] .card {
+  background-image:
+    linear-gradient(145deg, #1c1c22 0%, #141418 100%),
+    linear-gradient(90deg, #f04838 0%, #e86820 50%, #e89a20 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-color: transparent;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.50), 0 1px 0 rgba(240,80,30,0.20);
+}
+
+[data-theme="dark"] .card:hover {
+  box-shadow: 0 12px 36px rgba(0,0,0,0.65), 0 1px 0 rgba(240,80,30,0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) section h2,
+  :root:not([data-theme="light"]) .hero h1 {
+    text-shadow: 0 0 28px rgba(240,100,40,0.45), 0 0 60px rgba(200,40,20,0.25);
+  }
+  :root:not([data-theme="light"]) .card {
+    background-image:
+      linear-gradient(145deg, #1c1c22 0%, #141418 100%),
+      linear-gradient(90deg, #f04838 0%, #e86820 50%, #e89a20 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    border-color: transparent;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.50), 0 1px 0 rgba(240,80,30,0.20);
+  }
+}
+
+/* ── Isha-style diagonal section transitions ─────────────────────────────
+   clip-path creates angled cuts so sections flow into each other rather
+   than meeting at a straight horizontal line.
+   - band-cta : diagonal bottom (bottom-left higher than bottom-right)
+   - section-deep: matching diagonal top, so they nest into each other
+   The extra padding compensates for content hidden by the angle.        */
+
+.band-cta {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 2.5rem));
+  padding-bottom: calc(5rem + 2.5rem);
+}
+
+.section-deep {
+  clip-path: polygon(0 2.5rem, 100% 0, 100% 100%, 0 100%);
+  padding-top: calc(5rem + 2.5rem);
+}
+
+/* Band-dark (volunteer section) also gets an angled top */
+.band-dark {
+  clip-path: polygon(0 2.5rem, 100% 0, 100% 100%, 0 100%);
+  padding-top: calc(5rem + 2.5rem);
+}
+
+/* On mobile the angle is smaller so it doesn't eat too much space */
+@media (max-width: 700px) {
+  .band-cta {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1.25rem));
+    padding-bottom: calc(2.5rem + 1.25rem);
+  }
+  .section-deep,
+  .band-dark {
+    clip-path: polygon(0 1.25rem, 100% 0, 100% 100%, 0 100%);
+    padding-top: calc(2.5rem + 1.25rem);
+  }
 }
 
 /* ── Theme toggle button ─────────────────────────────────────── */
 #theme-toggle {
   background: none;
-  border: 1.5px solid var(--line-soft);
+  border: 1.5px solid var(--accent);
   border-radius: 999px;
   width: 36px;
   height: 36px;
@@ -1323,7 +2027,8 @@ footer .social a:hover .icon-chip,
   justify-content: center;
   cursor: pointer;
   margin-left: 0.5rem;
-  color: var(--ink);
+  color: var(--accent);
+  outline: none;
   transition: border-color 0.2s, background 0.2s;
   flex-shrink: 0;
 }
@@ -1342,4 +2047,117 @@ footer .social a:hover .icon-chip,
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* ── Botanical section divider ───────────────────────────────────
+   Ornamental leaf motif between major sections.
+   Full-width so the ruled lines extend edge-to-edge.
+   Inherits accent red via color: var(--accent) on .section-divider. */
+.section-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.6rem 0;
+  color: var(--accent);
+  opacity: 0.9;
+  pointer-events: none;
+  width: 100%;
+  position: relative;
+}
+
+/* Full-width ruled hairlines flanking the ornament */
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.28;
+  margin: 0 0.75rem;
+}
+
+.section-divider svg {
+  width: 200px;
+  height: 28px;
+  overflow: visible;
+}
+
+/* ── Community video embed ───────────────────────────────────────
+   Responsive 16:9 iframe that stays within the content column.   */
+.video-embed {
+  position: relative;
+  padding-bottom: 56.25%;   /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: var(--shadow-hover);
+  margin: 1.5rem auto 0;
+  max-width: 800px;
+  background: #000;
+}
+
+.video-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 12px;
+}
+
+/* ── Dark mode: fix low-contrast elements ────────────────────────────────
+   The body is near-black (#0c0c0f). Elements that rely on --line-soft or
+   --paper-alt as backgrounds become invisible against dark card/section
+   backgrounds. Each rule below adds a visible "lift" in dark mode only.  */
+
+/* Badge pills ("Free · Live") — currently near-invisible on dark cards */
+[data-theme="dark"] .card .badge {
+  background: rgba(240, 120, 55, 0.16);
+  color: rgba(245, 205, 155, 0.92);
+  border: 1px solid rgba(240, 90, 40, 0.30);
+}
+
+/* Founder highlight — needs a lifted background so it reads against
+   the section-warm dark background */
+[data-theme="dark"] .founder-highlight {
+  background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%);
+  border: 1px solid rgba(240, 90, 40, 0.22);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+}
+
+/* Offering photo tiles — border barely visible on dark section bg */
+[data-theme="dark"] .offering-photo {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(240, 90, 40, 0.22);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+}
+
+/* Section-warm in dark: slightly lighter to be more distinct from body */
+[data-theme="dark"] .section-warm {
+  background: linear-gradient(155deg, #28203a 0%, #1e1830 100%);
+  border-top-color: rgba(240, 100, 40, 0.35);
+  border-bottom-color: rgba(240, 100, 40, 0.22);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .card .badge {
+    background: rgba(240, 120, 55, 0.16);
+    color: rgba(245, 205, 155, 0.92);
+    border: 1px solid rgba(240, 90, 40, 0.30);
+  }
+  :root:not([data-theme="light"]) .founder-highlight {
+    background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%);
+    border: 1px solid rgba(240, 90, 40, 0.22);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+  }
+  :root:not([data-theme="light"]) .offering-photo {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(240, 90, 40, 0.22);
+  }
+  :root:not([data-theme="light"]) .section-warm {
+    background: linear-gradient(155deg, #28203a 0%, #1e1830 100%);
+    border-top-color: rgba(240, 100, 40, 0.35);
+    border-bottom-color: rgba(240, 100, 40, 0.22);
+  }
 }

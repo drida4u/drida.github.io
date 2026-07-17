@@ -1,13 +1,10 @@
 // ── Theme toggle ────────────────────────────────────────────────────────────
-// Reads saved preference from localStorage. Falls back to device preference.
-// Injects a sun/moon button into the nav on every page automatically.
+// Button is embedded in every page's HTML. CSS (.icon-sun / .icon-moon)
+// shows/hides the correct icon based on [data-theme] on <html>.
+// JS only: sets data-theme attribute + wires the click event.
 (() => {
   const STORAGE_KEY = 'drida-theme';
   const root = document.documentElement;
-
-  // SVG icons
-  const sunSVG = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
-  const moonSVG = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
 
   function isDark() {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -17,21 +14,15 @@
 
   function applyTheme(dark) {
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
-    const btn = document.getElementById('theme-toggle');
-    if (btn) {
-      btn.innerHTML = dark ? sunSVG : moonSVG;
-      btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-      btn.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
-    }
   }
 
-  function injectButton() {
-    const nav = document.querySelector('.topbar nav');
-    if (!nav || document.getElementById('theme-toggle')) return;
-    const btn = document.createElement('button');
-    btn.id = 'theme-toggle';
-    btn.type = 'button';
-    nav.appendChild(btn);
+  // Apply ASAP to prevent flash of wrong theme
+  applyTheme(isDark());
+
+  // Wire click handler once the button is in the DOM
+  function wireToggle() {
+    const btn = document.getElementById('theme-toggle');
+    if (!btn) return;
     btn.addEventListener('click', () => {
       const nowDark = root.getAttribute('data-theme') === 'dark';
       localStorage.setItem(STORAGE_KEY, nowDark ? 'light' : 'dark');
@@ -39,15 +30,13 @@
     });
   }
 
-  // Apply immediately on load, then inject button once DOM is ready
-  applyTheme(isDark());
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { injectButton(); applyTheme(isDark()); });
+    document.addEventListener('DOMContentLoaded', wireToggle);
   } else {
-    injectButton();
+    wireToggle();
   }
 
-  // Also react if user changes system preference while on the page
+  // React to OS-level dark/light switch while the page is open
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     if (!localStorage.getItem(STORAGE_KEY)) applyTheme(e.matches);
   });
@@ -159,28 +148,46 @@ navLinks.forEach(link => {
   }, { passive: true });
 })();
 
-// ---------- Pillar row: hover/tap zoom ----------
-// The card you point at (or tap, on touch) zooms forward and the other
-// two ease back - the "navigate to a rectangle and it zooms in/out"
-// effect from isha.sadhguru.org's Man/Mystic/Mission cards.
+// ---------- Pillar row: hover zoom (desktop) + swipe carousel (mobile) ----------
+// On desktop (pointer: fine) the card you hover zooms forward and the others ease back.
+// On mobile the cards become a horizontal scroll-snap carousel with dot indicators.
 (() => {
   const cards = document.querySelectorAll(".pillar-card");
   if (!cards.length) return;
+  const row = document.querySelector(".pillar-row");
+  if (!row) return;
 
-  const setActive = active => {
+  // Desktop hover zoom — only on mouse/trackpad, not touch
+  if (window.matchMedia("(pointer: fine)").matches) {
+    const setActive = active => {
+      cards.forEach(card => {
+        card.classList.toggle("is-active", card === active);
+        card.classList.toggle("is-dimmed", !!active && card !== active);
+      });
+    };
     cards.forEach(card => {
-      card.classList.toggle("is-active", card === active);
-      card.classList.toggle("is-dimmed", !!active && card !== active);
+      card.addEventListener("mouseenter", () => setActive(card));
+      card.addEventListener("mouseleave", () => setActive(null));
+      card.addEventListener("focus",      () => setActive(card));
+      card.addEventListener("blur",       () => setActive(null));
     });
-  };
+  }
 
-  cards.forEach(card => {
-    card.addEventListener("mouseenter", () => setActive(card));
-    card.addEventListener("mouseleave", () => setActive(null));
-    card.addEventListener("focus", () => setActive(card));
-    card.addEventListener("blur", () => setActive(null));
-    card.addEventListener("touchstart", () => setActive(card), { passive: true });
-  });
+  // Carousel dot indicators — JS injects them; CSS shows/hides per breakpoint
+  const dots = document.createElement("div");
+  dots.className = "pillar-dots";
+  dots.setAttribute("aria-hidden", "true");
+  dots.innerHTML = Array.from(cards).map((_, i) =>
+    `<span class="pillar-dot${i === 0 ? " is-active" : ""}"></span>`
+  ).join("");
+  row.parentNode.insertBefore(dots, row.nextSibling);
+
+  const allDots = dots.querySelectorAll(".pillar-dot");
+  const updateDots = () => {
+    const idx = Math.round(row.scrollLeft / row.offsetWidth);
+    allDots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
+  };
+  row.addEventListener("scroll", updateDots, { passive: true });
 })();
 
 // ---------- Hero parallax ----------

@@ -8,7 +8,7 @@
   <title>Drida</title>
   <!-- This links our CSS file (styling) to this HTML file (structure) -->
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 
@@ -22,6 +22,26 @@
   <!-- HEADER: top of every page -->
   <header>
     <!-- Top bar: logo (white background so the logo stays legible) + nav -->
+  <!-- Secondary topstrip: social icons + quick links above main nav (mirrors Isha website) -->
+  <div class="topstrip">
+    <span class="topstrip-label">Follow Drida:</span>
+    <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="YouTube">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Facebook">
+      <svg viewBox="0 0 320 512" width="10" height="16" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
+    </a>
+    <span class="topstrip-sep"></span>
+    <a href="courses.html#course-drida-15th-batch" class="topstrip-link">Free Batch</a>
+    <a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida" class="topstrip-link topstrip-donate">Donate</a>
+  </div>
+
     <div class="topbar">
       <div class="brand">
         <span class="logo-badge"><img src="drida_logo.svg" alt="Drida logo" class="logo"></span>
@@ -36,6 +56,7 @@
         <a href="#contact">Contact Us</a>
         <a href="login.html">Login</a>
       </nav>
+      <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
     </div>
     <!-- Hero: dark band with the welcome message -->
     <div class="hero">
@@ -71,7 +92,7 @@
     <!-- Offerings row - the small 4-tile "Technologies for Wellbeing"
          pattern from isha.sadhguru.org: a square photo + caption + small
          button per tile. Drop real photos into the filenames below. -->
-    <section id="offerings">
+    <section id="offerings" class="section-warm">
       <h2>What We Offer</h2>
       <div class="offerings-grid">
         <div class="offering-tile">
@@ -105,7 +126,31 @@
       </div>
     </section>
 
-    <section id="about">
+    <div class="section-divider" aria-hidden="true">
+      <svg viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left rule line -->
+        <line x1="0" y1="14" x2="60" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+        <!-- Left leaf: pointed at both ends (Q bezier = true pointed leaf) -->
+        <path d="M 88 14 Q 74 4, 62 14 Q 74 24, 88 14 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Left leaf centre vein -->
+        <line x1="63" y1="14" x2="87" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <!-- Connector -->
+        <line x1="89" y1="14" x2="95" y2="14" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+        <!-- Centre ornament: ring + dot -->
+        <circle cx="100" cy="14" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="100" cy="14" r="1.5" fill="currentColor"/>
+        <!-- Connector -->
+        <line x1="105" y1="14" x2="111" y2="14" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+        <!-- Right leaf: mirror of left -->
+        <path d="M 112 14 Q 126 4, 138 14 Q 126 24, 112 14 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Right leaf centre vein -->
+        <line x1="113" y1="14" x2="137" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <!-- Right rule line -->
+        <line x1="140" y1="14" x2="200" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <section id="about" class="section-warm">
       <h2>About Us</h2>
       <div class="about-layout">
         <p>
@@ -121,18 +166,50 @@
         </div>
       </div>
       <p class="about-journey">
-        Formerly known as <strong>PV</strong>, we rebranded to <strong>Drida</strong> in 2024 — a name that reflects our deeper roots and evolving mission. The journey continues.
+        Formerly known as <strong>PV</strong>, we rebranded to <strong>Drida</strong> in 2025 — a name that reflects our deeper roots and evolving mission. The journey continues.
       </p>
+    </section>
+
+    <!-- "Join Free Batch" CTA — mirrors Isha's Inner Engineering highlight band:
+         full-width gradient band with a single strong call-to-action. -->
+    <section id="free-batch-cta" class="band-cta">
+      <h2>Now Enrolling — 15th Free Batch</h2>
+      <p>Drida's free online meditation programme. Open to all, no prior experience needed.</p>
+      <a class="btn btn-white" href="courses.html#course-drida-15th-batch">Register Now — It's Free</a>
     </section>
 
     <!-- Mission pull-quote with the founder's photo - mirrors the
          Sadhguru quote block on isha.sadhguru.org. Uses Drida's existing
          "About" wording rather than inventing words for Smitha Haridas. -->
-    <section id="mission-quote" class="quote-block">
+    <section id="mission-quote" class="section-warm quote-block">
       <img src="images/founder-mission.png" alt="Smitha Haridas, Founder of Drida" class="quote-photo" onerror="tryAltExt(this)">
       <p class="quote-text">"A non-profit offering meditation, yoga and fitness courses with a focus on women's empowerment, and free education for children in need - working toward a healthy, peaceful society."</p>
       <p class="quote-attribution">&mdash; Drida's mission</p>
     </section>
+
+    <div class="section-divider" aria-hidden="true">
+      <svg viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left rule line -->
+        <line x1="0" y1="14" x2="60" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+        <!-- Left leaf: pointed at both ends (Q bezier = true pointed leaf) -->
+        <path d="M 88 14 Q 74 4, 62 14 Q 74 24, 88 14 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Left leaf centre vein -->
+        <line x1="63" y1="14" x2="87" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <!-- Connector -->
+        <line x1="89" y1="14" x2="95" y2="14" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+        <!-- Centre ornament: ring + dot -->
+        <circle cx="100" cy="14" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="100" cy="14" r="1.5" fill="currentColor"/>
+        <!-- Connector -->
+        <line x1="105" y1="14" x2="111" y2="14" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+        <!-- Right leaf: mirror of left -->
+        <path d="M 112 14 Q 126 4, 138 14 Q 126 24, 112 14 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Right leaf centre vein -->
+        <line x1="113" y1="14" x2="137" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <!-- Right rule line -->
+        <line x1="140" y1="14" x2="200" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+      </svg>
+    </div>
 
     <section id="courses">
       <h2>Courses</h2>
@@ -166,7 +243,31 @@
       </p>
     </section>
 
-    <section id="trips">
+    <div class="section-divider" aria-hidden="true">
+      <svg viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left rule line -->
+        <line x1="0" y1="14" x2="60" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+        <!-- Left leaf: pointed at both ends (Q bezier = true pointed leaf) -->
+        <path d="M 88 14 Q 74 4, 62 14 Q 74 24, 88 14 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Left leaf centre vein -->
+        <line x1="63" y1="14" x2="87" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <!-- Connector -->
+        <line x1="89" y1="14" x2="95" y2="14" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+        <!-- Centre ornament: ring + dot -->
+        <circle cx="100" cy="14" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="100" cy="14" r="1.5" fill="currentColor"/>
+        <!-- Connector -->
+        <line x1="105" y1="14" x2="111" y2="14" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+        <!-- Right leaf: mirror of left -->
+        <path d="M 112 14 Q 126 4, 138 14 Q 126 24, 112 14 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Right leaf centre vein -->
+        <line x1="113" y1="14" x2="137" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <!-- Right rule line -->
+        <line x1="140" y1="14" x2="200" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <section id="trips" class="section-warm">
       <h2>Trips &amp; Events</h2>
       <p>Sacred pilgrimages, nature getaways and community meet-ups — journeys that nourish the soul.</p>
       <div class="card-grid">
@@ -195,6 +296,30 @@
         <a class="btn" href="trips.html">View All Trips &amp; Events &rarr;</a>
       </p>
     </section>
+
+    <div class="section-divider" aria-hidden="true">
+      <svg viewBox="0 0 200 28" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left rule line -->
+        <line x1="0" y1="14" x2="60" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+        <!-- Left leaf: pointed at both ends (Q bezier = true pointed leaf) -->
+        <path d="M 88 14 Q 74 4, 62 14 Q 74 24, 88 14 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Left leaf centre vein -->
+        <line x1="63" y1="14" x2="87" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <!-- Connector -->
+        <line x1="89" y1="14" x2="95" y2="14" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+        <!-- Centre ornament: ring + dot -->
+        <circle cx="100" cy="14" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="100" cy="14" r="1.5" fill="currentColor"/>
+        <!-- Connector -->
+        <line x1="105" y1="14" x2="111" y2="14" stroke="currentColor" stroke-width="0.9" opacity="0.5"/>
+        <!-- Right leaf: mirror of left -->
+        <path d="M 112 14 Q 126 4, 138 14 Q 126 24, 112 14 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        <!-- Right leaf centre vein -->
+        <line x1="113" y1="14" x2="137" y2="14" stroke="currentColor" stroke-width="0.6" opacity="0.45"/>
+        <!-- Right rule line -->
+        <line x1="140" y1="14" x2="200" y2="14" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+      </svg>
+    </div>
 
     <section id="products">
       <h2>Products</h2>
@@ -226,7 +351,7 @@
 
     <!-- Impact triplet - same idea as isha.sadhguru.org's "Conscious Planet"
          3-panel banner. Drop real photos into the filenames below. -->
-    <section id="impact">
+    <section id="impact" class="section-deep">
       <h2>Our Impact</h2>
       <p>Three focus areas Drida works on every day.</p>
       <div class="impact-grid">
@@ -271,9 +396,31 @@
       </div>
     </section>
 
+
+    <!-- "From Our Community" — featured YouTube meet-up video.
+         Replace YOUR_VIDEO_ID with any meet-up recording's YouTube video ID
+         (e.g. the ID in https://youtu.be/ABC123 is ABC123). -->
+    <section id="community-video">
+      <h2>From Our Community</h2>
+      <p>A glimpse into a Drida batch meet-up — the warmth, stories and celebration that follow each course.</p>
+      <div class="video-embed">
+        <iframe
+          src="https://www.youtube.com/embed/yhEW6tbJRTs"
+          title="Drida 14th Batch Meet-up"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+      <p style="margin-top:1rem;">
+        <a class="btn" href="meetups.html">Watch All Meet-up Recordings &rarr;</a>
+      </p>
+    </section>
+
     <!-- Follow us - mirrors Isha's "Powerful Presence Across..." banner,
          minus made-up follower counts. -->
-    <section id="follow">
+    <section id="follow" class="section-warm">
       <div class="band-row">
         <div class="band-text">
           <h3>Follow Drida's journey</h3>
@@ -289,6 +436,9 @@
               <span class="icon-chip" style="background:#1877F2;"><svg viewBox="0 0 320 512" width="14" height="22" fill="#fff" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg></span>
             </a>
           </div>
+            <a class="btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" target="_blank" rel="noopener noreferrer" style="margin-top:1rem;">
+              Subscribe on YouTube
+            </a>
         </div>
         <div class="band-photo">
           <img src="images/drida-on-social-media.png" alt="Drida on social media" onerror="tryAltExt(this)">
@@ -296,7 +446,7 @@
       </div>
     </section>
 
-    <section id="contact">
+    <section id="contact" class="section-warm">
       <h2>Contact</h2>
       <p>
         WhatsApp Smitha Ma'am: <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">+91 80754 71581</a>
@@ -308,24 +458,102 @@
 
   </main>
 
-  <!-- FOOTER: bottom of every page -->
-  <footer>
-    <p>&copy; <span id="year"></span> Drida Foundation</p>
-    <p class="social">
-      <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-        <span class="icon-chip" style="background:#FF0000;"><svg viewBox="0 0 24 24" width="22" height="22" fill="#fff" aria-hidden="true"><path d="M9.5 7.5v9l8-4.5-8-4.5z"/></svg></span>
-      </a>
-      <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <span class="icon-chip" style="background:linear-gradient(135deg, #FEDA75, #D62976, #4F5BD5);"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="#fff" stroke="none"/></svg></span>
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <span class="icon-chip" style="background:#1877F2;"><svg viewBox="0 0 320 512" width="16" height="26" fill="#fff" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg></span>
-      </a>
-    </p>
+  <!-- FOOTER: rich multi-column layout (mirrors Isha Foundation footer) -->
+  <footer class="site-footer">
+
+    <!-- Top: logo + tagline + subscribe CTA -->
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo-wrap"><img src="drida_logo_white.svg" alt="Drida" width="50" height="50"></span>
+        <div>
+          <span class="footer-brand-name">Drida</span>
+          <p class="footer-tagline">Meditation &middot; Yoga &middot; Fitness &middot; Community</p>
+        </div>
+      </div>
+      <div class="footer-newsletter">
+        <p>Stay connected with Drida&rsquo;s journey</p>
+        <a class="footer-subscribe-btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
+      </div>
+    </div>
+
+    <!-- Columns -->
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="trips.html">Trips &amp; Events</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="meetups.html">Meet-ups</a></li>
+          <li><a href="login.html">Login / My Courses</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Offerings</h4>
+        <ul>
+          <li><a href="courses.html#course-drida-15th-batch">Free Meditation Batch</a></li>
+          <li><a href="courses.html#course-yoga-with-smitha">Yoga with Smitha</a></li>
+          <li><a href="courses.html#course-fitness">Fitness Program</a></li>
+          <li><a href="courses.html#course-kids-meditation">Kids Meditation</a></li>
+          <li><a href="courses.html#course-kutties">Kutties Course</a></li>
+          <li><a href="index.html#impact">Free Education for Kids</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get Involved</h4>
+        <ul>
+          <li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
+          <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
+          <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
+          <li><a href="trips.html">Join a Trip</a></li>
+          <li><a href="meetups.html">Watch Meet-up Recordings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:drida4u@gmail.com">drida4u@gmail.com</a></li>
+          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
+          <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+          <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom bar: copyright + social icons -->
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; <span id="year"></span> Drida Foundation &mdash; All rights reserved</p>
+      <div class="footer-social">
+        <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 320 512" width="10" height="18" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
+        </a>
+        <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        </a>
+      </div>
+      <p class="footer-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        &nbsp;&middot;&nbsp;
+        <a href="privacy-policy.html#terms">Terms of Use</a>
+        &nbsp;&middot;&nbsp;
+        <a href="privacy-policy.html#refund">Refund Policy</a>
+        &nbsp;&middot;&nbsp;
+        <a href="mailto:drida4u@gmail.com">Contact</a>
+      </p>
+    </div>
+
   </footer>
 
   <!-- This links our JavaScript file. Placed at the end so the page loads first. -->
-  <script src="script.js"></script>
+  <script src="script.js?v=3"></script>
 
   <!-- Auto-detect PNG/JPG: if an image fails to load, try the other extension -->
   <script>
