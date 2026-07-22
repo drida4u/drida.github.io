@@ -5,31 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Courses — Drida</title>
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=20">
   <style>
+    /* Horizontal list — like Udemy/Coursera.
+       Each course is a wide row: poster left, details right.
+       Much better for portrait-orientation announcement posters. */
     .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.75rem;
-      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1.75rem;
     }
 
     .course-card {
       background: var(--paper-alt);
       border: 1px solid var(--line-soft);
-      border-radius: 16px;
+      border-left: 4px solid transparent;
+      border-radius: 14px;
       overflow: hidden;
       box-shadow: var(--shadow);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      transition: box-shadow 0.22s ease, transform 0.22s ease, border-left-color 0.22s;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;     /* horizontal: poster | content */
       position: relative;
       z-index: 1;
+      align-items: stretch;
     }
 
     .course-card:hover {
       box-shadow: var(--shadow-hover);
-      transform: translateY(-3px);
+      transform: translateY(-2px);
+      border-left-color: var(--accent);
     }
 
     .course-card.coming-soon {
@@ -38,14 +44,21 @@
     }
 
     .course-poster {
-      width: 100%;
-      height: auto;             /* grows to fit full poster — no cropping */
-      max-height: 360px;        /* caps very long collages to keep grid manageable */
+      width: 200px;
+      min-width: 200px;
+      height: auto;            /* card height = poster's natural height */
       object-fit: contain;
-      object-position: top center;
+      object-position: center;
       display: block;
-      background: #111116;      /* dark fill for any letterbox gaps */
+      background: var(--paper);
+      border-right: 1px solid var(--line-soft);
       flex-shrink: 0;
+      align-self: stretch;
+    }
+    /* Portrait posters: slightly wider panel so text stays legible */
+    .course-poster.portrait {
+      width: 220px;
+      min-width: 220px;
     }
 
     .course-poster-placeholder {
@@ -62,11 +75,12 @@
     }
 
     .course-body {
-      padding: 1rem 1.25rem 1.25rem;
+      padding: 1.25rem 1.5rem;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.4rem;
+      justify-content: center;
     }
 
     .course-tags {
@@ -93,8 +107,8 @@
 
     .course-card h3 {
       margin: 0;
-      font-size: 1.05rem;
-      line-height: 1.35;
+      font-size: 1.12rem;
+      line-height: 1.3;
     }
 
     .course-card p {
@@ -169,6 +183,20 @@
       margin-bottom: 0.25rem;
       max-width: 680px;
     }
+
+    /* Mobile: stack poster above content */
+    @media (max-width: 600px) {
+      .course-card { flex-direction: column; }
+      .course-poster,
+      .course-poster.portrait {
+        width: 100%;
+        min-width: unset;
+        height: auto;
+        max-height: 300px;
+        border-right: none;
+        border-bottom: 1px solid var(--line-soft);
+      }
+    }
   </style>
 </head>
 <body>
@@ -205,10 +233,26 @@
       </div>
       <nav>
         <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <div class="nav-submenu">
+            <a href="meditation.html">Meditation</a>
+            <a href="index.html#yoga">Yoga</a>
+            <a href="index.html#fitness">Fitness</a>
+          </div>
+        </div>
         <a href="courses.html" class="active">Courses</a>
-        <a href="trips.html">Trips &amp; Events</a>
+        <a href="trips.html">Experiences</a>
         <a href="products.html">Products</a>
-        <a href="meetups.html">Meet-ups</a>
+        <a href="meetups.html#team">Drida Family</a>
+        <div class="nav-dropdown">
+          <a href="index.html#about" class="nav-parent">About Us</a>
+          <div class="nav-submenu">
+            <a href="index.html#about">About Drida</a>
+            <a href="meetups.html">Meet-ups</a>
+            <a href="index.html#contact">Contact</a>
+          </div>
+        </div>
         <a href="login.html">Login</a>
       </nav>
       <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
@@ -220,212 +264,221 @@
   </header>
 
   <main>
-    <p class="section-intro">To enroll, make a UPI payment (where shown) and WhatsApp Smitha Ma'am at <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">+91 80754 71581</a> with your payment screenshot. For free courses, just send a message to register.</p>
+    <p class="section-intro">To enroll, make a UPI payment (where shown) and WhatsApp us at <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">+91 80754 71581</a> with your payment screenshot. For free courses, just send a message to register.</p>
 
-    <!-- Filter + Sort bar -->
-    <div id="course-filters" style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin:1.25rem 0 0.5rem;">
-      <span style="font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Filter:</span>
+    <!-- Filter bar -->
+    <div id="course-filters" style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin:1.25rem 0 1.75rem;">
+      <span style="font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Show:</span>
       <button class="cf-btn cf-active" data-filter="all">All</button>
       <button class="cf-btn" data-filter="free">Free</button>
       <button class="cf-btn" data-filter="paid">Paid</button>
       <button class="cf-btn" data-filter="live">Live</button>
       <button class="cf-btn" data-filter="soon">Coming Soon</button>
-      <span style="flex:1"></span>
-      <span style="font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Sort:</span>
-      <button class="cf-btn cf-active" id="sort-date">Latest First</button>
-      <button class="cf-btn" id="sort-az">A–Z</button>
     </div>
     <style>
-      .cf-btn {
-        font-size: 0.78rem; font-weight: 600; border: 1.5px solid var(--line-soft);
-        background: var(--paper); color: var(--ink); border-radius: 999px;
-        padding: 0.3rem 0.85rem; cursor: pointer; transition: all 0.18s;
-      }
-      .cf-btn.cf-active, .cf-btn:hover {
-        background: var(--grad); color: #fff; border-color: transparent;
-      }
+      .cf-btn { font-size:0.78rem;font-weight:600;border:1.5px solid var(--line-soft);background:var(--paper);color:var(--ink);border-radius:999px;padding:0.3rem 0.85rem;cursor:pointer;transition:all 0.18s; }
+      .cf-btn.cf-active, .cf-btn:hover { background:var(--grad);color:#fff;border-color:transparent; }
+      .cat-section { margin-bottom: 3rem; }
+      .cat-section[data-hidden="true"] { display: none; }
+      .cat-heading { font-size: 1.1rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); display: flex; align-items: center; gap: 0.5rem; }
     </style>
 
-    <div class="courses-grid" id="courses-list">
+    <div id="courses-list">
 
-      <!-- ===================== DRIDA 15TH FREE BATCH ===================== -->
-      <div class="course-card" id="course-drida-15th-batch" data-date="2026-06-25" data-type="free live">
-        <img class="course-poster portrait" src="images/course-new-drida-batch.png" alt="Drida 15th Free Batch"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-free">Free</span>
-            <span class="tag tag-live">Live</span>
-            <span class="tag tag-online">Online</span>
+      <!-- ══════════ MEDITATION — FREE ══════════ -->
+      <div class="cat-section" id="cat-meditation-free">
+        <h2 class="cat-heading">🧘 Meditation — Free</h2>
+        <div class="courses-grid">
+
+          <div class="course-card" id="course-drida-15th-batch" data-date="2026-06-25" data-type="free live">
+            <img class="course-poster portrait" src="images/course-new-drida-batch.png" alt="Drida 15th Free Batch" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags">
+                <span class="tag tag-free">Free</span>
+                <span class="tag tag-live">Live</span>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <h3>Drida 15th Free Batch — Meditation</h3>
+              <p>Join Drida's currently running 15th free meditation batch. Open to all — beginners and those wanting to deepen their practice.</p>
+              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20join%20the%20Drida%2015th%20Free%20Meditation%20Batch.%20Please%20add%20me." target="_blank" rel="noopener noreferrer">Register via WhatsApp</a>
+            </div>
           </div>
-          <h3>Drida 15th Free Batch — Meditation</h3>
-          <p>Join Drida's currently running 15th free meditation batch. Open to all — beginners and those wanting to deepen their practice.</p>
-          <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20join%20the%20Drida%2015th%20Free%20Meditation%20Batch.%20Please%20add%20me." target="_blank" rel="noopener noreferrer">Register via WhatsApp</a>
+
         </div>
       </div>
 
-      <!-- ===================== DRIDA MEDITATION STAGE 2 ===================== -->
-      <div class="course-card" id="course-drida-meditation-stage-2" data-date="2026-05-01" data-type="paid">
-        <img class="course-poster portrait" src="images/course-drida-stage2.png" alt="Drida Meditation Stage 2"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-active">Paid</span>
-            <span class="tag tag-online">Online</span>
+      <!-- ══════════ MEDITATION — PAID ══════════ -->
+      <div class="cat-section" id="cat-meditation-paid">
+        <h2 class="cat-heading">🧘 Meditation — Paid</h2>
+        <div class="courses-grid">
+
+          <div class="course-card" id="course-drida-meditation-stage-2" data-date="2026-05-01" data-type="paid">
+            <img class="course-poster portrait" src="images/course-drida-stage2.png" alt="Drida Meditation Stage 2" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags">
+                <span class="tag tag-active">Paid</span>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <h3>Drida Meditation — Stage 2</h3>
+              <p>The next level of the Drida meditation programme — deepen your practice with advanced techniques and group sittings.</p>
+              <p class="course-price">₹500</p>
+              <div class="upi-pay" id="upi-stage2">
+                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+                <input id="n-upi-stage2" class="upi-input" type="text" placeholder="Your full name" />
+                <input id="p-upi-stage2" class="upi-input" type="tel" placeholder="Your phone number" />
+                <button class="btn" type="button" onclick="showUpi('upi-stage2','Drida Meditation Stage 2',500)">Continue to Pay ₹500</button>
+              </div>
+            </div>
           </div>
-          <h3>Drida Meditation — Stage 2</h3>
-          <p>The next level of the Drida meditation programme — deepen your practice with advanced techniques and group sittings.</p>
-          <p class="course-price">₹500</p>
-          <div class="upi-pay" id="upi-stage2">
-            <p class="upi-note" style="text-align:left; margin-bottom:0.25rem;">Enter your details to proceed:</p>
-            <input id="n-upi-stage2" class="upi-input" type="text" placeholder="Your full name" />
-            <input id="p-upi-stage2" class="upi-input" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showUpi('upi-stage2','Drida Meditation Stage 2',500)">Continue to Pay ₹500</button>
+
+          <div class="course-card" id="course-advanced-chakra-meditation" data-date="2026-05-17" data-type="paid">
+            <img class="course-poster portrait" src="images/course-advanced-chakra.png" alt="Advanced Chakra Meditation" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags">
+                <span class="tag tag-active">Paid</span>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <h3>Chakra Meditation — Advanced</h3>
+              <p>An advanced programme exploring the seven chakras in depth — activating, balancing and working with each energy centre through guided meditation.</p>
+              <p class="course-price">₹1,250</p>
+              <div class="upi-pay" id="upi-chakra">
+                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+                <input id="n-upi-chakra" class="upi-input" type="text" placeholder="Your full name" />
+                <input id="p-upi-chakra" class="upi-input" type="tel" placeholder="Your phone number" />
+                <button class="btn" type="button" onclick="showUpi('upi-chakra','Chakra Meditation Advanced',1250)">Continue to Pay ₹1,250</button>
+              </div>
+            </div>
           </div>
+
+          <div class="course-card coming-soon" id="course-drida-level-2" data-date="2099-01-02" data-type="soon">
+            <img class="course-poster portrait" src="images/course-drida-level2.png" alt="Drida Meditation Level 2 — Coming Soon" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags"><span class="tag tag-soon">Coming Soon</span></div>
+              <h3>Drida Meditation — Level 2</h3>
+              <p>The next evolution in Drida's meditation curriculum. Details coming soon — register your interest to be the first to know.</p>
+              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20Drida%20Meditation%20Level%202%20when%20it%20launches.%20Please%20notify%20me." target="_blank" rel="noopener noreferrer">Notify Me</a>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- ===================== ADVANCED CHAKRA MEDITATION ===================== -->
-      <div class="course-card" id="course-advanced-chakra-meditation" data-date="2026-05-17" data-type="paid">
-        <img class="course-poster portrait" src="images/course-advanced-chakra.png" alt="Advanced Chakra Meditation"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-active">Paid</span>
-            <span class="tag tag-online">Online</span>
+      <!-- ══════════ KIDS MEDITATION ══════════ -->
+      <div class="cat-section" id="cat-kids">
+        <h2 class="cat-heading">🌟 Kids Meditation</h2>
+        <div class="courses-grid">
+
+          <div class="course-card" id="course-kutties-live-meditation" data-date="2026-04-08" data-type="paid live">
+            <img class="course-poster portrait" src="images/course-kutties-meditation.png" alt="Kutties Live Meditation Classes" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags">
+                <span class="tag tag-live">Live</span>
+                <span class="tag tag-active">Paid</span>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <h3>Kutties Live Meditation Classes</h3>
+              <p>Live online meditation sessions specially designed for children — helping kids build focus, calm and emotional balance from a young age.</p>
+              <p class="course-price">₹1,000 <span style="font-size:0.75rem;font-weight:400;color:var(--muted);">/ connection</span></p>
+              <div class="upi-pay" id="upi-kutties">
+                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+                <input id="n-upi-kutties" class="upi-input" type="text" placeholder="Your full name" />
+                <input id="p-upi-kutties" class="upi-input" type="tel" placeholder="Your phone number" />
+                <button class="btn" type="button" onclick="showUpi('upi-kutties','Kutties Live Meditation Classes',1000)">Continue to Pay ₹1,000</button>
+              </div>
+            </div>
           </div>
-          <h3>Chakra Meditation — Advanced</h3>
-          <p>An advanced programme exploring the seven chakras in depth — activating, balancing and working with each energy centre through guided meditation.</p>
-          <p class="course-price">₹1,250</p>
-          <div class="upi-pay" id="upi-chakra">
-            <p class="upi-note" style="text-align:left; margin-bottom:0.25rem;">Enter your details to proceed:</p>
-            <input id="n-upi-chakra" class="upi-input" type="text" placeholder="Your full name" />
-            <input id="p-upi-chakra" class="upi-input" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showUpi('upi-chakra','Chakra Meditation Advanced',1250)">Continue to Pay ₹1,250</button>
+
+          <div class="course-card" id="course-kids-meditation" data-date="2026-01-01" data-type="paid">
+            <img class="course-poster" src="images/course-kids-meditation.png" alt="Kids Meditation" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags">
+                <span class="tag tag-active">Paid</span>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <h3>Kids Meditation</h3>
+              <p>A structured meditation programme for children — building concentration, inner calm and joyful awareness through age-appropriate techniques.</p>
+              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Kids%20Meditation%20programme%20by%20Drida.%20Please%20share%20details." target="_blank" rel="noopener noreferrer">Contact to Enroll</a>
+            </div>
           </div>
+
         </div>
       </div>
 
-      <!-- ===================== YOGA WITH SMITHA ===================== -->
-      <div class="course-card" id="course-yoga-with-smitha" data-date="2026-04-21" data-type="paid live">
-        <img class="course-poster" src="images/course-yoga-with-smitha.jpeg" alt="Yoga with Smitha"
-             onerror="this.style.display='none'">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-live">Live</span>
-            <span class="tag tag-active">Paid</span>
-            <span class="tag tag-online">Online</span>
+      <!-- ══════════ YOGA ══════════ -->
+      <div class="cat-section" id="cat-yoga">
+        <h2 class="cat-heading">🌿 Yoga</h2>
+        <div class="courses-grid">
+
+          <div class="course-card" id="course-yoga-with-smitha" data-date="2026-04-21" data-type="paid live">
+            <img class="course-poster" src="images/course-yoga-with-smitha.jpeg" alt="Yoga with Smitha" onerror="this.style.display='none'">
+            <div class="course-body">
+              <div class="course-tags">
+                <span class="tag tag-live">Live</span>
+                <span class="tag tag-active">Paid</span>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <h3>Yoga with Smitha</h3>
+              <p>Live yoga classes with us — covering exercises, chakra poses and breathing techniques. Shape your body and calm your mind.</p>
+              <div class="course-details">
+                📅 Every Monday to Friday<br>
+                ⏰ 7 PM (40 minutes)<br>
+                📌 Started 21 April 2026
+              </div>
+              <p class="course-price">₹500</p>
+              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20join%20Yoga%20with%20Smitha%20(Rs.%20500).%20Please%20share%20payment%20and%20joining%20details." target="_blank" rel="noopener noreferrer">Register via WhatsApp</a>
+            </div>
           </div>
-          <h3>Yoga with Smitha</h3>
-          <p>Live yoga classes with Smitha Ma'am — covering exercises, chakra poses and breathing techniques. Shape your body and calm your mind.</p>
-          <div class="course-details">
-            📅 Every Monday to Friday<br>
-            ⏰ 7 PM (40 minutes)<br>
-            📌 Started 21 April 2026
+
+          <div class="course-card coming-soon" id="course-yoga-class" data-date="2099-01-01" data-type="soon">
+            <img class="course-poster" src="images/course-yoga-coming-soon.jpeg" alt="Yoga Class — Coming Soon" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags"><span class="tag tag-soon">Coming Soon</span></div>
+              <h3>Yoga Class</h3>
+              <p>A new Drida yoga class is being planned. Stay tuned for details on timings and enrollment.</p>
+              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20be%20notified%20when%20the%20Yoga%20Class%20starts.%20Please%20add%20me%20to%20the%20list." target="_blank" rel="noopener noreferrer">Notify Me</a>
+            </div>
           </div>
-          <p class="course-price">₹500</p>
-          <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20join%20Yoga%20with%20Smitha%20(Rs.%20500).%20Please%20share%20payment%20and%20joining%20details." target="_blank" rel="noopener noreferrer">Register via WhatsApp</a>
+
         </div>
       </div>
 
-      <!-- ===================== INTERMITTENT FASTING ===================== -->
-      <div class="course-card" id="course-intermittent-fasting" data-date="2026-03-08" data-type="paid">
-        <img class="course-poster" src="images/course-intermittent-fasting.jpeg" alt="Intermittent Fasting with Smitha"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-active">Paid</span>
-            <span class="tag tag-online">Online</span>
-          </div>
-          <h3>Intermittent Fasting with Smitha</h3>
-          <p>A guided programme on intermittent fasting — combining modern nutrition science with mindful eating for holistic wellness and healthy weight management.</p>
-          <p class="course-price">₹1,000</p>
-          <div class="upi-pay" id="upi-if">
-            <p class="upi-note" style="text-align:left; margin-bottom:0.25rem;">Enter your details to proceed:</p>
-            <input id="n-upi-if" class="upi-input" type="text" placeholder="Your full name" />
-            <input id="p-upi-if" class="upi-input" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showUpi('upi-if','Intermittent Fasting with Smitha',1000)">Continue to Pay ₹1,000</button>
-          </div>
-        </div>
-      </div>
+      <!-- ══════════ FITNESS & DIETING ══════════ -->
+      <div class="cat-section" id="cat-fitness">
+        <h2 class="cat-heading">💪 Fitness &amp; Dieting</h2>
+        <div class="courses-grid">
 
-      <!-- ===================== KUTTIES LIVE MEDITATION ===================== -->
-      <div class="course-card" id="course-kutties-live-meditation" data-date="2026-04-08" data-type="paid live">
-        <img class="course-poster portrait" src="images/course-kutties-meditation.png" alt="Kutties Live Meditation Classes"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-live">Live</span>
-            <span class="tag tag-active">Paid</span>
-            <span class="tag tag-online">Online</span>
+          <div class="course-card" id="course-fitness" data-date="2026-01-01" data-type="paid">
+            <img class="course-poster" src="images/course-fitness.jpeg" alt="Fitness with Drida" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags">
+                <span class="tag tag-active">Paid</span>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <h3>Fitness with Drida</h3>
+              <p>A guided fitness programme that combines physical conditioning with mindful movement — building strength, flexibility and vitality.</p>
+              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Fitness%20programme%20by%20Drida.%20Please%20share%20details." target="_blank" rel="noopener noreferrer">Contact to Enroll</a>
+            </div>
           </div>
-          <h3>Kutties Live Meditation Classes</h3>
-          <p>Live online meditation sessions specially designed for children — helping kids build focus, calm and emotional balance from a young age.</p>
-          <p class="course-price">₹1,000 <span style="font-size:0.75rem; font-weight:400; color:var(--muted);">/ connection</span></p>
-          <div class="upi-pay" id="upi-kutties">
-            <p class="upi-note" style="text-align:left; margin-bottom:0.25rem;">Enter your details to proceed:</p>
-            <input id="n-upi-kutties" class="upi-input" type="text" placeholder="Your full name" />
-            <input id="p-upi-kutties" class="upi-input" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showUpi('upi-kutties','Kutties Live Meditation Classes',1000)">Continue to Pay ₹1,000</button>
-          </div>
-        </div>
-      </div>
 
-      <!-- ===================== KIDS MEDITATION ===================== -->
-      <div class="course-card" id="course-kids-meditation" data-date="2026-01-01" data-type="paid">
-        <img class="course-poster" src="images/course-kids-meditation.jpeg" alt="Kids Meditation"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-active">Paid</span>
-            <span class="tag tag-online">Online</span>
+          <div class="course-card" id="course-intermittent-fasting" data-date="2026-03-08" data-type="paid">
+            <img class="course-poster" src="images/course-intermittent-fasting.jpeg" alt="Intermittent Fasting with Smitha" onerror="tryAltExt(this)">
+            <div class="course-body">
+              <div class="course-tags">
+                <span class="tag tag-active">Paid</span>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <h3>Intermittent Fasting with Smitha</h3>
+              <p>A guided programme on intermittent fasting — combining modern nutrition science with mindful eating for holistic wellness and healthy weight management.</p>
+              <p class="course-price">₹1,000</p>
+              <div class="upi-pay" id="upi-if">
+                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+                <input id="n-upi-if" class="upi-input" type="text" placeholder="Your full name" />
+                <input id="p-upi-if" class="upi-input" type="tel" placeholder="Your phone number" />
+                <button class="btn" type="button" onclick="showUpi('upi-if','Intermittent Fasting with Smitha',1000)">Continue to Pay ₹1,000</button>
+              </div>
+            </div>
           </div>
-          <h3>Kids Meditation</h3>
-          <p>A structured meditation programme for children — building concentration, inner calm and joyful awareness through age-appropriate techniques.</p>
-          <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Kids%20Meditation%20programme%20by%20Drida.%20Please%20share%20details." target="_blank" rel="noopener noreferrer">Contact to Enroll</a>
-        </div>
-      </div>
 
-      <!-- ===================== FITNESS ===================== -->
-      <div class="course-card" id="course-fitness" data-date="2026-01-01" data-type="paid">
-        <img class="course-poster" src="images/course-fitness.jpeg" alt="Fitness with Drida"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-active">Paid</span>
-            <span class="tag tag-online">Online</span>
-          </div>
-          <h3>Fitness with Drida</h3>
-          <p>A guided fitness programme that combines physical conditioning with mindful movement — building strength, flexibility and vitality.</p>
-          <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Fitness%20programme%20by%20Drida.%20Please%20share%20details." target="_blank" rel="noopener noreferrer">Contact to Enroll</a>
-        </div>
-      </div>
-
-      <!-- ===================== YOGA CLASS (COMING SOON) ===================== -->
-      <div class="course-card coming-soon" id="course-yoga-class" data-date="2099-01-01" data-type="soon">
-        <img class="course-poster" src="images/course-yoga-coming-soon.jpeg" alt="Yoga Class — Coming Soon"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-soon">Coming Soon</span>
-          </div>
-          <h3>Yoga Class</h3>
-          <p>A new Drida yoga class is being planned. Stay tuned for details on timings and enrollment.</p>
-          <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20be%20notified%20when%20the%20Yoga%20Class%20starts.%20Please%20add%20me%20to%20the%20list." target="_blank" rel="noopener noreferrer">Notify Me</a>
-        </div>
-      </div>
-
-      <!-- ===================== DRIDA LEVEL 2 (COMING SOON) ===================== -->
-      <div class="course-card coming-soon" id="course-drida-level-2" data-date="2099-01-02" data-type="soon">
-        <img class="course-poster portrait" src="images/course-drida-level2.png" alt="Drida Meditation Level 2 — Coming Soon"
-             onerror="tryAltExt(this)">
-        <div class="course-body">
-          <div class="course-tags">
-            <span class="tag tag-soon">Coming Soon</span>
-          </div>
-          <h3>Drida Meditation — Level 2</h3>
-          <p>The next evolution in Drida's meditation curriculum. Details coming soon — register your interest to be the first to know.</p>
-          <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20Drida%20Meditation%20Level%202%20when%20it%20launches.%20Please%20notify%20me." target="_blank" rel="noopener noreferrer">Notify Me</a>
         </div>
       </div>
 
@@ -457,7 +510,7 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="courses.html">Courses</a></li>
-          <li><a href="trips.html">Trips &amp; Events</a></li>
+          <li><a href="trips.html">Experiences</a></li>
           <li><a href="products.html">Products</a></li>
           <li><a href="meetups.html">Meet-ups</a></li>
           <li><a href="login.html">Login / My Courses</a></li>
@@ -487,8 +540,9 @@
       <div class="footer-col">
         <h4>Connect</h4>
         <ul>
-          <li><a href="mailto:drida4u@gmail.com">drida4u@gmail.com</a></li>
+          <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
           <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
+          <li><a href="support.html">Help &amp; Support</a></li>
           <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
           <li><a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer">Facebook</a></li>
@@ -520,7 +574,9 @@
         &nbsp;&middot;&nbsp;
         <a href="privacy-policy.html#refund">Refund Policy</a>
         &nbsp;&middot;&nbsp;
-        <a href="mailto:drida4u@gmail.com">Contact</a>
+        <a href="support.html">Support</a>
+        &nbsp;&middot;&nbsp;
+        <a href="mailto:drida4u@gmail.com">Contact Us</a>
       </p>
     </div>
 
@@ -570,59 +626,34 @@
 
   <script src="script.js?v=3"></script>
   <script>
-    // ── Filter + Sort for Courses ──────────────────────────────────
+    // ── Filter for Courses (grouped layout) ──────────────────────────────────
     (function() {
-      var grid = document.getElementById('courses-list');
-      var cards = Array.from(grid.querySelectorAll('.course-card'));
-      var activeFilter = 'all';
-      var activeSort  = 'date';
+      var allCards = Array.from(document.querySelectorAll('.course-card'));
+      var sections = Array.from(document.querySelectorAll('.cat-section'));
 
-      function sortCards(arr, mode) {
-        return arr.slice().sort(function(a, b) {
-          if (mode === 'date') {
-            return (b.dataset.date || '').localeCompare(a.dataset.date || '');
-          }
-          return (a.querySelector('h3') || {}).textContent.localeCompare(
-                 (b.querySelector('h3') || {}).textContent);
-        });
-      }
-
-      function render() {
-        var sorted = sortCards(cards, activeSort);
-        sorted.forEach(function(card) {
+      function render(filter) {
+        allCards.forEach(function(card) {
           var types = (card.dataset.type || '').split(' ');
-          var show = activeFilter === 'all' || types.indexOf(activeFilter) !== -1;
+          var show = filter === 'all' || types.indexOf(filter) !== -1;
           card.style.display = show ? '' : 'none';
-          grid.appendChild(card);
+        });
+        // Hide entire category section if no visible cards inside
+        sections.forEach(function(sec) {
+          var visibleCards = sec.querySelectorAll('.course-card');
+          var anyVisible = Array.from(visibleCards).some(function(c) { return c.style.display !== 'none'; });
+          sec.dataset.hidden = anyVisible ? 'false' : 'true';
         });
       }
 
-      // Filter buttons
       document.querySelectorAll('#course-filters .cf-btn[data-filter]').forEach(function(btn) {
         btn.addEventListener('click', function() {
-          document.querySelectorAll('#course-filters .cf-btn[data-filter]').forEach(function(b) { b.classList.remove('cf-active'); });
+          document.querySelectorAll('#course-filters .cf-btn').forEach(function(b) { b.classList.remove('cf-active'); });
           this.classList.add('cf-active');
-          activeFilter = this.dataset.filter;
-          render();
+          render(this.dataset.filter);
         });
       });
 
-      // Sort buttons
-      document.getElementById('sort-date').addEventListener('click', function() {
-        document.querySelectorAll('#course-filters .cf-btn:not([data-filter])').forEach(function(b) { b.classList.remove('cf-active'); });
-        this.classList.add('cf-active');
-        activeSort = 'date';
-        render();
-      });
-      document.getElementById('sort-az').addEventListener('click', function() {
-        document.querySelectorAll('#course-filters .cf-btn:not([data-filter])').forEach(function(b) { b.classList.remove('cf-active'); });
-        this.classList.add('cf-active');
-        activeSort = 'az';
-        render();
-      });
-
-      // Default: sort by date on load
-      render();
+      render('all');
     })();
   </script>
 </body>

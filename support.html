@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support &amp; Help Centre · Drida</title>
+  <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
+  <link rel="stylesheet" href="style.css?v=20">
+  <style>
+    /* ── Support page specific styles ── */
+    .support-hero {
+      min-height: 38vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: clamp(6rem, 12vw, 9rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 5vw, 4rem);
+      background: var(--grad);
+      position: relative;
+      isolation: isolate;
+    }
+    .support-hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      color: #fff;
+      margin: 0.4rem 0 0.75rem;
+      line-height: 1.15;
+    }
+    .support-hero p {
+      color: rgba(255,255,255,0.82);
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .support-hero .section-tag {
+      color: rgba(255,255,255,0.7);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* Quick contact strip */
+    .support-contact-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 6vw, 5rem);
+      background: var(--paper-alt);
+      position: relative;
+      z-index: 1;
+    }
+    .support-contact-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.4rem 1.5rem;
+      background: var(--paper);
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      text-decoration: none;
+      color: var(--ink);
+      transition: box-shadow .18s, transform .18s;
+    }
+    .support-contact-card:hover {
+      box-shadow: 0 6px 22px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    .support-contact-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.4rem;
+    }
+    .support-contact-icon.wa  { background: #e7f9ee; color: #25d366; }
+    .support-contact-icon.mail{ background: #fef3ea; color: var(--accent); }
+    .support-contact-icon.yt  { background: #fff0f0; color: #ff0000; }
+    .support-contact-card h4 { margin: 0 0 0.2rem; font-size: 1rem; }
+    .support-contact-card p  { margin: 0; font-size: 0.85rem; color: var(--muted); }
+
+    /* FAQ categories section */
+    .support-body {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 6vw, 5rem);
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .support-category {
+      margin-bottom: 3rem;
+    }
+    .support-category h2 {
+      font-size: clamp(1.15rem, 2vw, 1.4rem);
+      color: var(--accent);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .support-body details {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 0.6rem;
+      background: var(--paper);
+      overflow: hidden;
+    }
+    .support-body details[open] {
+      border-color: var(--accent);
+    }
+    .support-body summary {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.97rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ink);
+    }
+    .support-body summary::-webkit-details-marker { display: none; }
+    .support-body summary::after {
+      content: '+';
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-left: 1rem;
+      transition: transform .2s;
+    }
+    .support-body details[open] summary::after {
+      transform: rotate(45deg);
+    }
+    .support-body .faq-ans {
+      padding: 0 1.25rem 1.1rem;
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.75;
+    }
+    .support-body .faq-ans a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* Still need help CTA */
+    .support-cta {
+      background: var(--paper-alt);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      margin: 3rem 0 0;
+      border: 1.5px solid var(--border);
+    }
+    .support-cta h3 { margin: 0 0 0.5rem; font-size: 1.3rem; }
+    .support-cta p  { color: var(--muted); margin: 0 0 1.4rem; font-size: 0.95rem; }
+    .support-cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+  <div class="logo-float-bubble" aria-hidden="true">
+    <img src="drida_logo.svg" alt="">
+  </div>
+
+  <header>
+    <div class="topstrip">
+      <span class="topstrip-label">Follow Drida:</span>
+      <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Facebook">
+        <svg viewBox="0 0 320 512" width="10" height="16" fill="currentColor"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
+      </a>
+      <span class="topstrip-sep"></span>
+      <a href="courses.html#course-drida-15th-batch" class="topstrip-link">Free Batch</a>
+      <a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida" class="topstrip-link topstrip-donate">Donate</a>
+    </div>
+
+    <div class="topbar">
+      <div class="brand">
+        <span class="logo-badge"><img src="drida_logo.svg" alt="Drida logo" class="logo"></span>
+        <span class="brand-name">Drida</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <div class="nav-submenu">
+            <a href="meditation.html">Meditation</a>
+            <a href="index.html#yoga">Yoga</a>
+            <a href="index.html#fitness">Fitness</a>
+          </div>
+        </div>
+        <a href="courses.html">Courses</a>
+        <a href="trips.html">Experiences</a>
+        <a href="products.html">Products</a>
+        <a href="meetups.html#team">Drida Family</a>
+        <div class="nav-dropdown">
+          <a href="index.html#about" class="nav-parent">About Us</a>
+          <div class="nav-submenu">
+            <a href="index.html#about">About Drida</a>
+            <a href="meetups.html">Meet-ups</a>
+            <a href="index.html#contact">Contact</a>
+          </div>
+        </div>
+        <a href="login.html">Login</a>
+      </nav>
+      <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="support-hero">
+      <span class="section-tag">Drida Help Centre</span>
+      <h1>How can we help you?</h1>
+      <p>Find answers to common questions, or reach out to us directly — we're here for you.</p>
+    </section>
+
+    <!-- Quick contact options -->
+    <div class="support-contact-strip">
+      <a class="support-contact-card" href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">
+        <div class="support-contact-icon wa">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        </div>
+        <div>
+          <h4>WhatsApp Support</h4>
+          <p>DM our Support Team</p>
+        </div>
+      </a>
+      <a class="support-contact-card" href="mailto:drida4u@gmail.com?subject=Support%20Request">
+        <div class="support-contact-icon mail">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        </div>
+        <div>
+          <h4>Email Support</h4>
+          <p>Write to us <span class="email-link" data-email="drida4u@gmail.com"></span></p>
+        </div>
+      </a>
+      <a class="support-contact-card" href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">
+        <div class="support-contact-icon yt">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"/></svg>
+        </div>
+        <div>
+          <h4>Watch on YouTube</h4>
+          <p>Recordings &amp; guided sessions</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- FAQ body -->
+    <div class="support-body">
+
+      <!-- Category 1: Getting Started -->
+      <div class="support-category">
+        <h2>Getting Started</h2>
+
+        <details>
+          <summary>What is Drida and who can join?</summary>
+          <p class="faq-ans">Drida is a non-profit wellness community founded by Smitha Haridas in September 2021. Our meditation, yoga and fitness programmes are open to all women — beginners, homemakers, working professionals and students. Many of our programmes are completely free.</p>
+        </details>
+
+        <details>
+          <summary>How do I register for a free meditation batch?</summary>
+          <p class="faq-ans">Visit our <a href="courses.html#course-drida-15th-batch">Courses page</a> and click "Register Interest" on the current batch. You'll be added to the WhatsApp group where Smitha Ma'am conducts the live sessions. No prior experience is needed.</p>
+        </details>
+
+        <details>
+          <summary>Where are the sessions held?</summary>
+          <p class="faq-ans">All Drida sessions are online — live on WhatsApp or Google Meet. You can join from the comfort of your home, anywhere in the world. Morning and evening slots are available for most programmes.</p>
+        </details>
+
+        <details>
+          <summary>Can I join from outside India?</summary>
+          <p class="faq-ans">Yes! Drida has members across the world. All you need is a smartphone with WhatsApp. Session timings are in IST — please adjust for your timezone.</p>
+        </details>
+      </div>
+
+      <!-- Category 2: Courses & Batches -->
+      <div class="support-category">
+        <h2>Courses &amp; Batches</h2>
+
+        <details>
+          <summary>What is a "batch" and how long does it last?</summary>
+          <p class="faq-ans">A batch is a 40-day guided meditation journey led live by Smitha Ma'am every day. Sessions are held morning and evening via WhatsApp. At the end of the batch, the community gathers for a joyful meetup to celebrate the transformation.</p>
+        </details>
+
+        <details>
+          <summary>I missed a session — can I catch up?</summary>
+          <p class="faq-ans">Recorded sessions and guided audio are shared in the WhatsApp group after each live session, so you never miss out. For meet-up recordings and past batch highlights, visit our <a href="meetups.html">Meet-ups page</a>.</p>
+        </details>
+
+        <details>
+          <summary>What courses are available for children?</summary>
+          <p class="faq-ans">Drida Kutties is our meditation programme for children — simple, age-appropriate techniques for focus, calm and emotional balance. See the <a href="courses.html#course-kids-meditation">Kids Meditation course</a> for details.</p>
+        </details>
+
+        <details>
+          <summary>What is Chakra Meditation and do I need prior experience?</summary>
+          <p class="faq-ans">Chakra Meditation is an energy-centre awareness practice taught by Smitha Ma'am. It is suitable for beginners — many members start with the free batch and naturally progress to Chakra and Advanced Chakra programmes over time.</p>
+        </details>
+      </div>
+
+      <!-- Category 3: Payments & Refunds -->
+      <div class="support-category">
+        <h2>Payments &amp; Refunds</h2>
+
+        <details>
+          <summary>Are any Drida programmes free?</summary>
+          <p class="faq-ans">Yes — our flagship meditation batch is completely free. Drida is a non-profit; the free batch has always been and will remain free. Some advanced programmes and specialised courses have a nominal fee to cover facilitation costs.</p>
+        </details>
+
+        <details>
+          <summary>How do I pay for a course?</summary>
+          <p class="faq-ans">Course fees can be paid via UPI (Drida's UPI ID will be shared upon registration) or bank transfer. Payment details are communicated directly in the course WhatsApp group. You can also reach us at <a href="mailto:drida4u@gmail.com">drida4u@gmail.com</a> for payment queries.</p>
+        </details>
+
+        <details>
+          <summary>What is the refund policy?</summary>
+          <p class="faq-ans">Drida evaluates refund requests on a case-by-case basis. If you are unable to continue a paid programme for genuine reasons, please write to us at <a href="mailto:drida4u@gmail.com?subject=Refund%20Request">drida4u@gmail.com</a> with your name, course details and reason. We will do our best to help.</p>
+        </details>
+      </div>
+
+      <!-- Category 4: Technical Help -->
+      <div class="support-category">
+        <h2>Technical Help</h2>
+
+        <details>
+          <summary>I can't log in to the Drida website — what should I do?</summary>
+          <p class="faq-ans">Login uses your registered mobile number and OTP. Make sure you are entering the same number you registered with. If you still can't log in, write to us at <a href="mailto:drida4u@gmail.com?subject=Login%20Help">drida4u@gmail.com</a> and we'll sort it out.</p>
+        </details>
+
+        <details>
+          <summary>My course is not showing after I enrolled — what do I do?</summary>
+          <p class="faq-ans">After logging in, your enrolled courses appear under "My Courses." If a course is missing, log out and log in again. If the issue persists, please email <a href="mailto:drida4u@gmail.com?subject=Course%20Access%20Issue">drida4u@gmail.com</a> with your registered number and the course name.</p>
+        </details>
+
+        <details>
+          <summary>The YouTube videos on the site are not playing — what do I do?</summary>
+          <p class="faq-ans">Please ensure "Allow embedding" is enabled on the specific YouTube video. You can also watch all Drida recordings directly on our <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube channel</a>.</p>
+        </details>
+      </div>
+
+      <!-- Category 5: Community & Volunteering -->
+      <div class="support-category">
+        <h2>Community &amp; Volunteering</h2>
+
+        <details>
+          <summary>How do I become a volunteer or admin?</summary>
+          <p class="faq-ans">Drida volunteers and admins are usually long-time members who are invited by Smitha Ma'am or the team leads. If you are passionate about contributing, write to us at <a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">drida4u@gmail.com</a> — we'd love to hear from you.</p>
+        </details>
+
+        <details>
+          <summary>What is the Drida team structure?</summary>
+          <p class="faq-ans">Drida is organised into four river teams — Ganga, Yamuna, Narmada and Godavari — each led by a team leader. Visit our <a href="meetups.html#team">Drida Family page</a> to learn more about the teams and their roles.</p>
+        </details>
+
+        <details>
+          <summary>How can I support Drida's social initiatives?</summary>
+          <p class="faq-ans">Drida quietly gives back — helping children's education, visiting old age homes, and supporting those in need. If you would like to contribute or participate, email us at <a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">drida4u@gmail.com</a> or message us on WhatsApp.</p>
+        </details>
+      </div>
+
+      <!-- Still need help -->
+      <div class="support-cta">
+        <h3>Still need help?</h3>
+        <p>Our team is happy to assist — reach out and we'll get back to you as soon as we can.</p>
+        <div class="support-cta-btns">
+          <a class="btn-terra" href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
+          <a class="btn-outline" href="mailto:drida4u@gmail.com?subject=Support%20Request">Send an Email</a>
+        </div>
+      </div>
+
+    </div><!-- /support-body -->
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo-wrap"><img src="drida_logo_white.svg" alt="Drida" width="50" height="50"></span>
+        <div>
+          <span class="footer-brand-name">Drida</span>
+          <p class="footer-tagline">Meditation &middot; Yoga &middot; Fitness &middot; Community</p>
+        </div>
+      </div>
+      <div class="footer-newsletter">
+        <p>Stay connected with Drida&rsquo;s journey</p>
+        <a class="footer-subscribe-btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="trips.html">Experiences</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="meetups.html">Meet-ups</a></li>
+          <li><a href="login.html">Login / My Courses</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Offerings</h4>
+        <ul>
+          <li><a href="courses.html#course-drida-15th-batch">Free Meditation Batch</a></li>
+          <li><a href="courses.html#course-yoga-with-smitha">Yoga with Smitha</a></li>
+          <li><a href="courses.html#course-fitness">Fitness Program</a></li>
+          <li><a href="courses.html#course-kids-meditation">Kids Meditation</a></li>
+          <li><a href="courses.html#course-kutties">Kutties Course</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get Involved</h4>
+        <ul>
+          <li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
+          <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
+          <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
+          <li><a href="trips.html">Join a Trip</a></li>
+          <li><a href="meetups.html">Watch Meet-up Recordings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
+          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
+          <li><a href="support.html">Help &amp; Support</a></li>
+          <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+          <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; <span id="year"></span> Drida Foundation &mdash; All rights reserved</p>
+      <div class="footer-social">
+        <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 320 512" width="10" height="18" fill="currentColor"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
+        </a>
+        <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        </a>
+      </div>
+      <p class="footer-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        &nbsp;&middot;&nbsp;
+        <a href="privacy-policy.html#terms">Terms of Use</a>
+        &nbsp;&middot;&nbsp;
+        <a href="privacy-policy.html#refund">Refund Policy</a>
+        &nbsp;&middot;&nbsp;
+        <a href="support.html">Support</a>
+        &nbsp;&middot;&nbsp;
+        <a href="mailto:drida4u@gmail.com">Contact Us</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=3"></script>
+</body>
+</html>

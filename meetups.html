@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Batch Meet-ups — Drida</title>
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=20">
   <style>
     .meetup-grid {
       display: grid;
@@ -123,7 +123,26 @@
       </div>
       <nav>
         <a href="index.html">Home</a>
-        <a href="index.html#trips">Trips &amp; Events</a>
+        <div class="nav-dropdown">
+          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <div class="nav-submenu">
+            <a href="meditation.html">Meditation</a>
+            <a href="index.html#yoga">Yoga</a>
+            <a href="index.html#fitness">Fitness</a>
+          </div>
+        </div>
+        <a href="courses.html">Courses</a>
+        <a href="trips.html">Experiences</a>
+        <a href="products.html">Products</a>
+        <a href="meetups.html#team">Drida Family</a>
+        <div class="nav-dropdown active">
+          <a href="index.html#about" class="nav-parent">About Us</a>
+          <div class="nav-submenu">
+            <a href="index.html#about">About Drida</a>
+            <a href="meetups.html">Meet-ups</a>
+            <a href="index.html#contact">Contact</a>
+          </div>
+        </div>
         <a href="login.html">Login</a>
       </nav>
       <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
@@ -356,6 +375,52 @@
   </main>
 
   <!-- FOOTER: rich multi-column layout (mirrors Isha Foundation footer) -->
+    <!-- ═══ OUR TEAM — 4 river teams ═══ -->
+    <section id="team" class="team-section" style="margin-top:0;">
+      <span class="section-tag">The Drida Family</span>
+      <h2>Our Teams</h2>
+      <p class="team-intro">Drida runs on the strength of over 4,000 members and a dedicated team of volunteers, organised into four river-named groups — each a pillar of the community.</p>
+
+      <div class="founder-row">
+        <div class="founder-bubble">
+          <div class="founder-avatar">
+            <img src="images/founder-smitha.png" alt="Smitha Haridas — Founder">
+          </div>
+          <div class="founder-info">
+            <h3>Smitha Haridas</h3>
+            <p>Founder &amp; Mentor</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-river-grid">
+        <div class="river-card river-ganga">
+          <span class="river-name">Team Ganga</span>
+          <span class="river-lead">Led by Smitha Ma'am</span>
+          <p>Smitha's executive circle — 4 assistants who keep the wheels turning on every daily Drida activity.</p>
+          <span class="river-count">4 Executive Assistants</span>
+        </div>
+        <div class="river-card river-yamuna">
+          <span class="river-name">Team Yamuna</span>
+          <span class="river-lead">Led by Geetha P</span>
+          <p>All existing Drida batch members — our growing family of women on their wellness journey.</p>
+          <span class="river-count">3,500+ Members</span>
+        </div>
+        <div class="river-card river-narmada">
+          <span class="river-name">Team Narmada</span>
+          <span class="river-lead">Led by Sheeba</span>
+          <p>Our rock stars — the programme coordinators who organise every meetup, event and live session.</p>
+          <span class="river-count">17 Coordinators</span>
+        </div>
+        <div class="river-card river-godavari">
+          <span class="river-name">Team Godavari</span>
+          <span class="river-lead">Led by Sujatha</span>
+          <p>New batch members and admins — the future of Drida, trained and supported by chief admins and trainers.</p>
+          <span class="river-count">4 Chief Admins · 8 Trainers · 36 Admins</span>
+        </div>
+      </div>
+    </section>
+
   <footer class="site-footer">
 
     <!-- Top: logo + tagline + subscribe CTA -->
@@ -380,7 +445,7 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="courses.html">Courses</a></li>
-          <li><a href="trips.html">Trips &amp; Events</a></li>
+          <li><a href="trips.html">Experiences</a></li>
           <li><a href="products.html">Products</a></li>
           <li><a href="meetups.html">Meet-ups</a></li>
           <li><a href="login.html">Login / My Courses</a></li>
@@ -410,8 +475,9 @@
       <div class="footer-col">
         <h4>Connect</h4>
         <ul>
-          <li><a href="mailto:drida4u@gmail.com">drida4u@gmail.com</a></li>
+          <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
           <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
+          <li><a href="support.html">Help &amp; Support</a></li>
           <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
           <li><a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer">Facebook</a></li>
@@ -443,7 +509,9 @@
         &nbsp;&middot;&nbsp;
         <a href="privacy-policy.html#refund">Refund Policy</a>
         &nbsp;&middot;&nbsp;
-        <a href="mailto:drida4u@gmail.com">Contact</a>
+        <a href="support.html">Support</a>
+        &nbsp;&middot;&nbsp;
+        <a href="mailto:drida4u@gmail.com">Contact Us</a>
       </p>
     </div>
 

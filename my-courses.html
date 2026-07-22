@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Courses - Drida</title>
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=20">
 </head>
 <body>
 
@@ -37,7 +37,27 @@
       </div>
       <nav>
         <a href="index.html">Home</a>
-        <a href="#" id="logout-btn">Log out</a>
+        <div class="nav-dropdown">
+          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <div class="nav-submenu">
+            <a href="meditation.html">Meditation</a>
+            <a href="index.html#yoga">Yoga</a>
+            <a href="index.html#fitness">Fitness</a>
+          </div>
+        </div>
+        <a href="courses.html">Courses</a>
+        <a href="trips.html">Experiences</a>
+        <a href="products.html">Products</a>
+        <a href="meetups.html#team">Drida Family</a>
+        <div class="nav-dropdown">
+          <a href="index.html#about" class="nav-parent">About Us</a>
+          <div class="nav-submenu">
+            <a href="index.html#about">About Drida</a>
+            <a href="meetups.html">Meet-ups</a>
+            <a href="index.html#contact">Contact</a>
+          </div>
+        </div>
+        <a href="login.html" class="active">Login</a>
       </nav>
       <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
     </div>
@@ -78,7 +98,7 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="courses.html">Courses</a></li>
-          <li><a href="trips.html">Trips &amp; Events</a></li>
+          <li><a href="trips.html">Experiences</a></li>
           <li><a href="products.html">Products</a></li>
           <li><a href="meetups.html">Meet-ups</a></li>
           <li><a href="login.html">Login / My Courses</a></li>
