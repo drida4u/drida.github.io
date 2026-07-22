@@ -264,7 +264,7 @@
   </header>
 
   <main>
-    <p class="section-intro">To enroll, make a UPI payment (where shown) and WhatsApp us at <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">+91 80754 71581</a> with your payment screenshot. For free courses, just send a message to register.</p>
+    <p class="section-intro">Enroll directly through the website — log in, register or pay, and you're done. Need help? Use the <a href="index.html#contact">Contact page</a>.</p>
 
     <!-- Filter bar -->
     <div id="course-filters" style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin:1.25rem 0 1.75rem;">
@@ -300,7 +300,7 @@
               </div>
               <h3>Drida 15th Free Batch — Meditation</h3>
               <p>Join Drida's currently running 15th free meditation batch. Open to all — beginners and those wanting to deepen their practice.</p>
-              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20join%20the%20Drida%2015th%20Free%20Meditation%20Batch.%20Please%20add%20me." target="_blank" rel="noopener noreferrer">Register via WhatsApp</a>
+              <button class="btn" onclick="enrollCourse('drida-15th-batch','Drida 15th Free Batch',true,this)">Register Free</button>
             </div>
           </div>
 
@@ -356,7 +356,7 @@
               <div class="course-tags"><span class="tag tag-soon">Coming Soon</span></div>
               <h3>Drida Meditation — Level 2</h3>
               <p>The next evolution in Drida's meditation curriculum. Details coming soon — register your interest to be the first to know.</p>
-              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20Drida%20Meditation%20Level%202%20when%20it%20launches.%20Please%20notify%20me." target="_blank" rel="noopener noreferrer">Notify Me</a>
+              <button class="btn" onclick="notifyMeCourse('drida-level-2','Drida Meditation Level 2',this)">Notify Me</button>
             </div>
           </div>
 
@@ -397,7 +397,7 @@
               </div>
               <h3>Kids Meditation</h3>
               <p>A structured meditation programme for children — building concentration, inner calm and joyful awareness through age-appropriate techniques.</p>
-              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Kids%20Meditation%20programme%20by%20Drida.%20Please%20share%20details." target="_blank" rel="noopener noreferrer">Contact to Enroll</a>
+              <button class="btn" onclick="enrollCourse('kids-meditation','Kids Meditation',false,this)">Enquire &amp; Enroll</button>
             </div>
           </div>
 
@@ -425,7 +425,12 @@
                 📌 Started 21 April 2026
               </div>
               <p class="course-price">₹500</p>
-              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20join%20Yoga%20with%20Smitha%20(Rs.%20500).%20Please%20share%20payment%20and%20joining%20details." target="_blank" rel="noopener noreferrer">Register via WhatsApp</a>
+              <div class="upi-pay" id="upi-yoga">
+                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+                <input id="n-upi-yoga" class="upi-input" type="text" placeholder="Your full name" />
+                <input id="p-upi-yoga" class="upi-input" type="tel" placeholder="Your phone number" />
+                <button class="btn" type="button" onclick="showUpi('upi-yoga','Yoga with Smitha',500)">Continue to Pay ₹500</button>
+              </div>
             </div>
           </div>
 
@@ -435,7 +440,7 @@
               <div class="course-tags"><span class="tag tag-soon">Coming Soon</span></div>
               <h3>Yoga Class</h3>
               <p>A new Drida yoga class is being planned. Stay tuned for details on timings and enrollment.</p>
-              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'd%20like%20to%20be%20notified%20when%20the%20Yoga%20Class%20starts.%20Please%20add%20me%20to%20the%20list." target="_blank" rel="noopener noreferrer">Notify Me</a>
+              <button class="btn" onclick="notifyMeCourse('yoga-class','Yoga Class',this)">Notify Me</button>
             </div>
           </div>
 
@@ -456,7 +461,7 @@
               </div>
               <h3>Fitness with Drida</h3>
               <p>A guided fitness programme that combines physical conditioning with mindful movement — building strength, flexibility and vitality.</p>
-              <a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Ma'am%2C%20I'm%20interested%20in%20the%20Fitness%20programme%20by%20Drida.%20Please%20share%20details." target="_blank" rel="noopener noreferrer">Contact to Enroll</a>
+              <button class="btn" onclick="enrollCourse('fitness','Fitness with Drida',false,this)">Enquire &amp; Enroll</button>
             </div>
           </div>
 
@@ -582,7 +587,10 @@
 
   </footer>
 
-  <script src="firebase-init.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
   <script src="courses.js"></script>
 
   <script>
@@ -598,6 +606,65 @@
       } else {
         img.style.display = 'none';
       }
+    }
+
+    // ── Website enrollment (free / enquire) ──────────────────────────────
+    function enrollCourse(courseId, courseName, isFree, btnEl) {
+      var saved = localStorage.getItem('drida-user');
+      if (!saved) {
+        window.location.href = 'login.html?return=' + encodeURIComponent('courses.html#' + courseId);
+        return;
+      }
+      var user = JSON.parse(saved);
+      btnEl.textContent = 'Submitting…';
+      btnEl.disabled = true;
+      db.collection('registrations').add({
+        uid: user.uid,
+        phone: user.phone,
+        courseId: courseId,
+        courseName: courseName,
+        isFree: isFree,
+        status: 'pending',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(function() {
+        btnEl.textContent = isFree ? '✓ Registered!' : '✓ Enquiry Sent!';
+        btnEl.style.background = '#1a7a47';
+        var note = document.createElement('p');
+        note.className = 'upi-note';
+        note.style.marginTop = '0.5rem';
+        note.textContent = isFree
+          ? 'Done! Smitha Ma\'am will add you to the batch shortly.'
+          : 'Enquiry received! We\'ll share joining details with you soon.';
+        btnEl.insertAdjacentElement('afterend', note);
+      }).catch(function() {
+        btnEl.textContent = 'Try again';
+        btnEl.disabled = false;
+      });
+    }
+
+    // ── Notify Me for coming-soon courses ────────────────────────────────
+    function notifyMeCourse(courseId, courseName, btnEl) {
+      var saved = localStorage.getItem('drida-user');
+      if (!saved) {
+        window.location.href = 'login.html?return=' + encodeURIComponent('courses.html#' + courseId);
+        return;
+      }
+      var user = JSON.parse(saved);
+      btnEl.textContent = 'Saving…';
+      btnEl.disabled = true;
+      db.collection('notify_requests').add({
+        uid: user.uid,
+        phone: user.phone,
+        courseId: courseId,
+        courseName: courseName,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(function() {
+        btnEl.textContent = '✓ You\'ll be notified!';
+        btnEl.style.background = '#1a7a47';
+      }).catch(function() {
+        btnEl.textContent = 'Try again';
+        btnEl.disabled = false;
+      });
     }
 
     // Generic UPI payment flow for paid courses
@@ -620,7 +687,7 @@
       document.getElementById(blockId).innerHTML =
         '<img class="upi-qr" src="' + qrSrc + '" alt="Scan to pay via UPI" onerror="this.style.display=\'none\'">' +
         '<a class="btn" href="' + upiLink + '">Pay via UPI App</a>' +
-        '<p class="upi-note">Scan the QR or tap above to pay ₹' + amount + '. After payment, WhatsApp your screenshot to Smitha Ma\'am and you\'ll be enrolled within a few hours.</p>';
+        '<p class="upi-note">Scan the QR or tap above to pay ₹' + amount + '. After payment, send your screenshot via the <a href="index.html#contact">Contact page</a> with your name — you\'ll be enrolled within a few hours.</p>';
     }
   </script>
 
