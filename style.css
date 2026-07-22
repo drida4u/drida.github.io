@@ -747,10 +747,10 @@ section > p {
 
 .card img {
   width: 100%;
-  height: 300px;             /* tall enough to show full portrait poster */
-  object-fit: contain;       /* shows the full poster — no cropping */
+  height: auto;
+  aspect-ratio: 1 / 1;      /* square — matches card width, shows full square poster */
+  object-fit: cover;
   object-position: top center;
-  background: var(--paper);  /* clean fill around contained image */
   border-radius: 12px;
   margin-bottom: 0.75rem;
   transition: transform 0.45s ease;
@@ -2155,37 +2155,13 @@ footer .social a:hover .icon-chip,
   stroke-linejoin: round;
 }
 
-/* ── Botanical section divider ───────────────────────────────────
-   Ornamental leaf motif between major sections.
-   Full-width so the ruled lines extend edge-to-edge.
-   Inherits accent red via color: var(--accent) on .section-divider. */
+/* ── Section divider — gradient hairline ────────────────────────── */
 .section-divider {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.6rem 0;
-  color: var(--accent);
-  opacity: 0.9;
-  pointer-events: none;
   width: 100%;
-  position: relative;
-}
-
-/* Full-width ruled hairlines flanking the ornament */
-.section-divider::before,
-.section-divider::after {
-  content: '';
-  flex: 1;
   height: 1px;
-  background: currentColor;
-  opacity: 0.28;
-  margin: 0 0.75rem;
-}
-
-.section-divider svg {
-  width: 200px;
-  height: 28px;
-  overflow: visible;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent) 70%, transparent 100%);
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 /* ── Community video embed ───────────────────────────────────────
@@ -2504,7 +2480,7 @@ footer .social a:hover .icon-chip,
 .impact-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: #1a1410;  /* always dark regardless of theme */
+  background: linear-gradient(135deg, #5a5a5a 0%, #111111 100%); /* light grey → black */
   color: #f0ede8;
 }
 .stat-block {
