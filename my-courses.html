@@ -69,6 +69,10 @@
 
   <main>
     <section>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+        <p id="user-phone" style="color:var(--ink-2);font-size:0.95rem;"></p>
+        <a id="logout-btn" href="#" class="btn-outline" style="width:fit-content;">Log Out</a>
+      </div>
       <div id="course-list" class="card-grid">Checking your login...</div>
     </section>
   </main>
@@ -170,6 +174,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+  <script src="auth-nav.js"></script>
   <script src="firebase-config.js"></script>
   <script src="my-courses.js"></script>
   <script src="script.js?v=3"></script>

@@ -52,16 +52,19 @@ verifyBtn.addEventListener('click', () => {
   confirmationResult.confirm(code)
     .then((result) => {
       const user = result.user;
-      // Save/update this user's basic profile. Note: the security
-      // rules only allow a user to write their OWN phone/lastLogin -
-      // they can never set or change which courses they're enrolled in.
+      // Save to localStorage so auth-nav.js can update the nav on all pages
+      localStorage.setItem('drida-user', JSON.stringify({ phone: user.phoneNumber, uid: user.uid }));
+      // Save/update Firestore profile
       return db.collection('users').doc(user.uid).set({
         phone: user.phoneNumber,
         lastLogin: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
     })
     .then(() => {
-      window.location.href = 'my-courses.html';
+      // If login was triggered from a specific course page, go back there
+      const params = new URLSearchParams(window.location.search);
+      const returnUrl = params.get('return');
+      window.location.href = returnUrl || 'my-courses.html';
     })
     .catch((error) => {
       statusMsg.textContent = 'Incorrect code, please try again: ' + error.message;

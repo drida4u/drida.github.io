@@ -18,10 +18,11 @@
 
 auth.onAuthStateChanged((user) => {
   if (!user) {
-    // Not logged in - send them to the login page.
     window.location.href = 'login.html';
     return;
   }
+  const phoneEl = document.getElementById('user-phone');
+  if (phoneEl) phoneEl.textContent = 'Logged in as ' + user.phoneNumber;
   loadMyCourses(user.uid);
 });
 
@@ -77,9 +78,13 @@ function loadMyCourses(uid) {
     });
 }
 
-document.getElementById('logout-btn').addEventListener('click', (e) => {
-  e.preventDefault();
-  auth.signOut().then(() => {
-    window.location.href = 'login.html';
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.removeItem('drida-user');
+    auth.signOut().then(() => {
+      window.location.href = 'index.html';
+    });
   });
-});
+}

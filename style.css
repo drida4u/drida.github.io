@@ -2480,7 +2480,7 @@ footer .social a:hover .icon-chip,
 .impact-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: linear-gradient(135deg, #5a5a5a 0%, #111111 100%); /* light grey → black */
+  background: #0d2218;  /* deep forest green */
   color: #f0ede8;
 }
 .stat-block {
