@@ -591,6 +591,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
+  <script src="drida-config.js"></script>
   <script src="courses.js"></script>
 
   <script>
@@ -667,9 +668,18 @@
       });
     }
 
-    // Generic UPI payment flow for paid courses
-    // UPI ID is kept here and never shown on-screen
-    var DRIDA_UPI = 'drida@ybl'; // ← replace with actual UPI ID
+    // Generic UPI payment flow — reads IDs from drida-config.js
+    function makeUpiBlock(upiCfg, courseName, amount, note) {
+      var upiLink = 'upi://pay?pa=' + encodeURIComponent(upiCfg.id) +
+                    '&pn=' + encodeURIComponent(upiCfg.name) +
+                    '&am=' + amount + '&cu=INR&tn=' + note;
+      var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' + encodeURIComponent(upiLink);
+      return '<div style="text-align:center;border:1px solid var(--line-soft);border-radius:10px;padding:0.75rem;flex:1;">' +
+               '<p style="font-size:0.75rem;font-weight:700;color:var(--muted);margin:0 0 0.4rem;">' + upiCfg.label + '</p>' +
+               '<img src="' + qrSrc + '" alt="QR" style="width:130px;height:130px;display:block;margin:0 auto 0.5rem;" onerror="this.style.display=\'none\'">' +
+               '<a class="btn" href="' + upiLink + '" style="font-size:0.8rem;padding:0.35rem 0.75rem;">Open UPI App</a>' +
+             '</div>';
+    }
 
     function showUpi(blockId, courseName, amount) {
       var name  = (document.getElementById('n-' + blockId) || {}).value || '';
@@ -679,15 +689,13 @@
         return;
       }
       var note = encodeURIComponent(courseName + ' | ' + name.trim() + ' | ' + phone.trim());
-      var upiLink = 'upi://pay?pa=' + encodeURIComponent(DRIDA_UPI) +
-                    '&pn=' + encodeURIComponent('Drida Foundation') +
-                    '&am=' + amount + '&cu=INR&tn=' + note;
-      var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(upiLink);
-
-      document.getElementById(blockId).innerHTML =
-        '<img class="upi-qr" src="' + qrSrc + '" alt="Scan to pay via UPI" onerror="this.style.display=\'none\'">' +
-        '<a class="btn" href="' + upiLink + '">Pay via UPI App</a>' +
-        '<p class="upi-note">Scan the QR or tap above to pay ₹' + amount + '. After payment, send your screenshot via the <a href="index.html#contact">Contact page</a> with your name — you\'ll be enrolled within a few hours.</p>';
+      var cfg = (typeof DRIDA_CONFIG !== 'undefined') ? DRIDA_CONFIG : { upi1: {id:'drida@ybl',name:'Drida',label:'Pay'}, upi2: null };
+      var html = '<div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.6rem;">' +
+                   makeUpiBlock(cfg.upi1, courseName, amount, note) +
+                   (cfg.upi2 ? makeUpiBlock(cfg.upi2, courseName, amount, note) : '') +
+                 '</div>' +
+                 '<p class="upi-note">Scan either QR or tap "Open UPI App" to pay ₹' + amount + '. After payment, send your screenshot via the <a href="index.html#contact">Contact page</a> with your name — you\'ll be enrolled within a few hours.</p>';
+      document.getElementById(blockId).innerHTML = html;
     }
   </script>
 
