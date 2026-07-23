@@ -56,11 +56,33 @@ function loadMyCourses(uid) {
             ? content.videos
             : (content.link ? [content.link] : []);
 
+          // Convert any YouTube URL to an embeddable src
+          function toEmbedUrl(url) {
+            try {
+              const u = new URL(url);
+              let id = u.searchParams.get('v'); // youtube.com/watch?v=ID
+              if (!id && u.hostname === 'youtu.be') id = u.pathname.slice(1); // youtu.be/ID
+              if (!id && u.pathname.includes('/embed/')) return url; // already embed URL
+              return id ? 'https://www.youtube.com/embed/' + id : null;
+            } catch { return null; }
+          }
+
           const playlistHtml = videos.length
-            ? `<ol class="playlist">${videos.map((url, i) =>
-                `<li><a href="${url}" target="_blank" rel="noopener noreferrer">Session ${i + 1}</a></li>`
-              ).join('')}</ol>`
-            : '<p>Videos for this course will appear here once added.</p>';
+            ? videos.map((url, i) => {
+                const embedSrc = toEmbedUrl(url);
+                return embedSrc
+                  ? `<div style="margin-bottom:1.25rem;">
+                       <p style="font-size:0.85rem;font-weight:600;color:var(--muted);margin-bottom:0.4rem;">Session ${i + 1}</p>
+                       <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;background:#000;">
+                         <iframe src="${embedSrc}" title="Session ${i + 1}"
+                           style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                           allowfullscreen loading="lazy"></iframe>
+                       </div>
+                     </div>`
+                  : `<p><a href="${url}" target="_blank" rel="noopener noreferrer">Session ${i + 1}</a></p>`;
+              }).join('')
+            : '<p style="color:var(--muted);">Videos for this course will appear here once added.</p>';
 
           const card = document.createElement('div');
           card.className = 'card';

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drida Admin</title>
+  <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
+  <link rel="stylesheet" href="style.css?v=20">
+  <style>
+    .admin-wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .admin-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .admin-tab { padding: 0.5rem 1.25rem; border-radius: 999px; border: 1px solid var(--line-soft);
+                 background: var(--paper); cursor: pointer; font-size: 0.88rem; font-weight: 600;
+                 color: var(--ink-2); transition: all 0.18s; }
+    .admin-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+    .admin-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .admin-table th { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 2px solid var(--line-soft);
+                      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .admin-table td { padding: 0.7rem 0.75rem; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
+    .admin-table tr:hover td { background: var(--paper-alt); }
+    .status-pill { font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 999px; }
+    .status-pending  { background: #fff3e0; color: #b85c00; }
+    .status-enrolled { background: #e8f8f0; color: #1a7a47; }
+    .status-rejected { background: #fde8e8; color: #c0392b; }
+    .btn-sm { font-size: 0.78rem; padding: 0.3rem 0.75rem; border-radius: 6px; border: none;
+              cursor: pointer; font-weight: 600; transition: opacity 0.15s; }
+    .btn-enroll  { background: var(--accent); color: #fff; }
+    .btn-reject  { background: var(--line-soft); color: var(--ink-2); }
+    .btn-sm:hover { opacity: 0.82; }
+    .btn-sm:disabled { opacity: 0.4; cursor: not-allowed; }
+    .admin-empty { color: var(--muted); padding: 2rem 0; text-align: center; }
+    .admin-count { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+    .enrolled-input { border: 1px solid var(--line-soft); border-radius: 6px; padding: 0.3rem 0.5rem;
+                      font-size: 0.82rem; width: 180px; background: var(--paper); color: var(--ink); }
+    #access-denied { display: none; text-align: center; padding: 4rem 1rem; }
+    #loading-screen { text-align: center; padding: 4rem 1rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <span class="logo-badge"><img src="drida_logo.svg" alt="Drida logo" class="logo"></span>
+        <span class="brand-name">Drida Admin</span>
+      </div>
+      <nav>
+        <a href="index.html">← Back to Site</a>
+        <a href="#" id="admin-logout">Log Out</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div id="loading-screen">Checking access…</div>
+
+    <div id="access-denied">
+      <h2>Access Denied</h2>
+      <p>This page is for Drida admins only. <a href="index.html">Go home</a>.</p>
+    </div>
+
+    <div id="admin-app" style="display:none;">
+      <div class="admin-wrap">
+        <h1 style="margin-bottom:0.25rem;">Admin Dashboard</h1>
+        <p style="color:var(--muted);margin-bottom:2rem;">Manage enrollments, registrations and notify requests.</p>
+
+        <div class="admin-tabs">
+          <button class="admin-tab active" onclick="showPanel('registrations')">Registrations</button>
+          <button class="admin-tab" onclick="showPanel('notify')">Notify Requests</button>
+          <button class="admin-tab" onclick="showPanel('users')">All Users</button>
+        </div>
+
+        <!-- ── REGISTRATIONS ── -->
+        <div class="admin-panel active" id="panel-registrations">
+          <div class="admin-count" id="reg-count">Loading…</div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Phone</th>
+                  <th>Course</th>
+                  <th>Type</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="reg-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── NOTIFY REQUESTS ── -->
+        <div class="admin-panel" id="panel-notify">
+          <div class="admin-count" id="notify-count">Loading…</div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Phone</th>
+                  <th>Course</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="notify-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── ALL USERS ── -->
+        <div class="admin-panel" id="panel-users">
+          <div class="admin-count" id="users-count">Loading…</div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Phone</th>
+                  <th>Last Login</th>
+                  <th>Enrolled Courses</th>
+                  <th>Add Course</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    function showPanel(name) {
+      document.querySelectorAll('.admin-panel').forEach(function(p) { p.classList.remove('active'); });
+      document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.getElementById('panel-' + name).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function fmtDate(ts) {
+      if (!ts) return '—';
+      var d = ts.toDate ? ts.toDate() : new Date(ts);
+      return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) + ' ' +
+             d.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+    }
+
+    // ── Enroll a user in a course ─────────────────────────────
+    function enrollUser(uid, courseId, regDocId, statusEl, btnEl) {
+      btnEl.disabled = true;
+      btnEl.textContent = '…';
+      db.collection('users').doc(uid).update({
+        enrolledCourses: firebase.firestore.FieldValue.arrayUnion(courseId)
+      }).then(function() {
+        if (regDocId) {
+          return db.collection('registrations').doc(regDocId).update({ status: 'enrolled' });
+        }
+      }).then(function() {
+        if (statusEl) statusEl.innerHTML = '<span class="status-pill status-enrolled">Enrolled</span>';
+        btnEl.textContent = '✓ Done';
+        btnEl.disabled = true;
+      }).catch(function(e) {
+        btnEl.disabled = false;
+        btnEl.textContent = 'Enroll';
+        alert('Error: ' + e.message);
+      });
+    }
+
+    // ── Reject a registration ──────────────────────────────────
+    function rejectReg(regDocId, statusEl, btnEl) {
+      btnEl.disabled = true;
+      db.collection('registrations').doc(regDocId).update({ status: 'rejected' }).then(function() {
+        statusEl.innerHTML = '<span class="status-pill status-rejected">Rejected</span>';
+        btnEl.style.display = 'none';
+      }).catch(function(e) {
+        btnEl.disabled = false;
+        alert('Error: ' + e.message);
+      });
+    }
+
+    // ── Delete a notify request ────────────────────────────────
+    function deleteNotify(docId, rowEl, btnEl) {
+      btnEl.disabled = true;
+      db.collection('notify_requests').doc(docId).delete().then(function() {
+        rowEl.remove();
+      }).catch(function(e) {
+        btnEl.disabled = false;
+        alert('Error: ' + e.message);
+      });
+    }
+
+    // ── Manually add a course to a user ───────────────────────
+    function addCourseToUser(uid, inputEl, btnEl) {
+      var courseId = inputEl.value.trim();
+      if (!courseId) { alert('Enter a course ID'); return; }
+      btnEl.disabled = true;
+      db.collection('users').doc(uid).update({
+        enrolledCourses: firebase.firestore.FieldValue.arrayUnion(courseId)
+      }).then(function() {
+        btnEl.textContent = '✓ Added';
+        inputEl.value = '';
+        setTimeout(function() { btnEl.textContent = 'Add'; btnEl.disabled = false; }, 2000);
+      }).catch(function(e) {
+        btnEl.disabled = false;
+        alert('Error: ' + e.message);
+      });
+    }
+
+    // ── Load registrations ────────────────────────────────────
+    function loadRegistrations() {
+      db.collection('registrations').orderBy('timestamp', 'desc').get().then(function(snap) {
+        var tbody = document.getElementById('reg-tbody');
+        document.getElementById('reg-count').textContent = snap.size + ' registrations total';
+        if (snap.empty) {
+          tbody.innerHTML = '<tr><td colspan="6" class="admin-empty">No registrations yet.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = '';
+        snap.forEach(function(doc) {
+          var d = doc.data();
+          var statusHtml = '<span class="status-pill status-' + (d.status||'pending') + '">' + (d.status||'pending') + '</span>';
+          var tr = document.createElement('tr');
+          var statusTd = document.createElement('td');
+          statusTd.innerHTML = statusHtml;
+          tr.innerHTML =
+            '<td>' + (d.phone || '—') + '</td>' +
+            '<td>' + (d.courseName || d.courseId || '—') + '<br><small style="color:var(--muted)">' + (d.isFree ? 'Free' : 'Paid / Enquiry') + '</small></td>' +
+            '<td>' + (d.isFree ? 'Free' : 'Enquiry') + '</td>' +
+            '<td>' + fmtDate(d.timestamp) + '</td>';
+          tr.appendChild(statusTd);
+          var actionTd = document.createElement('td');
+          actionTd.style.display = 'flex';
+          actionTd.style.gap = '0.4rem';
+          if (d.status !== 'enrolled') {
+            var enrollBtn = document.createElement('button');
+            enrollBtn.className = 'btn-sm btn-enroll';
+            enrollBtn.textContent = 'Enroll';
+            enrollBtn.onclick = function() { enrollUser(d.uid, d.courseId, doc.id, statusTd, enrollBtn); };
+            actionTd.appendChild(enrollBtn);
+          }
+          if (d.status === 'pending') {
+            var rejectBtn = document.createElement('button');
+            rejectBtn.className = 'btn-sm btn-reject';
+            rejectBtn.textContent = 'Reject';
+            rejectBtn.onclick = function() { rejectReg(doc.id, statusTd, rejectBtn); };
+            actionTd.appendChild(rejectBtn);
+          }
+          tr.appendChild(actionTd);
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    // ── Load notify requests ──────────────────────────────────
+    function loadNotifyRequests() {
+      db.collection('notify_requests').orderBy('timestamp', 'desc').get().then(function(snap) {
+        var tbody = document.getElementById('notify-tbody');
+        document.getElementById('notify-count').textContent = snap.size + ' notify requests total';
+        if (snap.empty) {
+          tbody.innerHTML = '<tr><td colspan="4" class="admin-empty">No notify requests yet.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = '';
+        snap.forEach(function(doc) {
+          var d = doc.data();
+          var tr = document.createElement('tr');
+          tr.id = 'notify-row-' + doc.id;
+          var delBtn = document.createElement('button');
+          delBtn.className = 'btn-sm btn-reject';
+          delBtn.textContent = 'Done / Remove';
+          delBtn.onclick = function() { deleteNotify(doc.id, tr, delBtn); };
+          tr.innerHTML =
+            '<td>' + (d.phone || '—') + '</td>' +
+            '<td>' + (d.courseName || d.courseId || '—') + '</td>' +
+            '<td>' + fmtDate(d.timestamp) + '</td>';
+          var actionTd = document.createElement('td');
+          actionTd.appendChild(delBtn);
+          tr.appendChild(actionTd);
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    // ── Load all users ────────────────────────────────────────
+    function loadUsers() {
+      db.collection('users').orderBy('lastLogin', 'desc').get().then(function(snap) {
+        var tbody = document.getElementById('users-tbody');
+        document.getElementById('users-count').textContent = snap.size + ' registered users';
+        if (snap.empty) {
+          tbody.innerHTML = '<tr><td colspan="4" class="admin-empty">No users yet.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = '';
+        snap.forEach(function(doc) {
+          var d = doc.data();
+          var courses = (d.enrolledCourses || []).join(', ') || '—';
+          var input = document.createElement('input');
+          input.className = 'enrolled-input';
+          input.placeholder = 'course-id';
+          var addBtn = document.createElement('button');
+          addBtn.className = 'btn-sm btn-enroll';
+          addBtn.textContent = 'Add';
+          addBtn.onclick = function() { addCourseToUser(doc.id, input, addBtn); };
+          var tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td>' + (d.phone || '—') + '</td>' +
+            '<td>' + fmtDate(d.lastLogin) + '</td>' +
+            '<td style="font-size:0.8rem;color:var(--muted)">' + courses + '</td>';
+          var actionTd = document.createElement('td');
+          actionTd.style.display = 'flex';
+          actionTd.style.gap = '0.4rem';
+          actionTd.style.alignItems = 'center';
+          actionTd.appendChild(input);
+          actionTd.appendChild(addBtn);
+          tr.appendChild(actionTd);
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    // ── Auth check ────────────────────────────────────────────
+    auth.onAuthStateChanged(function(user) {
+      document.getElementById('loading-screen').style.display = 'none';
+      if (!user) {
+        window.location.href = 'login.html?return=admin.html';
+        return;
+      }
+      db.collection('users').doc(user.uid).get().then(function(doc) {
+        if (!doc.exists || !doc.data().isAdmin) {
+          document.getElementById('access-denied').style.display = 'block';
+          return;
+        }
+        document.getElementById('admin-app').style.display = 'block';
+        loadRegistrations();
+        loadNotifyRequests();
+        loadUsers();
+      });
+    });
+
+    document.getElementById('admin-logout').addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.removeItem('drida-user');
+      auth.signOut().then(function() { window.location.href = 'index.html'; });
+    });
+  </script>
+</body>
+</html>
