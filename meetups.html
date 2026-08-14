@@ -15,139 +15,18 @@
   <meta name="twitter:title" content="Batch Meet-ups — Drida Community">
   <meta name="twitter:description" content="Join Drida's community batch meet-ups and group sessions. Watch recordings, connect with the Drida family, and follow your wellness journey together.">
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
-  <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
-  <link rel="stylesheet" href="style.css?v=20">
+  <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"indigo-dark":"indigo")}()</script>
+  <link rel="stylesheet" href="style.css?v=46">
   <style>
-    .meetup-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .meetup-card {
-      background: var(--paper-alt);
-      border: 1px solid var(--line-soft);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .meetup-card:hover {
-      box-shadow: var(--shadow-hover);
-      transform: translateY(-2px);
-    }
-
-    .meetup-video {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%; /* 16:9 */
-      background: var(--line-soft);
-    }
-
-    .meetup-video iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .meetup-video-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    .meetup-video-placeholder svg {
-      opacity: 0.35;
-    }
-
-    /* YouTube Shorts — portrait 9:16 container */
-    .meetup-video.shorts {
-      padding-top: 177.78%;
-    }
-
-    /* Locked video overlay */
-    .locked-video {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
-    .locked-video img {
-      width: 100%; height: 100%; object-fit: cover; filter: blur(3px) brightness(0.55);
-    }
-    .lock-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: #fff;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.85rem;
-    }
-    .lock-overlay .lock-icon { font-size: 2rem; }
-    .lock-overlay a { color: #ffd580; font-weight: 600; }
-
-    /* Members-only section */
-    .members-section {
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--line-soft);
-    }
-    .members-section h2 { margin-bottom: 0.4rem; }
-    .members-section .members-note {
-      font-size: 0.9rem; color: var(--ink-2); margin-bottom: 1.5rem;
-    }
-
-    .meetup-info {
-      padding: 1rem 1.25rem 1.25rem;
-    }
-
-    .meetup-info h3 {
-      margin: 0 0 0.3rem;
-      font-size: 1rem;
-    }
-
-    .meetup-info p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .meetup-batch-num {
-      display: inline-block;
-      background: var(--grad);
-      color: #fff;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 0.15rem 0.55rem;
-      border-radius: 999px;
-      margin-bottom: 0.4rem;
-      letter-spacing: 0.4px;
-    }
+    /* This page's content has moved to about.html (Our Teams) and
+       stories.html (meet-up recordings) — no page-specific styling
+       needed here anymore. */
   </style>
 </head>
-<body>
-
-  <div class="logo-float-bubble" aria-hidden="true">
+<body>  <header>
+    <div class="logo-float-bubble" aria-hidden="true">
     <img src="drida_logo.svg" alt="">
   </div>
-
-  <header>
   <!-- Secondary topstrip: social icons + quick links above main nav (mirrors Isha website) -->
   <div class="topstrip">
     <span class="topstrip-label">Follow Drida:</span>
@@ -157,7 +36,7 @@
     <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Instagram">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
     </a>
-    <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
+    <a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
     </a>
     <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Facebook">
@@ -176,25 +55,40 @@
       <nav>
         <a href="index.html">Home</a>
         <div class="nav-dropdown">
-          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <a href="offerings.html" class="nav-parent">Offerings</a>
           <div class="nav-submenu">
-            <a href="meditation.html">Meditation</a>
-            <a href="index.html#yoga">Yoga</a>
-            <a href="index.html#fitness">Fitness</a>
+            <a href="offerings.html#meditation">Meditation</a>
+            <a href="offerings.html#yoga">Yoga</a>
+            <a href="offerings.html#fitness">Fitness</a>
+            <a href="offerings.html#diet">Diet &amp; Nutrition</a>
           </div>
         </div>
         <a href="courses.html">Courses</a>
         <a href="trips.html">Experiences</a>
         <a href="products.html">Products</a>
-        <a href="meetups.html#team" class="active">Drida Family</a>
         <div class="nav-dropdown">
           <a href="about.html" class="nav-parent">About Us</a>
           <div class="nav-submenu">
-            <a href="about.html">About Drida</a>
-            <a href="meetups.html">Meet-ups</a>
-            <a href="index.html#contact">Contact</a>
+            <a href="about.html">Drida Family</a>
+            <a href="about.html#team">Our Teams</a>
           </div>
         </div>
+        <div class="nav-dropdown">
+          <a href="stories.html" class="nav-parent">Drida Stories</a>
+          <div class="nav-submenu">
+            <a href="stories.html">Member Stories</a>
+            <a href="stories.html#recordings">Meetup Recordings</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="support.html" class="nav-parent">Support</a>
+          <div class="nav-submenu">
+            <a href="support.html#contact">Contact Us</a>
+            <a href="support.html#faq">FAQs</a>
+            <a href="support.html#help">Help</a>
+          </div>
+        </div>
+        <a class="nav-cta-pill" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
         <a href="login.html">Login</a>
       </nav>
       <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
@@ -208,316 +102,20 @@
   </div>
 
   <main>
-    <section>
-      <h2>Batch Meet-ups</h2>
-      <p>After every free batch, Drida holds a community meet-up — a celebration of the journey together. Here are recordings from all 14 previous batch meet-ups. <strong>Note:</strong> Batches 1–10 were held under the name <em>Positive Vibes (PV)</em> — Drida's earlier name before the 2025 rebrand. Drida Day is celebrated every year on <strong>19th March</strong>!</p>
-
-      <div class="meetup-grid" id="meetup-list">
-
-        <!-- Batch 14 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <!-- Replace the placeholder below with:
-                 <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
-                 once you have the YouTube link for Batch 14 meet-up -->
-            <iframe src="https://www.youtube.com/embed/yhEW6tbJRTs" allowfullscreen></iframe>
-            <!-- <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div> -->
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 14</span>
-            <h3>Batch 14 Meet-up</h3>
-            <p>Celebration with Drida's 14th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 13 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 13</span>
-            <h3>Batch 13 Meet-up</h3>
-            <p>Celebration with Drida's 13th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 12 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 12</span>
-            <h3>Batch 12 Meet-up</h3>
-            <p>Celebration with Drida's 12th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 11 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 11</span>
-            <h3>Batch 11 Meet-up</h3>
-            <p>Celebration with Drida's 11th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 10 -->
-        <div class="meetup-card">
-          <div class="meetup-video shorts">
-            <iframe src="https://www.youtube.com/embed/n8p5LSFTMWw" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 10</span>
-            <h3>PV 10 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 10th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 9 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/4Au1XWyfKwA" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 9</span>
-            <h3>PV 9 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 9th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 8 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/JOIjF9ecUJ4" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 8</span>
-            <h3>PV 8 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 8th free batch participants &middot; <a href="https://youtube.com/shorts/Qo8G4s90ABM" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">Watch Short →</a></p>
-          </div>
-        </div>
-
-        <!-- Batch 7 -->
-        <div class="meetup-card">
-          <div class="meetup-video shorts">
-            <iframe src="https://www.youtube.com/embed/6uAlVv6fihY" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 7</span>
-            <h3>PV 7 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 7th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 6 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/4LsQZ8q3egY" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 6</span>
-            <h3>PV 6 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 6th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 5 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/rAk0hhfCKLc" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 5</span>
-            <h3>PV 5 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 5th free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 4 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/gWgBWV758rA" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 4</span>
-            <h3>PV 4 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 4th free batch participants &middot; <a href="https://youtu.be/m16BjRwNyCQ" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">Watch Part 2 →</a></p>
-          </div>
-        </div>
-
-        <!-- Batch 3 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/uWLFiCKHP18" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 3</span>
-            <h3>PV 3 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 3rd free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 2 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/d9-JFnqJuN4" allowfullscreen></iframe>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 2</span>
-            <h3>PV 2 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 2nd free batch participants</p>
-          </div>
-        </div>
-
-        <!-- Batch 1 -->
-        <div class="meetup-card">
-          <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
-          </div>
-          <div class="meetup-info">
-            <span class="meetup-batch-num">PV 1</span>
-            <h3>PV 1 Meet-up</h3>
-            <p>Celebration with Positive Vibes' 1st free batch participants — where it all began</p>
-          </div>
-        </div>
-
+    <!-- This page has been retired: "Our Teams" now lives on about.html,
+         and all meet-up recordings + Members Only videos now live on
+         stories.html#recordings. This file is kept only so old bookmarks
+         / shared links don't 404 — it's no longer linked from the nav. -->
+    <section style="text-align:center;padding:clamp(3.5rem,7vw,5.5rem) clamp(1.5rem,6vw,5rem);">
+      <span class="section-tag">This page has moved</span>
+      <h2>Meet-up Recordings Have a New Home</h2>
+      <p style="color:var(--muted);max-width:520px;margin:0.75rem auto 1.75rem;">Our Teams now lives on the Drida Family page, and all batch meet-up recordings (including Members Only videos) now live on Drida Stories.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a class="btn-terra" href="stories.html#recordings">Go to Meet-up Recordings</a>
+        <a class="btn-outline" href="about.html#team">Go to Our Teams</a>
       </div>
-
-      <!-- Members Only Section -->
-      <div class="members-section">
-        <h2>🔒 Members Only</h2>
-        <p class="members-note">These videos are exclusively for <strong>Advanced Chakra Course</strong> members. <a href="courses.html#course-advanced-chakra-meditation" style="color:var(--accent);">Enrol here →</a></p>
-        <div class="meetup-grid">
-
-          <!-- Guru Poornima -->
-          <div class="meetup-card">
-            <div class="meetup-video">
-              <div class="locked-video" id="lock-guru-poornima" data-video-id="TTTsUWb8W4I">
-                <img src="https://img.youtube.com/vi/TTTsUWb8W4I/hqdefault.jpg" alt="Guru Poornima">
-                <div class="lock-overlay">
-                  <span class="lock-icon">🔒</span>
-                  <span>Advanced Chakra Course members only</span>
-                  <a href="courses.html#course-advanced-chakra-meditation">Enrol to unlock →</a>
-                </div>
-              </div>
-            </div>
-            <div class="meetup-info">
-              <span class="meetup-batch-num">Special</span>
-              <h3>Guru Poornima with Smitha Haridas</h3>
-              <p>A special video message from Smitha Haridas on Guru Poornima</p>
-            </div>
-          </div>
-
-          <!-- PV to Drida Transformation -->
-          <div class="meetup-card">
-            <div class="meetup-video">
-              <div class="locked-video" id="lock-pv-drida" data-video-id="H34KltdvsIU">
-                <img src="https://img.youtube.com/vi/H34KltdvsIU/hqdefault.jpg" alt="PV to Drida Transformation">
-                <div class="lock-overlay">
-                  <span class="lock-icon">🔒</span>
-                  <span>Advanced Chakra Course members only</span>
-                  <a href="courses.html#course-advanced-chakra-meditation">Enrol to unlock →</a>
-                </div>
-              </div>
-            </div>
-            <div class="meetup-info">
-              <span class="meetup-batch-num">Story</span>
-              <h3>Positive Vibes → Drida</h3>
-              <p>The story of our transformation — from Positive Vibes to Drida</p>
-            </div>
-          </div>
-
-          <!-- Logo Reveal -->
-          <div class="meetup-card">
-            <div class="meetup-video">
-              <div class="locked-video" id="lock-logo-reveal" data-video-id="Ej3DZ-jt13U">
-                <img src="https://img.youtube.com/vi/Ej3DZ-jt13U/hqdefault.jpg" alt="Drida Logo Reveal">
-                <div class="lock-overlay">
-                  <span class="lock-icon">🔒</span>
-                  <span>Advanced Chakra Course members only</span>
-                  <a href="courses.html#course-advanced-chakra-meditation">Enrol to unlock →</a>
-                </div>
-              </div>
-            </div>
-            <div class="meetup-info">
-              <span class="meetup-batch-num">Story</span>
-              <h3>Drida Logo Reveal</h3>
-              <p>The unveiling of the Drida brand and logo</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
     </section>
   </main>
-
-  <!-- FOOTER: rich multi-column layout (mirrors Isha Foundation footer) -->
-    <!-- ═══ OUR TEAM — 4 river teams ═══ -->
-    <section id="team" class="team-section" style="margin-top:0;">
-      <span class="section-tag">The Drida Family</span>
-      <h2>Our Teams</h2>
-      <p class="team-intro">Drida runs on the strength of over 4,600 members and a dedicated team of volunteers, organised into four river-named groups — each a pillar of the community.</p>
-
-      <div class="founder-row">
-        <div class="founder-bubble">
-          <div class="founder-avatar">
-            <img src="images/founder-smitha.png" alt="Smitha Haridas — Founder">
-          </div>
-          <div class="founder-info">
-            <h3>Smitha Haridas</h3>
-            <p>Founder &amp; Mentor</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="team-river-grid">
-        <div class="river-card river-ganga">
-          <span class="river-name">Team Ganga</span>
-          <span class="river-lead">Led by Smitha Haridas</span>
-          <p>Smitha's executive circle — 4 assistants who keep the wheels turning on every daily Drida activity.</p>
-          <span class="river-count">4 Executive Assistants</span>
-        </div>
-        <div class="river-card river-yamuna">
-          <span class="river-name">Team Yamuna</span>
-          <span class="river-lead">Led by Geetha P</span>
-          <p>All existing Drida batch members — our growing family of women on their wellness journey.</p>
-          <span class="river-count">3,500+ Members</span>
-        </div>
-        <div class="river-card river-narmada">
-          <span class="river-name">Team Narmada</span>
-          <span class="river-lead">Led by Sheeba</span>
-          <p>Our rock stars — the programme coordinators who organise every meetup, event and live session.</p>
-          <span class="river-count">17 Coordinators</span>
-        </div>
-        <div class="river-card river-godavari">
-          <span class="river-name">Team Godavari</span>
-          <span class="river-lead">Led by Sujatha</span>
-          <p>New batch members and admins — the future of Drida, trained and supported by chief admins and trainers.</p>
-          <span class="river-count">4 Chief Admins · 8 Trainers · 36 Admins</span>
-        </div>
-      </div>
-    </section>
 
   <footer class="site-footer">
 
@@ -530,10 +128,15 @@
           <p class="footer-tagline">Meditation &middot; Yoga &middot; Fitness &middot; Community</p>
         </div>
       </div>
-      <div class="footer-newsletter">
+      <form class="footer-newsletter-form" id="newsletter-form">
         <p>Stay connected with Drida&rsquo;s journey</p>
-        <a class="footer-subscribe-btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
-      </div>
+        <div class="footer-newsletter-fields">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="tel" name="phone" placeholder="Phone Number" required pattern="[0-9+\-\s]{7,15}">
+          <input type="email" name="email" placeholder="Your Email" required>
+          <button type="submit" class="footer-subscribe-btn">Subscribe</button>
+        </div>
+      </form>
     </div>
 
     <!-- Columns -->
@@ -545,7 +148,6 @@
           <li><a href="courses.html">Courses</a></li>
           <li><a href="trips.html">Experiences</a></li>
           <li><a href="products.html">Products</a></li>
-          <li><a href="meetups.html">Meet-ups</a></li>
           <li><a href="login.html">Login / My Courses</a></li>
         </ul>
       </div>
@@ -566,15 +168,15 @@
           <li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
-          <li><a href="trips.html">Join a Trip</a></li>
-          <li><a href="meetups.html">Watch Meet-up Recordings</a></li>
+          <li><a href="trips.html">Join a Yatra</a></li>
+          <li><a href="stories.html#recordings">Watch Meetup Recordings</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Connect</h4>
         <ul>
           <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
-          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
+          <li><a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
           <li><a href="support.html">Help &amp; Support</a></li>
           <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
@@ -596,7 +198,7 @@
         <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <svg viewBox="0 0 320 512" width="10" height="18" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
         </a>
-        <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
         </a>
       </div>
@@ -615,27 +217,8 @@
 
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script>
-    // Unlock members-only videos for Advanced Chakra Course enrollees
-    auth.onAuthStateChanged(function(user) {
-      if (!user) return;
-      db.collection('users').doc(user.uid).get().then(function(doc) {
-        if (!doc.exists) return;
-        var enrolled = doc.data().enrolledCourses || [];
-        if (!enrolled.includes('course-advanced-chakra-meditation')) return;
-        // Unlock all locked videos
-        document.querySelectorAll('.locked-video').forEach(function(el) {
-          var videoId = el.dataset.videoId;
-          el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>';
-        });
-      });
-    });
-  </script>
   <script src="auth-nav.js"></script>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=10"></script>
+  <script src="drida-effects.js?v=1"></script>
 </body>
 </html>

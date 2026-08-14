@@ -3,54 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meditation — Drida</title>
-  <meta name="description" content="Discover meditation, stillness, and yoga with Drida. From beginner to advanced practice, find your path to inner peace through our guided programmes.">
+  <title>Our Offerings — Drida</title>
+  <meta name="description" content="Meditation, yoga, fitness and diet &amp; nutrition — all led live, daily, by Smitha Haridas. Explore everything Drida offers women in one place.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Drida">
-  <meta property="og:title" content="Meditation & Yoga — Drida">
-  <meta property="og:description" content="Discover meditation, stillness, and yoga with Drida. From beginner to advanced practice, find your path to inner peace through our guided programmes.">
+  <meta property="og:title" content="Our Offerings — Drida">
+  <meta property="og:description" content="Meditation, yoga, fitness and diet &amp; nutrition — all led live, daily, by Smitha Haridas.">
   <meta property="og:image" content="https://drida.org/drida_logo.png">
-  <meta property="og:url" content="https://drida.org/meditation.html">
+  <meta property="og:url" content="https://drida.org/offerings.html">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Meditation & Yoga — Drida">
-  <meta name="twitter:description" content="Discover meditation, stillness, and yoga with Drida. From beginner to advanced practice, find your path to inner peace through our guided programmes.">
+  <meta name="twitter:title" content="Our Offerings — Drida">
+  <meta name="twitter:description" content="Meditation, yoga, fitness and diet &amp; nutrition — all led live, daily, by Smitha Haridas.">
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"orange-dark":"orange")}()</script>
   <link rel="stylesheet" href="style.css?v=46">
   <style>
+    /* Keep content sections visible immediately rather than depending on the
+       scroll-triggered reveal script (this caused a blank-gap bug on
+       about.html — avoiding the same issue here on a brand-new page). */
+    main section { opacity: 1 !important; transform: none !important; }
     /* Breathing room between opaque blocks — plain transparent margin so
        the fixed Drida watermark can show through naturally, same treatment
-       as about.html. No decoration added here. Page-scoped since these
-       classes are shared site-wide; none of these instances is the last
-       section on this page. */
+       as about.html. No decoration added here. Page-scoped since
+       .program-block is shared site-wide (no instance here is the last
+       section on the page, so this is safe to apply to all of them). */
     .program-block { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
-    .how-it-works { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
-    .band-cta-clean { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
-    .faq-section { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
-    /* Override: vertical tile cards on meditation page (not horizontal rows) */
-    .courses-grid {
+    /* Single combined visual — the two photos sit edge-to-edge with no
+       gap, so they read as one wide picture rather than two separate
+       cards, rounded only on the outer corners. */
+    /* Outer wrapper handles the viewport-edge spacing; the visible card
+       itself (rounded, shadowed) has no padding of its own, so the two
+       photos sit flush against its edges — no empty side panels. */
+    .med-mini-gallery-wrap {
+      /* No max-width cap — spans the same content width as the program
+         photo section above and the quote band below, instead of looking
+         like a narrower, oddly-inserted card. */
+      margin: 0 auto clamp(2.5rem, 7vw, 5rem);
+      padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 6vw, 3rem);
+      background: var(--paper-alt);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+    .med-mini-gallery {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
-    .course-card {
-      flex-direction: column;
+    .med-mini-gallery figure {
+      margin: 0;
+      aspect-ratio: 4 / 3;
     }
-    .course-poster {
-      width: 100%;
-      max-width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 0;
+    .med-mini-gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .med-mini-gallery-caption {
+      text-align: center;
+      color: var(--ink);
+      font-weight: 600;
+      font-style: italic;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      margin: 1rem 0 0;
     }
-    .course-body {
-      padding: 1rem 1.25rem 1.25rem;
-    }
-    @media (max-width: 760px) {
-      .courses-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 480px) {
-      .courses-grid { grid-template-columns: 1fr; }
+    @media (max-width: 640px) {
+      .med-mini-gallery { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -84,8 +101,8 @@
       </div>
       <nav>
         <a href="index.html">Home</a>
-        <div class="nav-dropdown">
-          <a href="offerings.html" class="nav-parent">Offerings</a>
+        <div class="nav-dropdown active">
+          <a href="offerings.html" class="nav-parent active">Offerings</a>
           <div class="nav-submenu">
             <a href="offerings.html#meditation">Meditation</a>
             <a href="offerings.html#yoga">Yoga</a>
@@ -126,62 +143,56 @@
 
     <!-- Hero: text-forward page banner -->
     <div class="hero-page">
-      <span class="hero-kicker">Drida Meditation</span>
-      <h1>Stillness begins within</h1>
-      <p>Chakra meditation, breathwork and guided visualisation — taught freely by Smitha Haridas across 15 batches and counting.</p>
-      <div class="hero-ctas">
-        <a class="btn-outline" href="#what-we-teach">What We Teach</a>
-        <a class="btn-terra" href="#course-batch16">Join Batch 16</a>
-      </div>
+      <span class="hero-kicker">Our Offerings</span>
+      <h1>Everything Drida Offers, In One Place</h1>
+      <p>Meditation, yoga, fitness and diet &amp; nutrition guidance — every session led live by Smitha Haridas, daily.</p>
     </div>
   </header>
 
   <main>
 
-    <!-- ═══ WHAT IS DRIDA MEDITATION ═══ -->
-    <section id="what-we-teach" class="program-block">
+    <!-- ═══ MEDITATION — full content, no click-through ═══ -->
+    <section id="meditation" class="program-block">
       <div class="program-img">
-        <img src="images/meditation+stillness/thlt-lcx-VsI_74zRzAo-unsplash.jpg" alt="Woman with singing bowl and incense in meditation" style="object-fit:cover;width:100%;height:100%;">
+        <img src="images/meditation+stillness/ester-marie-doysabas-hECwQNeR1iE-unsplash.jpg" alt="Hands cupping a flower in stillness" style="object-fit:cover;width:100%;height:100%;">
       </div>
       <div class="program-body">
-        <span class="section-tag">What We Teach</span>
-        <h2>A Practice Rooted in Awareness</h2>
-        <p>Drida's meditation is not about clearing the mind — it's about gently meeting it. Smitha Haridas teaches a blend of ancient practices adapted for everyday life, including:</p>
+        <span class="section-tag">Meditation</span>
+        <h2>Stillness Begins Within</h2>
+        <p>Drida's meditation is not about clearing the mind — it's about gently meeting it. Smitha Haridas leads a blend of ancient practices, live, every day:</p>
         <ul style="margin:0.75rem 0 1rem 1.2rem;color:var(--muted);line-height:2;">
           <li><strong>Chakra Meditation</strong> — energy centre awareness and activation</li>
           <li><strong>Breathwork (Pranayama)</strong> — calming the nervous system through conscious breath</li>
           <li><strong>Guided Visualisation</strong> — building inner clarity and positive self-image</li>
           <li><strong>Ho'oponopono</strong> — Hawaiian practice of forgiveness and healing</li>
-          <li><strong>Affirmations</strong> — "I am an awesome creation of God" and more</li>
+          <li><strong>Affirmations</strong> — building a grounded sense of self-worth</li>
         </ul>
-        <a class="btn-terra" href="courses.html#course-drida-15th-batch">Join the 15th Free Batch</a>
+        <a class="btn-terra" href="courses.html#course-drida-15th-batch">Know More</a>
       </div>
     </section>
 
-    <!-- ═══ STILLNESS — Visual Gallery ═══ -->
-    <section style="padding:clamp(2rem,4vw,3rem) clamp(1.5rem,5vw,4rem);background:var(--paper-alt);margin-bottom:clamp(2.5rem, 7vw, 5rem);">
-      <span class="section-tag" style="display:block;margin-bottom:0.75rem;">Stillness</span>
-      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:0.75rem;max-width:1100px;margin:0 auto;border-radius:18px;overflow:hidden;">
-        <img src="images/meditation+stillness/zoltan-tasi-vHnVtLK8rCc-unsplash.jpg"
-             alt="White lotus on dark still water"
-             style="width:100%;height:420px;object-fit:cover;object-position:35% center;display:block;">
-        <img src="images/meditation+stillness/deniz-altindas-t1XLQvDqt_4-unsplash.jpg"
-             alt="Seven stones balanced with light ripples"
-             style="width:100%;height:420px;object-fit:cover;object-position:center center;display:block;">
+    <!-- ═══ LOTUS + STONES — single combined visual ═══ -->
+    <div class="med-mini-gallery-wrap">
+      <div class="med-mini-gallery">
+        <figure>
+          <img src="images/meditation+stillness/zoltan-tasi-vHnVtLK8rCc-unsplash.jpg" alt="White lotus on dark still water" loading="lazy">
+        </figure>
+        <figure>
+          <img src="images/meditation+stillness/deniz-altindas-t1XLQvDqt_4-unsplash.jpg" alt="Seven stones balanced with light ripples" loading="lazy">
+        </figure>
       </div>
-    </section>
+      <p class="med-mini-gallery-caption">Peace &middot; Inner Silence &middot; Happiness</p>
+    </div>
 
-    <!-- ═══ HOW BATCHES WORK ═══ -->
-    <section class="program-block prog-rev">
-      <div class="program-body">
-        <span class="section-tag">The Batch Journey</span>
-        <h2>15 Batches, Thousands of Women</h2>
-        <p>Since September 2021, Drida has run 15 free meditation batches — each one a 40-day journey of daily practice, guided live by US. Batches run in WhatsApp groups so you can join from anywhere in the world.</p>
-        <p>Morning and evening sessions are available, so the practice fits around your schedule — whether you are a homemaker, working professional or student.</p>
-        <p>At the end of each batch, members gather for a joyful meetup — a celebration of the transformation they have experienced together.</p>
-      </div>
-      <div class="program-img">
-        <img src="images/drida-community.png" alt="Drida community batch journey" style="object-fit:cover;width:100%;height:100%;">
+    <!-- ═══ MEDITATION QUOTE / PULL ═══ -->
+    <section class="band-cta-clean" style="text-align:center;">
+      <blockquote style="font-size:clamp(1.3rem,2.5vw,1.8rem);font-style:italic;font-weight:600;color:#fff;max-width:700px;margin:0 auto 1.5rem;line-height:1.5;">
+        "I am an awesome creation of God."
+      </blockquote>
+      <p style="color:rgba(255,255,255,0.82);font-size:1rem;">— A Drida affirmation, spoken together at every batch meetup</p>
+      <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a class="btn-terra" style="background:#fff;color:var(--accent);" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
+        <a class="btn-outline" style="border-color:rgba(255,255,255,0.6);color:#fff;" href="stories.html#recordings">Watch Meetup Recordings</a>
       </div>
     </section>
 
@@ -211,7 +222,7 @@
         </div>
 
         <!-- Batch 15 — ongoing, joining closed -->
-        <div class="course-card coming-soon" id="course-drida-15th-batch">
+        <div class="course-card coming-soon" id="course-drida-15th-batch-preview">
           <img class="course-poster" src="images/course-new-drida-batch.png" alt="Drida 15th Free Batch">
           <div class="course-body">
             <div class="course-tags">
@@ -225,7 +236,7 @@
         </div>
 
         <!-- Kids Meditation -->
-        <div class="course-card" id="course-kids-meditation">
+        <div class="course-card" id="course-kids-meditation-preview">
           <img class="course-poster" src="images/course-kids-meditation.png" alt="Meditation for Children">
           <div class="course-body">
             <div class="course-tags">
@@ -239,7 +250,7 @@
         </div>
 
         <!-- Advanced Chakra -->
-        <div class="course-card" id="course-advanced-chakra">
+        <div class="course-card" id="course-advanced-chakra-preview">
           <img class="course-poster" src="images/course-advanced-chakra.png" alt="Advanced Chakra Meditation">
           <div class="course-body">
             <div class="course-tags">
@@ -253,7 +264,7 @@
         </div>
 
         <!-- Stage 2 -->
-        <div class="course-card" id="course-stage2">
+        <div class="course-card" id="course-stage2-preview">
           <img class="course-poster" src="images/course-drida-stage2.png" alt="Drida Stage 2">
           <div class="course-body">
             <div class="course-tags">
@@ -269,92 +280,53 @@
       </div>
     </section>
 
-    <!-- ═══ 3 PILLARS ═══ -->
-    <section class="how-it-works">
-      <span class="section-tag">The Experience</span>
-      <h2>What Changes After 40 Days</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <h3>Inner Calm</h3>
-          <p>Members consistently report reduced anxiety, better sleep and a quieter mind — even during stressful days.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <h3>Self-Worth</h3>
-          <p>Guided affirmations and chakra work build a deep, grounded sense of self — "I am worthy of all good things in life."</p>
-        </div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <h3>Community</h3>
-          <p>You will never practise alone. The Drida family — 4,600+ women across the world — walks the journey with you.</p>
-        </div>
+    <!-- ═══ YOGA ═══ -->
+    <section id="yoga" class="program-block prog-rev">
+      <div class="program-body">
+        <span class="section-tag">Yoga</span>
+        <h2>Move, Breathe, Balance</h2>
+        <p>Live daily yoga with Smitha — Monday to Friday, 7 PM. Each 40-minute session combines asanas, chakra poses and pranayama to build strength, flexibility and calm for the day ahead.</p>
+        <a class="btn-terra" href="courses.html#course-yoga-with-smitha">Know More</a>
+      </div>
+      <div class="program-img">
+        <img src="images/yoga-group.jpg" alt="Women practising yoga together" style="object-fit:cover;object-position:center center;width:100%;height:100%;">
       </div>
     </section>
 
-    <!-- ═══ QUOTE / PULL ═══ -->
-    <section class="band-cta-clean" style="text-align:center;">
-      <blockquote style="font-size:clamp(1.3rem,2.5vw,1.8rem);font-style:italic;font-weight:600;color:#fff;max-width:700px;margin:0 auto 1.5rem;line-height:1.5;">
-        "I am an awesome creation of God."
-      </blockquote>
-      <p style="color:rgba(255,255,255,0.82);font-size:1rem;">— A Drida affirmation, spoken together at every batch meetup</p>
-      <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-        <a class="btn-terra" style="background:#fff;color:var(--accent);" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
-        <a class="btn-outline" style="border-color:rgba(255,255,255,0.6);color:#fff;" href="stories.html#recordings">Watch Meetup Recordings</a>
+    <!-- ═══ FITNESS ═══ -->
+    <section id="fitness" class="program-block">
+      <div class="program-img">
+        <img src="images/fitness/emma-simpson-mNGaaLeWEp0-unsplash.jpg" alt="Woman stretching on a sunlit morning walk" style="object-fit:cover;object-position:center center;width:100%;height:100%;">
+      </div>
+      <div class="program-body">
+        <span class="section-tag">Fitness</span>
+        <h2>Strong Body, Clear Mind</h2>
+        <p>Drida's fitness programme is led live by Smitha for women at every level — structured routines that build real strength and stamina, paired with mindfulness so every session leaves you energised, not depleted.</p>
+        <a class="btn-terra" href="courses.html#course-fitness">Explore Fitness</a>
       </div>
     </section>
 
-    <!-- ═══ FAQ ═══ -->
-    <section class="faq-section">
-      <span class="section-tag">Common Questions</span>
-      <h2>Meditation FAQ</h2>
-      <div class="faq-list">
-
-        <details class="faq-item">
-          <summary>Do I need any meditation experience to join?</summary>
-          <p>None at all. Every batch starts from the very beginning. Our mentor explains each practice step by step — the only thing you need is a quiet corner and a willingness to begin.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>Is the meditation programme really free?</summary>
-          <p>Yes — completely free. Drida is a non-profit. The meditation batches have always been free and always will be. There is no catch.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>How long is each session and when does it happen?</summary>
-          <p>Each live session is about 30–40 minutes. Sessions run morning and evening to suit different schedules. Exact timings are shared when you enrol in the current batch.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>What is Chakra Meditation?</summary>
-          <p>Chakra meditation is a practice of bringing awareness to the seven energy centres in the body — from the root to the crown. Smitha guides you through each chakra with visualisation and breath, helping to release blockages and build inner energy.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>What is Ho'oponopono?</summary>
-          <p>Ho'oponopono is an ancient Hawaiian healing practice based on four simple phrases: "I love you. I'm sorry. Please forgive me. Thank you." Smitha weaves this into the programme as a powerful tool for letting go of resentment and opening the heart.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>Can I join from outside India?</summary>
-          <p>Absolutely. Drida members join from across the world — the programme runs via WhatsApp and YouTube Live, so location is no barrier. Women from the UAE, UK, USA and beyond are part of our community.</p>
-        </details>
-
+    <!-- ═══ DIET & NUTRITION ═══ -->
+    <section id="diet" class="program-block prog-rev">
+      <div class="program-body">
+        <span class="section-tag">Diet &amp; Nutrition</span>
+        <h2>Nourishment, the Drida Way</h2>
+        <p>Smitha also guides Drida women live on simple, sustainable eating habits — practical diet and nutrition guidance that pairs with your meditation, yoga and fitness practice to support the whole body, not just the mind.</p>
+        <a class="btn-terra" href="https://wa.me/910000000000?text=I'd like to know more about Drida's Diet %26 Nutrition guidance" target="_blank" rel="noopener noreferrer">Ask About Diet &amp; Nutrition</a>
+      </div>
+      <div class="program-img">
+        <img src="images/diet.jpg" alt="Fresh, wholesome food for mindful eating" style="object-fit:cover;object-position:center center;width:100%;height:100%;">
       </div>
     </section>
 
-    <!-- ═══ RELATED COURSES ═══ -->
+    <!-- ═══ MORE FROM DRIDA — only pages NOT already covered on this scrolling page ═══ -->
     <section style="padding:clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem);background:var(--paper-alt);margin-bottom:clamp(2.5rem, 7vw, 5rem);">
       <span class="section-tag">Also Explore</span>
       <h2 style="margin-bottom:2rem;">More from Drida</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;">
-        <a class="contact-card" href="offerings.html#yoga" style="text-decoration:none;">
-          <strong>Yoga with Smitha</strong>
-          <span>Live daily yoga — Mon to Fri, 7 PM. Asanas, chakra poses &amp; pranayama.</span>
-        </a>
-        <a class="contact-card" href="offerings.html#fitness" style="text-decoration:none;">
-          <strong>Dreamfit Fitness</strong>
-          <span>Fun, energetic fitness sessions designed for all levels.</span>
+        <a class="contact-card" href="courses.html" style="text-decoration:none;">
+          <strong>All Courses</strong>
+          <span>Browse and enrol in every Drida programme — free and paid, in one place.</span>
         </a>
         <a class="contact-card" href="trips.html" style="text-decoration:none;">
           <strong>Drida Yatras</strong>
@@ -367,30 +339,11 @@
       </div>
     </section>
 
-    <!-- ═══ CONTACT ═══ -->
-    <section id="contact" class="contact-section">
-      <span class="section-tag">Reach Out</span>
-      <h2>Get in Touch</h2>
-      <p>Questions about the batch? Want to join? Just reach out — the Drida family is always welcoming.</p>
-      <div class="contact-cards">
-        <a class="contact-card" href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer">
-          <strong>WhatsApp</strong>
-          <span>Message Smitha Haridas</span>
-          <span>Our Mentor</span>
-        </a>
-        <a class="contact-card" href="mailto:drida4u@gmail.com">
-          <strong>Email</strong>
-          <span>drida4u@gmail.com</span>
-        </a>
-        <a class="contact-card" href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">
-          <strong>YouTube</strong>
-          <span>@drida_life</span>
-        </a>
-        <a class="contact-card" href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">
-          <strong>Instagram</strong>
-          <span>@d_r_i_d_a_</span>
-        </a>
-      </div>
+    <!-- ═══ CTA ═══ -->
+    <section class="band-cta-clean">
+      <h2>Ready to Begin?</h2>
+      <p>Every Drida offering starts with the same free meditation batch. Join thousands of women already on the journey.</p>
+      <a class="btn-white-pill" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
     </section>
 
   </main>
@@ -419,7 +372,7 @@
         <h4>Explore</h4>
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="meditation.html">Meditation</a></li>
+          <li><a href="offerings.html">Offerings</a></li>
           <li><a href="courses.html">Courses</a></li>
           <li><a href="trips.html">Experiences</a></li>
           <li><a href="products.html">Products</a></li>
@@ -428,11 +381,10 @@
       <div class="footer-col">
         <h4>Offerings</h4>
         <ul>
-          <li><a href="courses.html#course-drida-15th-batch">Free Meditation Batch</a></li>
-          <li><a href="courses.html#course-yoga-with-smitha">Yoga with Smitha</a></li>
-          <li><a href="courses.html#course-fitness">Fitness Program</a></li>
-          <li><a href="courses.html#course-kids-meditation">Kids Meditation</a></li>
-          <li><a href="courses.html#course-kutties">Kutties Course</a></li>
+          <li><a href="offerings.html#meditation">Meditation</a></li>
+          <li><a href="offerings.html#yoga">Yoga</a></li>
+          <li><a href="offerings.html#fitness">Fitness</a></li>
+          <li><a href="offerings.html#diet">Diet &amp; Nutrition</a></li>
         </ul>
       </div>
       <div class="footer-col">

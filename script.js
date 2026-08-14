@@ -1,31 +1,70 @@
 // ── Theme toggle ────────────────────────────────────────────────────────────
-// Cycles: light → pastel → dark → light
-// Icons (CSS-driven): 🎨 in light, 🌙 in pastel, ☀ in dark
+// Simple Light / Dark switch. Each page has its own chakra colour FAMILY
+// (a full matching light-theme name + dark-theme name, both built with the
+// same depth as the original light/dark and pastel/pastel-dark pairs in
+// style.css). The toggle only ever flips light↔dark WITHIN a page's family
+// — it never mixes families, so every page keeps its own identity colour
+// whichever mode the visitor is in.
+// Rainbow order reused across pages: red → orange → yellow → green → blue
+// → indigo → violet → (repeats).
 (() => {
-  const STORAGE_KEY = 'drida-theme';
-  const THEMES = ['light', 'pastel', 'pastel-dark', 'pastel-bright', 'pastel-green', 'claude', 'dark', 'terra'];
+  const STORAGE_KEY = 'drida-theme-mode'; // stores 'light' or 'dark' only
   const root = document.documentElement;
 
-  function getTheme() {
+  // Order follows the ACTUAL nav click-through sequence (not filename order):
+  // Home → Offerings(=meditation.html) → Courses → Experiences(=trips.html)
+  // → Products → About Us(=about.html, merged with old Drida Family)
+  // → Drida Stories(=stories.html) → Support
+  //
+  // Reverted (2026-08-14): the "shift colours right by 1" rotation tried
+  // earlier today put "claude" on Offerings and didn't read well there, so
+  // this is back to each page's original colour. The vivid yellow/green
+  // accent update (yellow-dark's gold, green-dark's apple-green pulled into
+  // the light "yellow"/"pastel-green" themes) is unrelated and stays.
+  const FAMILY_BY_PAGE = {
+    'index.html':          { light: 'light',         dark: 'dark' },        // 1 red     — Home
+    '':                    { light: 'light',         dark: 'dark' },        //   red (root path)
+    'meditation.html':     { light: 'orange',        dark: 'orange-dark' }, // 2 orange  — Offerings (legacy page)
+    'offerings.html':      { light: 'orange',        dark: 'orange-dark' }, // 2 orange  — Offerings
+    'courses.html':        { light: 'yellow',        dark: 'yellow-dark' }, // 3 yellow  — Courses
+    'trips.html':          { light: 'pastel-green',  dark: 'green-dark' },  // 4 green   — Experiences
+    'products.html':       { light: 'pastel-bright', dark: 'blue-dark' },   // 5 blue    — Products
+    'meetups.html':        { light: 'indigo',        dark: 'indigo-dark' }, //   retired page, kept matching about.html
+    'about.html':          { light: 'indigo',        dark: 'indigo-dark' }, // 6 indigo  — About Us (merged w/ Drida Family)
+    'login.html':          { light: 'light',         dark: 'dark' },       //   red (cycle repeats) — Login
+    'support.html':        { light: 'terra',         dark: 'claude' },     //   terracotta/plum — Support
+    'my-courses.html':     { light: 'yellow',        dark: 'yellow-dark' },//   yellow (not in main nav)
+    'privacy-policy.html': { light: 'pastel-green',  dark: 'green-dark' }, //   green (not in main nav)
+    'stories.html':        { light: 'violet',        dark: 'violet-dark' },// 7 violet  — Drida Stories
+  };
+  const DEFAULT_FAMILY = { light: 'light', dark: 'dark' };
+
+  function getPageFamily() {
+    const page = location.pathname.split('/').pop();
+    return FAMILY_BY_PAGE[page] || DEFAULT_FAMILY;
+  }
+
+  function getMode() {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && THEMES.includes(saved)) return saved;
+    if (saved === 'light' || saved === 'dark') return saved;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
-  function applyTheme(theme) {
-    root.setAttribute('data-theme', theme);
+  function applyMode(mode) {
+    const family = getPageFamily();
+    root.setAttribute('data-theme', family[mode]);
   }
 
-  applyTheme(getTheme());
+  applyMode(getMode());
 
   function wireToggle() {
     const btn = document.getElementById('theme-toggle');
     if (!btn) return;
     btn.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme') || 'light';
-      const next = THEMES[(THEMES.indexOf(current) + 1) % THEMES.length];
+      const current = getMode();
+      const next = current === 'light' ? 'dark' : 'light';
       localStorage.setItem(STORAGE_KEY, next);
-      applyTheme(next);
+      applyMode(next);
     });
   }
 
@@ -36,7 +75,7 @@
   }
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (!localStorage.getItem(STORAGE_KEY)) applyTheme(e.matches ? 'dark' : 'light');
+    if (!localStorage.getItem(STORAGE_KEY)) applyMode(e.matches ? 'dark' : 'light');
   });
 })();
 
@@ -219,4 +258,41 @@ navLinks.forEach(link => {
       el.style.opacity = Math.max(1 - offset / 380, 0.35);
     });
   }, { passive: true });
+})();
+
+// ---------- Course card "selected" state ----------
+// Left accent border stays a subtle neutral shade by default (see
+// .course-card in style.css) and only switches to the theme accent colour
+// when a card is hovered, keyboard-focused, or tapped/selected — same rule
+// on every page that uses .course-card.
+(() => {
+  const cards = document.querySelectorAll(".course-card");
+  if (!cards.length) return;
+  cards.forEach(card => {
+    card.addEventListener("click", (e) => {
+      // Don't hijack clicks on the card's own link/button.
+      if (e.target.closest("a, button")) return;
+      cards.forEach(c => { if (c !== card) c.classList.remove("selected"); });
+      card.classList.toggle("selected");
+    });
+  });
+})();
+
+// ---------- Footer newsletter form ----------
+// No backend/list service wired up yet, so submissions open a pre-filled
+// email to Drida's inbox (drida4u@gmail.com) with the entered details,
+// same as every other "contact us" link on the site. Swap this out for a
+// real form service (Google Form / Mailchimp / etc.) once one is chosen.
+(() => {
+  const form = document.getElementById("newsletter-form");
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = form.name.value.trim();
+    const phone = form.phone.value.trim();
+    const email = form.email.value.trim();
+    const subject = encodeURIComponent("Newsletter Signup — Drida");
+    const body = encodeURIComponent(`Name: ${name}\nPhone: ${phone}\nEmail: ${email}`);
+    window.location.href = `mailto:drida4u@gmail.com?subject=${subject}&body=${body}`;
+  });
 })();

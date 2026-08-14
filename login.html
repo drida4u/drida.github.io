@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Drida</title>
-  <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
-  <link rel="stylesheet" href="style.css?v=20">
+  <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"dark":"light")}()</script>
+  <link rel="stylesheet" href="style.css?v=46">
 </head>
 <body>
 
@@ -19,7 +19,7 @@
     <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Instagram">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
     </a>
-    <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
+    <a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
     </a>
     <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Facebook">
@@ -38,23 +38,37 @@
       <nav>
         <a href="index.html">Home</a>
         <div class="nav-dropdown">
-          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <a href="offerings.html" class="nav-parent">Offerings</a>
           <div class="nav-submenu">
-            <a href="meditation.html">Meditation</a>
-            <a href="index.html#yoga">Yoga</a>
-            <a href="index.html#fitness">Fitness</a>
+            <a href="offerings.html#meditation">Meditation</a>
+            <a href="offerings.html#yoga">Yoga</a>
+            <a href="offerings.html#fitness">Fitness</a>
+            <a href="offerings.html#diet">Diet &amp; Nutrition</a>
           </div>
         </div>
         <a href="courses.html">Courses</a>
         <a href="trips.html">Experiences</a>
         <a href="products.html">Products</a>
-        <a href="meetups.html#team">Drida Family</a>
         <div class="nav-dropdown">
           <a href="about.html" class="nav-parent">About Us</a>
           <div class="nav-submenu">
-            <a href="about.html">About Drida</a>
-            <a href="meetups.html">Meet-ups</a>
-            <a href="index.html#contact">Contact</a>
+            <a href="about.html">Drida Family</a>
+            <a href="about.html#team">Our Teams</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="stories.html" class="nav-parent">Drida Stories</a>
+          <div class="nav-submenu">
+            <a href="stories.html">Member Stories</a>
+            <a href="stories.html#recordings">Meetup Recordings</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="support.html" class="nav-parent">Support</a>
+          <div class="nav-submenu">
+            <a href="support.html#contact">Contact Us</a>
+            <a href="support.html#faq">FAQs</a>
+            <a href="support.html#help">Help</a>
           </div>
         </div>
         <a href="login.html" class="active">Login</a>
@@ -142,10 +156,15 @@
           <p class="footer-tagline">Meditation &middot; Yoga &middot; Fitness &middot; Community</p>
         </div>
       </div>
-      <div class="footer-newsletter">
+      <form class="footer-newsletter-form" id="newsletter-form">
         <p>Stay connected with Drida&rsquo;s journey</p>
-        <a class="footer-subscribe-btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
-      </div>
+        <div class="footer-newsletter-fields">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="tel" name="phone" placeholder="Phone Number" required pattern="[0-9+\-\s]{7,15}">
+          <input type="email" name="email" placeholder="Your Email" required>
+          <button type="submit" class="footer-subscribe-btn">Subscribe</button>
+        </div>
+      </form>
     </div>
 
     <!-- Columns -->
@@ -157,7 +176,6 @@
           <li><a href="courses.html">Courses</a></li>
           <li><a href="trips.html">Experiences</a></li>
           <li><a href="products.html">Products</a></li>
-          <li><a href="meetups.html">Meet-ups</a></li>
           <li><a href="login.html">Login / My Courses</a></li>
         </ul>
       </div>
@@ -178,15 +196,15 @@
           <li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
-          <li><a href="trips.html">Join a Trip</a></li>
-          <li><a href="meetups.html">Watch Meet-up Recordings</a></li>
+          <li><a href="trips.html">Join a Yatra</a></li>
+          <li><a href="stories.html#recordings">Watch Meetup Recordings</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Connect</h4>
         <ul>
           <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
-          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
+          <li><a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
           <li><a href="support.html">Help &amp; Support</a></li>
           <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
@@ -208,7 +226,7 @@
         <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <svg viewBox="0 0 320 512" width="10" height="18" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
         </a>
-        <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
         </a>
       </div>
@@ -234,6 +252,7 @@
   <script src="auth-nav.js"></script>
   <script src="firebase-config.js"></script>
   <script src="login.js"></script>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=10"></script>
+  <script src="drida-effects.js?v=1"></script>
 </body>
 </html>

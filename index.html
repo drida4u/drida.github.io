@@ -18,20 +18,79 @@
   <meta name="twitter:description" content="Drida is a non-profit meditation, yoga and fitness community led by Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <!-- This links our CSS file (styling) to this HTML file (structure) -->
-  <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
-  <link rel="stylesheet" href="style.css?v=20">
+  <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"dark":"light")}()</script>
+  <link rel="stylesheet" href="style.css?v=46">
+  <style>
+    /* Breathing room between opaque blocks — plain transparent margin so
+       the fixed Drida watermark can show through naturally, same treatment
+       as about.html. No decoration added here. Page-scoped overrides since
+       these classes are shared site-wide. */
+    .program-block { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
+    .how-it-works { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
+    .about-editorial { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
+    .band-cta-clean { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
+    .impact-stats { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
+    .band-dark { margin-bottom: clamp(2.5rem, 7vw, 5rem); }
+
+    /* These sections have no opaque background of their own — they sit
+       directly on the page's peach/orange watermark-corona gradient, so
+       the default muted grey-brown subtitle text (--muted) reads too
+       light there. Darken to --ink-2 for these specific sections only. */
+    #courses > p,
+    #products > p,
+    #community-video > p {
+      color: var(--ink-2);
+    }
+
+    /* Mission & values — moved here from About Us, uses this page's own
+       (light/home) theme colours automatically via the shared CSS vars. */
+    .about-section {
+      padding: clamp(3.5rem,7vw,5.5rem) clamp(1.5rem,6vw,5rem);
+      background: radial-gradient(ellipse 120% 100% at 50% 20%, #fff4ec 0%, #ffe3d2 40%, #ffcba8 70%, #f2a37c 100%);
+      border-radius: 16px;
+      position: relative;
+      z-index: 1;
+      margin-top: clamp(2.5rem, 7vw, 5rem);
+      margin-bottom: clamp(2.5rem, 7vw, 5rem);
+    }
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .mission-card {
+      /* Same warm red/orange family as the fixed Drida watermark's glow,
+         instead of a plain neutral card. */
+      background: linear-gradient(160deg, #fff4ec 0%, #ffe3d2 55%, #ffd6c0 100%);
+      border: 1px solid var(--line-soft);
+      border-top: 3px solid var(--accent);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    }
+    .mission-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      background: linear-gradient(160deg, #fff8f3 0%, #ffece0 55%, #ffe0cf 100%);
+    }
+    .mission-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .mission-card p { font-size: 0.9rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+    @media (max-width: 760px) {
+      .mission-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
   <!-- Floating logo aura bubble: fixed in viewport centre, very faint,
        never blocks clicks (pointer-events: none). Gives a branded
-       watermark / aura glow feeling as you scroll through the page. -->
-  <div class="logo-float-bubble" aria-hidden="true">
+       watermark / aura glow feeling as you scroll through the page. -->  <!-- HEADER: top of every page -->
+  <header>
+    <div class="logo-float-bubble" aria-hidden="true">
     <img src="drida_logo.svg" alt="">
   </div>
-
-  <!-- HEADER: top of every page -->
-  <header>
     <!-- Top bar: logo (white background so the logo stays legible) + nav -->
   <!-- Secondary topstrip: social icons + quick links above main nav (mirrors Isha website) -->
   <div class="topstrip">
@@ -42,7 +101,7 @@
     <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Instagram">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
     </a>
-    <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
+    <a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
     </a>
     <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Facebook">
@@ -61,25 +120,40 @@
       <nav>
         <a href="index.html" class="active">Home</a>
         <div class="nav-dropdown">
-          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <a href="offerings.html" class="nav-parent">Offerings</a>
           <div class="nav-submenu">
-            <a href="meditation.html">Meditation</a>
-            <a href="index.html#yoga">Yoga</a>
-            <a href="index.html#fitness">Fitness</a>
+            <a href="offerings.html#meditation">Meditation</a>
+            <a href="offerings.html#yoga">Yoga</a>
+            <a href="offerings.html#fitness">Fitness</a>
+            <a href="offerings.html#diet">Diet &amp; Nutrition</a>
           </div>
         </div>
         <a href="courses.html">Courses</a>
         <a href="trips.html">Experiences</a>
         <a href="products.html">Products</a>
-        <a href="meetups.html#team">Drida Family</a>
         <div class="nav-dropdown">
           <a href="about.html" class="nav-parent">About Us</a>
           <div class="nav-submenu">
-            <a href="about.html">About Drida</a>
-            <a href="meetups.html">Meet-ups</a>
-            <a href="index.html#contact">Contact</a>
+            <a href="about.html">Drida Family</a>
+            <a href="about.html#team">Our Teams</a>
           </div>
         </div>
+        <div class="nav-dropdown">
+          <a href="stories.html" class="nav-parent">Drida Stories</a>
+          <div class="nav-submenu">
+            <a href="stories.html">Member Stories</a>
+            <a href="stories.html#recordings">Meetup Recordings</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="support.html" class="nav-parent">Support</a>
+          <div class="nav-submenu">
+            <a href="support.html#contact">Contact Us</a>
+            <a href="support.html#faq">FAQs</a>
+            <a href="support.html#help">Help</a>
+          </div>
+        </div>
+        <a class="nav-cta-pill" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
         <a href="login.html">Login</a>
       </nav>
       <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
@@ -105,17 +179,21 @@
        Hover/tap zooms the card forward; others ease back.
        Uses the local images which Drida already has. -->
   <div class="pillar-row" id="pillar-row">
-    <a class="pillar-card" href="meditation.html" tabindex="0">
+    <a class="pillar-card" href="offerings.html#meditation" tabindex="0">
       <img src="images/pillar-meditation.png" alt="Meditation at Drida" onerror="tryAltExt(this)">
       <span class="pillar-label">Meditation <span aria-hidden="true">&rsaquo;</span></span>
     </a>
-    <a class="pillar-card" href="#yoga" tabindex="0">
+    <a class="pillar-card" href="offerings.html#yoga" tabindex="0">
       <img src="images/pillar-yoga.png" alt="Yoga at Drida" onerror="tryAltExt(this)">
       <span class="pillar-label">Yoga <span aria-hidden="true">&rsaquo;</span></span>
     </a>
-    <a class="pillar-card" href="#fitness" tabindex="0">
+    <a class="pillar-card" href="offerings.html#fitness" tabindex="0">
       <img src="images/pillar-fitness.png" alt="Fitness at Drida" onerror="tryAltExt(this)">
       <span class="pillar-label">Fitness <span aria-hidden="true">&rsaquo;</span></span>
+    </a>
+    <a class="pillar-card" href="offerings.html#diet" tabindex="0">
+      <img src="images/diet.jpg" alt="Diet &amp; Nutrition at Drida" onerror="tryAltExt(this)">
+      <span class="pillar-label">Diet <span aria-hidden="true">&rsaquo;</span></span>
     </a>
   </div>
 
@@ -133,12 +211,7 @@
         <span class="section-tag">Meditation</span>
         <h2>Find Your Inner Stillness</h2>
         <p>Drida's guided meditation programme helps you build a daily practice — using breathwork, chakra awareness and visualisation techniques taught by Smitha Haridas over 15 free batches.</p>
-        <div class="program-meta">
-          <span class="prog-pill free">Free Batch Running</span>
-          <span class="prog-pill">Online · Live</span>
-          <span class="prog-pill">Beginners Welcome</span>
-        </div>
-        <a class="btn-terra" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
+        <a class="btn-terra" href="courses.html#course-drida-15th-batch">Know More</a>
       </div>
     </section>
 
@@ -171,10 +244,7 @@
         <span class="section-tag">Yoga</span>
         <h2>Move, Breathe, Balance</h2>
         <p>Live daily yoga with Smitha — Monday to Friday, 7 PM. Each 40-minute session combines asanas, chakra poses and pranayama to build strength, flexibility and calm for the day ahead.</p>
-        <div class="program-meta">
-          <span class="prog-pill">Live Online</span>
-        </div>
-        <a class="btn-terra" href="courses.html#course-yoga-with-smitha">View Yoga Course</a>
+        <a class="btn-terra" href="courses.html#course-yoga-with-smitha">Know More</a>
       </div>
       <div class="program-img">
         <img src="images/yoga1.jpg" alt="Yoga warrior silhouette at sunset" style="object-fit:cover;object-position:center center;width:100%;height:100%;">
@@ -190,10 +260,6 @@
         <span class="section-tag">Fitness</span>
         <h2>Strong Body, Clear Mind</h2>
         <p>Drida's fitness programme is designed for women at every level — structured routines that build real strength and stamina, paired with mindfulness so every session leaves you energised, not depleted.</p>
-        <div class="program-meta">
-          <span class="prog-pill">All Fitness Levels</span>
-          <span class="prog-pill">Online</span>
-        </div>
         <a class="btn-terra" href="courses.html#course-fitness">Explore Fitness</a>
       </div>
     </section>
@@ -204,11 +270,7 @@
         <span class="section-tag">Kutties Meditation</span>
         <h2>Calm, Focused Children</h2>
         <p>Kutties Meditation is Drida's meditation programme for children — simple, age-appropriate techniques that help little ones build focus, emotional balance and a sense of inner calm that stays with them for life.</p>
-        <div class="program-meta">
-          <span class="prog-pill">For Children</span>
-          <span class="prog-pill">Schools &amp; Homes</span>
-        </div>
-        <a class="btn-terra" href="courses.html#course-kids-meditation">View Kutties</a>
+        <a class="btn-terra" href="courses.html#course-kids-meditation">Explore</a>
       </div>
       <div class="program-img">
         <img src="images/kids-meditation1.png" alt="Children meditating at Drida Kutties" style="object-fit:cover;object-position:right center;width:100%;height:100%;">
@@ -218,7 +280,7 @@
     <!-- ═══ ABOUT SMITHA ═══ -->
     <section id="about" class="about-editorial reveal">
       <div class="about-photo-wrap">
-        <img src="images/group-yoga1.png" alt="Small group of women doing yoga on beach" style="object-fit:cover;object-position:right center;width:100%;height:100%;">
+        <img src="images/group-yoga2.png" alt="Large gathering of Drida women at a community event" style="object-fit:cover;object-position:center 30%;width:100%;height:100%;">
       </div>
       <div class="about-content">
         <span class="section-tag">Our Story</span>
@@ -228,20 +290,53 @@
         <p>Along the way, Drida launched <strong>Kasar</strong> — our own line of wellness products born from the community: hair mist, herbal shampoo and face toner, made with care and love.</p>
         <p>In 2025, Positive Vibes became <strong>Drida</strong> — <em>"where she awakens."</em> A new name for an ever-deepening mission.</p>
         <p class="charity-note">Beyond programmes, Drida quietly gives back — helping a child's education, visiting old age homes, supporting those in need in small but meaningful ways.</p>
-        <a class="btn-terra" href="meetups.html" style="margin-top:1.5rem;display:inline-block;width:fit-content;">Watch Our Journey &rarr;</a>
+        <a class="btn-terra" href="stories.html" style="margin-top:1.5rem;display:inline-block;width:fit-content;">Watch Our Journey &rarr;</a>
       </div>
     </section>
 
     <!-- ═══ BEFORE DRIDA — SHORT SUMMARY (full story on About Us) ═══ -->
     <section id="smitha-journey" class="about-editorial reveal">
       <div class="about-photo-wrap">
-        <img src="images/smitha-designer-atwork2.jpeg" alt="Smitha Haridas at her design studio, before founding Drida" style="object-fit:cover;width:100%;height:100%;">
+        <img src="images/founder-mission.png" alt="Smitha Haridas, founder of Drida" style="object-fit:cover;object-position:top center;width:100%;height:100%;">
       </div>
       <div class="about-content">
         <span class="section-tag">Before Drida</span>
-        <h2>The Designer Who Became a Teacher</h2>
+        <h2>The Teacher and Designer Who Became a Spiritual Guru</h2>
         <p>Before she led 4,600 women into stillness, Smitha Haridas was a schoolteacher, then the founder of <strong>S.fab Designs</strong> — a costume studio whose work dressed well-known Malayalam TV actresses. In 2021, she set it all aside to share meditation freely, and Drida was born.</p>
         <a class="btn-terra" href="about.html">Read Smitha's Full Story &rarr;</a>
+      </div>
+    </section>
+
+    <!-- ═══ MISSION & VALUES (moved here from About Us) ═══ -->
+    <section class="about-section" id="mission">
+      <span class="section-tag">Why We Exist</span>
+      <h2>Our Mission</h2>
+      <p style="color:var(--ink-2);max-width:600px;">Drida exists to make inner wellness accessible to every woman — freely, without gatekeeping, without hierarchy, without cost.</p>
+      <div class="mission-grid">
+        <div class="mission-card">
+          <h3>Free for All Women</h3>
+          <p>Our flagship meditation batches are completely free. No fees, no prerequisites — just a willingness to show up.</p>
+        </div>
+        <div class="mission-card">
+          <h3>Rooted in Tradition</h3>
+          <p>Chakra meditation, breathwork and guided visualisation — ancient practices made accessible for modern women.</p>
+        </div>
+        <div class="mission-card">
+          <h3>Community First</h3>
+          <p>Drida is run by women for women. Every volunteer, admin and coordinator is a community member giving back.</p>
+        </div>
+        <div class="mission-card">
+          <h3>Women's Livelihood</h3>
+          <p>Beyond wellness, Drida is building employment opportunities for women through its growing product and service businesses.</p>
+        </div>
+        <div class="mission-card">
+          <h3>Pilgrimage &amp; Travel</h3>
+          <p>Spiritual yatras to sacred sites across India — curated, safe, and accompanied by Smitha Haridas and the Drida family.</p>
+        </div>
+        <div class="mission-card">
+          <h3>Mindful Products</h3>
+          <p>Energised malas, wellness products and accessories — made with intention, priced with purpose.</p>
+        </div>
       </div>
     </section>
 
@@ -249,7 +344,7 @@
     <section class="band-cta-clean">
       <h2>Batch 16 Coming Soon — Register Your Interest</h2>
       <p>Drida's free online meditation programme — open to all women, no prior experience needed. Batch 15 is currently ongoing. Be first to know when Batch 16 opens — send us a WhatsApp message.</p>
-      <a class="btn-white-pill" href="https://wa.me/918075471581?text=I'd like to register for Drida Batch 16" target="_blank" rel="noopener noreferrer">Register Interest for Batch 16</a>
+      <a class="btn-white-pill" href="https://wa.me/910000000000?text=I'd like to register for Drida Batch 16" target="_blank" rel="noopener noreferrer">Register Interest for Batch 16</a>
     </section>
 
     
@@ -287,43 +382,11 @@
     
     <div class="section-divider" aria-hidden="true"></div>
 
-    <!-- ═══ FAQ ═══ -->
-    <section class="faq-section reveal">
-      <span class="section-tag">Frequently Asked Questions</span>
-      <h2>Everything You Need to Know</h2>
-      <div class="faq-list">
-
-        <details class="faq-item">
-          <summary>Is the free meditation course really free?</summary>
-          <p class="faq-ans">Yes — completely free. Drida's free batch - meditation programme has always been offered at no cost. There are no hidden fees, no payment required, and no obligation to purchase anything else. Simply register and join.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>Do I need any prior experience?</summary>
-          <p class="faq-ans">No experience is needed at all. The free batch is designed for absolute beginners. Smitha guides you step by step through everything — breathing, posture, awareness — starting from the very basics.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>Are the sessions online or in-person?</summary>
-          <p class="faq-ans">All Drida courses are conducted online via live video sessions. You can attend from anywhere — your home, office, or while travelling — as long as you have an internet connection.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>Can men join Drida's courses?</summary>
-          <p class="faq-ans">Drida's primary focus is on women's wellbeing and empowerment, so most programmes are designed for women. The free education initiative and some community events are open to all. Please reach out to us if you have a specific question.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>How do I access course videos after registering?</summary>
-          <p class="faq-ans">Once you register and log in to the Drida website, your enrolled courses will appear in "My Courses." Paid courses are gated — only enrolled members can view the content. For live sessions, you'll receive a link via WhatsApp or email.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>What happens after I complete the free batch?</summary>
-          <p class="faq-ans">Many members join subsequent batches to deepen their practice. You can also progress to the Advanced Chakra Meditation course, join Yoga with Smitha, or participate in Drida's pilgrimages and community meet-ups.</p>
-        </details>
-
-      </div>
+    <!-- ═══ FAQ POINTER (full FAQ lives on support.html to avoid repeating it here) ═══ -->
+    <section class="band-cta-clean">
+      <h2>Have Questions?</h2>
+      <p>Find answers on registering, sessions, payments and more in our Help Centre.</p>
+      <a class="btn-white-pill" href="support.html#faq">View FAQs</a>
     </section>
 
     <!-- ═══ IMPACT STATS ═══ -->
@@ -369,10 +432,10 @@
           <a class="btn" href="trips.html#pilgrimages">View All Pilgrimages</a>
         </div>
         <div class="card">
-          <span class="badge">Meet-ups</span>
+          <span class="badge">Events</span>
           <h3>Drida Batch Meet-ups</h3>
           <p>After every free batch, we celebrate together. Watch recordings from all 14 previous batch meet-ups.</p>
-          <a class="btn" href="meetups.html">View All Meet-ups</a>
+          <a class="btn" href="stories.html#recordings">View All Meet-ups</a>
         </div>
       </div>
       <div style="margin-top:1.5rem;display:flex;justify-content:center;">
@@ -389,7 +452,7 @@
       <p>Natural wellness products, handcrafted bracelets and nightwear from Drida's partner brands.</p>
       <div class="card-grid">
         <div class="card">
-          <img src="https://kasarnaturals.com/wp-content/uploads/2025/06/Resized-2-1-499x333.jpg" alt="Kasar Naturals">
+          <img src="images/kasar_face_toner.png" alt="Kasar Naturals">
           <h3>Kasar Naturals</h3>
           <p>Ayurvedic skincare and haircare — rosemary, kesar, panchpushp. Chemical-free, sulfate-free.</p>
           <a class="btn" href="products.html#kasar">Shop Kasar Naturals</a>
@@ -451,7 +514,7 @@
         </iframe>
       </div>
       <div style="margin-top:1rem;display:flex;justify-content:center;">
-        <a class="btn-terra" href="meetups.html">Watch All Meet-up Recordings &rarr;</a>
+        <a class="btn-terra" href="stories.html#recordings">Watch All Meet-up Recordings &rarr;</a>
       </div>
     </section>
 
@@ -461,7 +524,7 @@
       <h2>Get in Touch</h2>
       <p>We'd love to hear from you — whether you want to join a course, volunteer, or simply know more about Drida.</p>
       <div class="contact-links-row">
-        <a class="contact-link-pill" href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">
+        <a class="contact-link-pill" href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
           WhatsApp
         </a>
@@ -498,10 +561,15 @@
           <p class="footer-tagline">Meditation &middot; Yoga &middot; Fitness &middot; Community</p>
         </div>
       </div>
-      <div class="footer-newsletter">
+      <form class="footer-newsletter-form" id="newsletter-form">
         <p>Stay connected with Drida&rsquo;s journey</p>
-        <a class="footer-subscribe-btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
-      </div>
+        <div class="footer-newsletter-fields">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="tel" name="phone" placeholder="Phone Number" required pattern="[0-9+\-\s]{7,15}">
+          <input type="email" name="email" placeholder="Your Email" required>
+          <button type="submit" class="footer-subscribe-btn">Subscribe</button>
+        </div>
+      </form>
     </div>
 
     <!-- Columns -->
@@ -513,7 +581,6 @@
           <li><a href="courses.html">Courses</a></li>
           <li><a href="trips.html">Experiences</a></li>
           <li><a href="products.html">Products</a></li>
-          <li><a href="meetups.html">Meet-ups</a></li>
           <li><a href="login.html">Login / My Courses</a></li>
         </ul>
       </div>
@@ -533,15 +600,15 @@
           <li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
-          <li><a href="trips.html">Join a Trip</a></li>
-          <li><a href="meetups.html">Watch Meet-up Recordings</a></li>
+          <li><a href="trips.html">Join a Yatra</a></li>
+          <li><a href="stories.html#recordings">Watch Meetup Recordings</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Connect</h4>
         <ul>
           <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
-          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Haridas</a></li>
+          <li><a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Haridas</a></li>
           <li><a href="support.html">Help &amp; Support</a></li>
           <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
@@ -563,7 +630,7 @@
         <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <svg viewBox="0 0 320 512" width="10" height="18" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
         </a>
-        <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+        <a href="https://wa.me/910000000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
         </a>
       </div>
@@ -584,7 +651,7 @@
 
   <!-- This links our JavaScript file. Placed at the end so the page loads first. -->
   <script src="auth-nav.js"></script>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=10"></script>
   <script src="drida-effects.js?v=1"></script>
 
   <!-- Auto-detect PNG/JPG: if an image fails to load, try the other extension -->

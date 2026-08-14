@@ -22,12 +22,12 @@
   --ink-2:       #4a3f35;   /* warm mid-tone for secondary text */
   --line-soft:   #ddd5c8;   /* warm divider lines */
   --muted:       #7a6e64;   /* warm muted text */
-  --accent:      #cc2828;   /* Drida red */
+  --accent:      #d81f1f;   /* Drida red — brighter, still passes 4.5:1 on paper */
   --accent-dark: #991e1e;
-  /* Gradient: muted Drida red → warm amber (toned down from original vivid) */
-  --grad: linear-gradient(135deg, #b52020 0%, #c24416 45%, #b86014 100%);
-  --grad-h: linear-gradient(90deg, #b52020 0%, #c24416 45%, #b86014 100%);
-  --grad-v: linear-gradient(180deg, #b52020 0%, #c24416 45%, #b86014 100%);
+  /* Brighter fire gradient — echoes the dark theme's punchier red→orange→gold sweep */
+  --grad: linear-gradient(135deg, #e8341c 0%, #f2701c 45%, #f2a30f 100%);
+  --grad-h: linear-gradient(90deg, #e8341c 0%, #f2701c 45%, #f2a30f 100%);
+  --grad-v: linear-gradient(180deg, #e8341c 0%, #f2701c 45%, #f2a30f 100%);
   --shadow:      0 4px 16px rgba(0, 0, 0, 0.07);
   --shadow-hover:0 10px 24px rgba(0, 0, 0, 0.13);
 }
@@ -51,7 +51,13 @@ body {
    Big translucent logo fixed in the centre of the viewport.
    pointer-events: none so it never blocks clicks or text.
    Acts as a large branded watermark / aura in the background. */
+header { position: relative; }
 .logo-float-bubble {
+  /* Fixed and centred on the viewport — the "breathing" watermark stays
+     visible throughout the page as you scroll, on every page, matching
+     the original design. Text blocks that sit directly on the page
+     background (not inside an opaque card) get their own solid backdrop
+     below so this doesn't wash out readability where it used to. */
   position: fixed;
   left: 50%;
   top: 50%;
@@ -336,6 +342,30 @@ nav a.active {
   color: var(--accent);
 }
 
+/* The Login pill keeps its white text even when it's the active page —
+   otherwise ".active" text color collides with the pill's own gradient
+   background and becomes nearly invisible. */
+nav a.active[href$="login.html"] {
+  color: #fff;
+}
+
+/* Main-nav CTA pill — "Join Free Batch". Solid accent so it reads as the
+   one prominent action in the bar, distinct from the Login pill's gradient. */
+nav a.nav-cta-pill {
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  margin-left: 0.3rem;
+}
+nav a.nav-cta-pill:hover {
+  opacity: 0.85;
+  color: #fff;
+}
+nav a.nav-cta-pill::after {
+  display: none;
+}
+
 nav a.active::after {
   width: 100%;
 }
@@ -393,7 +423,7 @@ a.pillar-card {
 
 .hero h1 {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(3.2rem, 5vw, 5.5rem);
+  font-size: clamp(3rem, 5.5vw, 5.2rem);
   font-weight: 600;
   line-height: 1.06;
   color: var(--ink);
@@ -429,6 +459,9 @@ a.pillar-card {
   position: relative;
   overflow: hidden;
   transition: opacity 0.2s, transform 0.18s, box-shadow 0.18s;
+  /* Safety net so button text stays readable even on brighter/lighter
+     gradient stops, without needing to darken the gradient itself. */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.45), 0 1px 1px rgba(0,0,0,0.3);
 }
 .btn-terra:hover {
   opacity: 0.88;
@@ -521,7 +554,7 @@ a.pillar-card {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 980px;
+  max-width: 1040px;
   margin: -2.25rem auto 3rem;
   padding: 0 1rem;
   position: relative;
@@ -530,29 +563,43 @@ a.pillar-card {
 
 .pillar-card {
   position: relative;
-  flex: 0 1 260px;
+  flex: 0 1 230px;
   height: 380px;
-  border-radius: 10px;
+  border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
   transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
 }
 
+/* Symmetric 4-card fan: the two outer cards (Meditation, Diet) tilt away and
+   sit slightly back; the two inner cards (Yoga, Fitness) peek forward —
+   mirrors the original 3-card composition Sara liked. */
 .pillar-card:nth-child(1) {
   background: #1e1414;
-  margin-right: -2rem;
+  margin-right: -1.4rem;
   animation: pillarIn1 0.7s ease both 0.05s;
 }
 .pillar-card:nth-child(2) {
   background: #111111;
   z-index: 2;
+  margin-right: -1.4rem;
   animation: pillarIn2 0.7s ease both 0.18s;
 }
 .pillar-card:nth-child(3) {
-  background: #1e1414;
-  margin-left: -2rem;
+  background: #111111;
+  z-index: 2;
+  margin-left: -1.4rem;
   animation: pillarIn3 0.7s ease both 0.3s;
+}
+.pillar-card:nth-child(4) {
+  background: #1e1414;
+  margin-left: -1.4rem;
+  /* Bring Diet in front of Fitness at the overlap — it was sitting behind
+     (no z-index vs. Fitness's z-index:2), so its left edge was getting
+     covered and the label was harder to read. */
+  z-index: 3;
+  animation: pillarIn4 0.7s ease both 0.42s;
 }
 
 @keyframes pillarIn1 {
@@ -561,9 +608,13 @@ a.pillar-card {
 }
 @keyframes pillarIn2 {
   from { opacity: 0; transform: translateY(60px) scale(0.9); }
-  to   { opacity: 1; transform: translateY(-18px) scale(1.05); }
+  to   { opacity: 1; transform: translateY(-14px) scale(1.04); }
 }
 @keyframes pillarIn3 {
+  from { opacity: 0; transform: translateY(60px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(-14px) scale(1.04); }
+}
+@keyframes pillarIn4 {
   from { opacity: 0; transform: translateY(40px) scale(0.96) rotate(1.5deg); }
   to   { opacity: 1; transform: rotate(1.5deg); }
 }
@@ -646,7 +697,7 @@ a.pillar-card {
     /* replace desktop overlap margins */
     margin: 0 6px !important;
     height: 260px;
-    border-radius: 12px;
+    border-radius: 16px;
     scroll-snap-align: center;
     /* Reset all desktop tilts/offsets */
     animation: none !important;
@@ -739,10 +790,10 @@ section > p {
   border-top: 2px solid transparent;                    /* gradient top border */
   background-image:
     linear-gradient(var(--paper), var(--paper)),
-    linear-gradient(90deg, #cc2828 0%, #e05c1e 50%, #e89020 100%);
+    var(--grad-h, var(--grad));
   background-origin: border-box;
   background-clip: padding-box, border-box;
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 1.5rem;
   box-shadow: var(--shadow);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
@@ -814,7 +865,7 @@ section > p {
   height: 240px;
   object-fit: cover;
   object-position: top center;
-  border-radius: 18px;
+  border-radius: 16px;
   box-shadow: var(--shadow);
 }
 
@@ -1159,7 +1210,7 @@ a.btn-white:hover {
 /* Dark mode: warm sections go darker, deep stays deep */
 :root[data-theme="dark"] .section-warm,
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .section-warm {}
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .section-warm {}
 }
 :root[data-theme="dark"] .section-warm {
   background: linear-gradient(160deg, #271f15 0%, #1a1410 100%);
@@ -1167,7 +1218,7 @@ a.btn-white:hover {
   border-bottom-color: rgba(232, 90, 32, 0.18);
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .section-warm {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .section-warm {
     background: linear-gradient(160deg, #271f15 0%, #1a1410 100%);
     border-top-color: rgba(232, 90, 32, 0.28);
     border-bottom-color: rgba(232, 90, 32, 0.18);
@@ -1181,7 +1232,7 @@ a.btn-white:hover {
 .band-photo {
   flex: 1 1 320px;
   height: 220px;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   background: var(--paper-alt);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
@@ -1254,7 +1305,7 @@ a.btn-white:hover {
 
 .offering-photo {
   aspect-ratio: 1 / 1;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   background: var(--paper-alt);
   border: 1px solid var(--line-soft);
@@ -1468,7 +1519,7 @@ button:hover,
    Inspired by Isha Foundation's footer layout.               */
 
 .site-footer {
-  background: #0d0c0a;
+  background: #010101;  /* the Drida logo's own black, not a flat generic black */
   color: rgba(255,255,255,0.65);
   font-size: 0.875rem;
   line-height: 1.6;
@@ -1562,6 +1613,40 @@ button:hover,
 }
 
 .footer-subscribe-btn:hover { opacity: 0.85; }
+
+/* ── Footer newsletter form (name + phone + email) ── */
+.footer-newsletter-form { text-align: right; }
+.footer-newsletter-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+.footer-newsletter-fields input {
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.22);
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: inherit;
+  min-width: 150px;
+}
+.footer-newsletter-fields input::placeholder { color: rgba(255,255,255,0.45); }
+.footer-newsletter-fields input:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.1);
+}
+.footer-newsletter-fields button.footer-subscribe-btn {
+  border: none;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .footer-newsletter-form { text-align: left; }
+  .footer-newsletter-fields { justify-content: flex-start; }
+  .footer-newsletter-fields input { min-width: 0; flex: 1 1 140px; }
+}
 
 /* ── Footer columns ── */
 .footer-cols {
@@ -1894,7 +1979,7 @@ footer .social a:hover .icon-chip,
   --ink:          #282420;
   --ink-2:        #5a5248;
   --line-soft:    #ccc8c0;
-  --muted:        #8a8278;
+  --muted:        #605b54;
   --accent:       #bc8b67;
   --accent-dark:  #a07050;
   --grad:         linear-gradient(135deg, #cb9981 0%, #bc8b67 100%);
@@ -2040,11 +2125,14 @@ footer .social a:hover .icon-chip,
   --ink:          #f5f0f0;
   --ink-2:        #c8bdd4;
   --line-soft:    #3a2f48;
-  --muted:        #8878a0;
+  --muted:        #8d7ea4;
   --accent:       #d97757;
   --accent-dark:  #c06840;
+  /* True purple-to-orange gradient (not a flat tan blend) — this is the
+     combo Sara specifically loves: deep plum shading into the warm
+     terracotta accent. */
   --grad:         linear-gradient(135deg, #e8956a 0%, #d97757 100%);
-  --grad-h:       linear-gradient(90deg,  #e8956a 0%, #d97757 100%);
+  --grad-h:       linear-gradient(90deg, #e8956a 0%, #d97757 100%);
   --grad-v:       linear-gradient(180deg, #e8956a 0%, #d97757 100%);
   --shadow:       0 4px 20px rgba(0, 0, 0, 0.65);
   --shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.80);
@@ -2115,7 +2203,7 @@ footer .social a:hover .icon-chip,
   --paper-alt:    #1c1c22;   /* slightly lighter charcoal for cards */
   --ink:          #f0ede8;   /* warm cream text */
   --ink-2:        #b0aaa4;   /* muted cream */
-  --muted:        #706a64;
+  --muted:        #85807b;
   --line-soft:    #2a2830;   /* cool dark divider */
   --accent:       #f04838;   /* brighter red — pops on dark bg */
   --accent-dark:  #cc2828;
@@ -2127,7 +2215,7 @@ footer .social a:hover .icon-chip,
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) {
     --paper:        #111114;
     --paper-alt:    #1c1c22;
     --ink:          #f0ede8;
@@ -2152,7 +2240,7 @@ footer .social a:hover .icon-chip,
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) body {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) body {
     background:
       radial-gradient(ellipse 75% 42% at 50% 0%, rgba(220, 30, 15, 0.38) 0%, rgba(160, 15, 8, 0.14) 55%, transparent 78%),
       #0c0c0f;
@@ -2167,7 +2255,7 @@ footer .social a:hover .icon-chip,
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .topbar {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .topbar {
     background: #18181c;
     border-bottom: 1px solid transparent;
     box-shadow: 0 1px 0 rgba(240, 100, 40, 0.32), 0 2px 20px rgba(0,0,0,0.60);
@@ -2193,16 +2281,16 @@ footer .social a:hover .icon-chip,
   background: linear-gradient(to right, #1a1218 0%, transparent 15%);
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .hero-text {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .hero-text {
     background:
       radial-gradient(ellipse 95% 60% at 12% 18%, rgba(210,55,20,0.18) 0%, transparent 65%),
       radial-gradient(ellipse 60% 40% at 90% 88%, rgba(180,40,15,0.10) 0%, transparent 55%),
       linear-gradient(155deg, #1e1420 0%, #18141c 55%, #14121a 100%);
     box-shadow: inset -1px 0 0 rgba(204,40,40,0.22);
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .hero h1 { color: #f5f0ea; }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .hero p  { color: #c8bfb8; }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .hero-photo::before {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .hero h1 { color: #f5f0ea; }
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .hero p  { color: #c8bfb8; }
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .hero-photo::before {
     background: linear-gradient(to right, #1a1218 0%, transparent 15%);
   }
 }
@@ -2214,7 +2302,7 @@ footer .social a:hover .icon-chip,
   border-bottom-color: rgba(240, 100, 40, 0.20);
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .section-warm {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .section-warm {
     background: linear-gradient(155deg, #201828 0%, #181420 100%);
     border-top-color: rgba(240, 100, 40, 0.30);
     border-bottom-color: rgba(240, 100, 40, 0.20);
@@ -2229,7 +2317,7 @@ footer .social a:hover .icon-chip,
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .section-deep {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .section-deep {
     background: linear-gradient(145deg, #3a0c08 0%, #260806 50%, #180403 100%);
     box-shadow: inset 0 1.5px 0 rgba(240, 80, 30, 0.40),
                 inset 0 -1.5px 0 rgba(240, 80, 30, 0.25);
@@ -2247,14 +2335,14 @@ footer .social a:hover .icon-chip,
 :root[data-theme="dark"] .band-dark p  { color: #c8c0d8; }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .band-dark {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .band-dark {
     background: linear-gradient(145deg, #28103a 0%, #1c0a28 50%, #120618 100%);
     color: #f0ede8;
     border-top: 1px solid rgba(240, 100, 40, 0.32);
     border-bottom: 1px solid rgba(240, 100, 40, 0.22);
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .band-dark h3 { color: #fff; }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .band-dark p  { color: #c8c0d8; }
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .band-dark h3 { color: #fff; }
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .band-dark p  { color: #c8c0d8; }
 }
 
 /* Cards in dark — warm gradient instead of flat dark */
@@ -2264,7 +2352,7 @@ footer .social a:hover .icon-chip,
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .card {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .card {
     background: linear-gradient(145deg, #201a14 0%, #18120c 100%);
     border-color: #302418;
   }
@@ -2279,8 +2367,8 @@ footer .social a:hover .icon-chip,
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) input,
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .upi-input {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) input,
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .upi-input {
     background: #201a14;
     color: #f2e8de;
     border-color: #302418;
@@ -2333,19 +2421,19 @@ footer .social a:hover .icon-chip,
 
 /* Media query fallback only for pure dark — excludes all light-bg themes */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .logo-badge {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .logo-badge {
     background: #1e1820;
     box-shadow: 0 0 0 2px var(--accent), 0 0 16px 4px rgba(200,55,40,0.40);
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .logo-badge img,
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .logo-float-bubble img {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .logo-badge img,
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .logo-float-bubble img {
     content: url("drida_logo_white.svg");
     filter: none;
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .logo-float-bubble img {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .logo-float-bubble img {
     opacity: 0.30;
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .logo-float-bubble {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .logo-float-bubble {
     box-shadow:
       0 0  70px 28px  rgba(255, 110, 30,  0.28),
       0 0 150px 65px  rgba(230, 60,  20,  0.20),
@@ -2380,10 +2468,10 @@ footer .social a:hover .icon-chip,
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) section h2 {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) section h2 {
     text-shadow: 0 0 28px rgba(240,100,40,0.45), 0 0 60px rgba(200,40,20,0.25);
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .card {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .card {
     background-image:
       linear-gradient(145deg, #1c1c22 0%, #141418 100%),
       linear-gradient(90deg, #f04838 0%, #e86820 50%, #e89a20 100%);
@@ -2532,21 +2620,21 @@ footer .social a:hover .icon-chip,
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .card .badge {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .card .badge {
     background: rgba(240, 120, 55, 0.16);
     color: rgba(245, 205, 155, 0.92);
     border: 1px solid rgba(240, 90, 40, 0.30);
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .founder-highlight {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .founder-highlight {
     background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%);
     border: 1px solid rgba(240, 90, 40, 0.22);
     box-shadow: 0 4px 20px rgba(0,0,0,0.45);
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .offering-photo {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .offering-photo {
     background: rgba(255,255,255,0.06);
     border-color: rgba(240, 90, 40, 0.22);
   }
-  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]) .section-warm {
+  :root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]) .section-warm {
     background: linear-gradient(155deg, #28203a 0%, #1e1830 100%);
     border-top-color: rgba(240, 100, 40, 0.35);
     border-bottom-color: rgba(240, 100, 40, 0.22);
@@ -2589,7 +2677,9 @@ footer .social a:hover .icon-chip,
 .program-img {
   position: relative;
   overflow: hidden;
+  border-radius: 16px 0 0 16px;
 }
+.program-block.prog-rev .program-img { border-radius: 0 16px 16px 0; }
 .program-img img {
   position: absolute;
   inset: 0;
@@ -2639,16 +2729,16 @@ footer .social a:hover .icon-chip,
   color: var(--accent);
   border-color: rgba(204, 40, 40, 0.25);
 }
-.program-body .btn-terra { align-self: flex-start; }
+.program-body .btn-terra { align-self: center; }
 
 @media (max-width: 768px) {
   .program-block,
   .program-block.prog-rev { grid-template-columns: 1fr; }
   .program-block .program-img,
-  .program-block.prog-rev .program-img { order: 0; height: 58vw; min-height: 240px; position: relative; }
+  .program-block.prog-rev .program-img { order: 0; height: 58vw; min-height: 240px; position: relative; border-radius: 16px 16px 0 0; }
   .program-block .program-img img { position: absolute; }
   .program-block .program-body,
-  .program-block.prog-rev .program-body { order: 1; padding: 2.5rem 1.5rem; }
+  .program-block.prog-rev .program-body { order: 1; padding: 2.5rem 1.5rem; border-radius: 0 0 16px 16px; }
   .program-block.prog-rev .program-img { order: 0; }
 }
 
@@ -2658,6 +2748,7 @@ footer .social a:hover .icon-chip,
   grid-template-columns: 5fr 7fr;
   min-height: 500px;
   overflow: hidden;
+  border-radius: 16px;
 }
 .about-photo-wrap {
   position: relative;
@@ -2717,6 +2808,7 @@ footer .social a:hover .icon-chip,
   padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
   text-align: center;
   background: var(--paper);
+  border-radius: 16px;
 }
 .how-it-works > .section-tag { display: block; }
 .how-it-works h2 { font-size: clamp(2rem, 3.2vw, 2.8rem); margin-bottom: 3.5rem; }
@@ -2749,6 +2841,7 @@ footer .social a:hover .icon-chip,
 .faq-section {
   padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
   background: var(--paper-alt);
+  border-radius: 16px;
 }
 .faq-section > .section-tag,
 .faq-section h2 { display: block; text-align: center; }
@@ -2789,8 +2882,10 @@ footer .social a:hover .icon-chip,
 .impact-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: #0d2218;  /* deep forest green */
+  background: #241010;  /* deep wine/maroon — matches the site's red identity instead of green */
   color: #f0ede8;
+  border-radius: 16px;
+  overflow: hidden;
 }
 .stat-block {
   padding: 3.5rem 1.5rem;
@@ -2829,6 +2924,7 @@ footer .social a:hover .icon-chip,
   color: #fff;
   padding: clamp(3.5rem, 7vw, 5.5rem) clamp(1.5rem, 5vw, 4rem);
   text-align: center;
+  border-radius: 16px;
 }
 .band-cta-clean h2 {
   font-size: clamp(1.8rem, 3.5vw, 3rem);
@@ -2864,6 +2960,7 @@ footer .social a:hover .icon-chip,
   padding: clamp(3.5rem, 7vw, 5rem) clamp(1.5rem, 5vw, 5rem);
   background: var(--paper);
   text-align: center;
+  border-radius: 16px;
 }
 .contact-section h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 0.8rem; }
 .contact-section > p { color: var(--ink-2); margin-bottom: 2rem; }
@@ -2877,7 +2974,7 @@ footer .social a:hover .icon-chip,
 .contact-card {
   background: var(--paper-alt);
   border: 1px solid var(--line-soft);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 1.5rem 2.5rem;
   text-decoration: none;
   color: var(--ink);
@@ -2910,7 +3007,7 @@ footer .social a:hover .icon-chip,
   gap: 0.45rem;
   padding: 0.55rem 1.1rem;
   border-radius: 999px;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--line-soft);
   background: var(--paper);
   color: var(--ink);
   font-size: 0.9rem;
@@ -3021,6 +3118,18 @@ footer .social a:hover .icon-chip,
   padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 6vw, 5rem);
   text-align: center;
   background: var(--paper-alt);
+  position: relative;
+  border-radius: 16px;
+}
+/* On dark themes especially, --paper-alt is close enough to the page's own
+   near-black background that the margin-top gap above this section reads
+   as no separation at all. A visible divider line removes any doubt. */
+.team-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--grad-h);
 }
 .team-intro {
   max-width: 640px;
@@ -3059,7 +3168,7 @@ footer .social a:hover .icon-chip,
 }
 .river-card {
   background: var(--paper);
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 1.75rem 1.4rem;
   text-align: left;
   border-top: 5px solid transparent;
@@ -3126,6 +3235,19 @@ footer .social a:hover .icon-chip,
 .hero-page::before {
   display: none; /* orb provides the visual backdrop */
 }
+.hero-page::after {
+  /* Same gradient divider bar every .hero (home-style split hero) has —
+     .hero-page was missing it, which is why inner pages like Support,
+     Drida Stories and About Us looked like they had no bottom line. */
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--grad-h);
+  z-index: 2;
+}
 .hero-page .hero-kicker {
   color: rgba(255,255,255,0.82);
   font-size: 0.82rem;
@@ -3157,39 +3279,67 @@ footer .social a:hover .icon-chip,
 :root[data-theme="pastel"] .hero-page .hero-kicker,
 :root[data-theme="terra"] .hero-page .hero-kicker,
 :root[data-theme="pastel-bright"] .hero-page .hero-kicker,
-:root[data-theme="pastel-green"] .hero-page .hero-kicker { color: var(--muted); text-shadow: none; }
+:root[data-theme="pastel-green"] .hero-page .hero-kicker,
+:root[data-theme="orange"] .hero-page .hero-kicker,
+:root[data-theme="yellow"] .hero-page .hero-kicker,
+:root[data-theme="indigo"] .hero-page .hero-kicker,
+:root[data-theme="violet"] .hero-page .hero-kicker { color: var(--muted); text-shadow: none; }
 :root[data-theme="light"] .hero-page h1,
 :root[data-theme="pastel"] .hero-page h1,
 :root[data-theme="terra"] .hero-page h1,
 :root[data-theme="pastel-bright"] .hero-page h1,
-:root[data-theme="pastel-green"] .hero-page h1 { color: var(--ink); text-shadow: none; }
+:root[data-theme="pastel-green"] .hero-page h1,
+:root[data-theme="orange"] .hero-page h1,
+:root[data-theme="yellow"] .hero-page h1,
+:root[data-theme="indigo"] .hero-page h1,
+:root[data-theme="violet"] .hero-page h1 { color: var(--ink); text-shadow: none; }
 :root[data-theme="light"] .hero-page p,
 :root[data-theme="pastel"] .hero-page p,
 :root[data-theme="terra"] .hero-page p,
 :root[data-theme="pastel-bright"] .hero-page p,
-:root[data-theme="pastel-green"] .hero-page p { color: var(--ink-2); text-shadow: none; }
+:root[data-theme="pastel-green"] .hero-page p,
+:root[data-theme="orange"] .hero-page p,
+:root[data-theme="yellow"] .hero-page p,
+:root[data-theme="indigo"] .hero-page p,
+:root[data-theme="violet"] .hero-page p { color: var(--ink-2); text-shadow: none; }
 /* Same for plain inner hero */
 :root[data-theme="light"] .hero:not(:has(.hero-text)) h1,
 :root[data-theme="pastel"] .hero:not(:has(.hero-text)) h1,
 :root[data-theme="terra"] .hero:not(:has(.hero-text)) h1,
 :root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) h1,
-:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) h1 { color: var(--ink); text-shadow: none; }
+:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) h1,
+:root[data-theme="orange"] .hero:not(:has(.hero-text)) h1,
+:root[data-theme="yellow"] .hero:not(:has(.hero-text)) h1,
+:root[data-theme="indigo"] .hero:not(:has(.hero-text)) h1,
+:root[data-theme="violet"] .hero:not(:has(.hero-text)) h1 { color: var(--ink); text-shadow: none; }
 :root[data-theme="light"] .hero:not(:has(.hero-text)) p,
 :root[data-theme="pastel"] .hero:not(:has(.hero-text)) p,
 :root[data-theme="terra"] .hero:not(:has(.hero-text)) p,
 :root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) p,
-:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) p { color: var(--ink-2); text-shadow: none; }
+:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) p,
+:root[data-theme="orange"] .hero:not(:has(.hero-text)) p,
+:root[data-theme="yellow"] .hero:not(:has(.hero-text)) p,
+:root[data-theme="indigo"] .hero:not(:has(.hero-text)) p,
+:root[data-theme="violet"] .hero:not(:has(.hero-text)) p { color: var(--ink-2); text-shadow: none; }
 :root[data-theme="light"] .hero:not(:has(.hero-text)) .hero-kicker,
 :root[data-theme="pastel"] .hero:not(:has(.hero-text)) .hero-kicker,
 :root[data-theme="terra"] .hero:not(:has(.hero-text)) .hero-kicker,
 :root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) .hero-kicker,
-:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) .hero-kicker { color: var(--muted); text-shadow: none; }
+:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) .hero-kicker,
+:root[data-theme="orange"] .hero:not(:has(.hero-text)) .hero-kicker,
+:root[data-theme="yellow"] .hero:not(:has(.hero-text)) .hero-kicker,
+:root[data-theme="indigo"] .hero:not(:has(.hero-text)) .hero-kicker,
+:root[data-theme="violet"] .hero:not(:has(.hero-text)) .hero-kicker { color: var(--muted); text-shadow: none; }
 /* CTA buttons on light theme hero-page */
 :root[data-theme="light"] .hero-page .hero-ctas .btn-outline,
 :root[data-theme="pastel"] .hero-page .hero-ctas .btn-outline,
 :root[data-theme="terra"] .hero-page .hero-ctas .btn-outline,
 :root[data-theme="pastel-bright"] .hero-page .hero-ctas .btn-outline,
-:root[data-theme="pastel-green"] .hero-page .hero-ctas .btn-outline { border-color: var(--accent); color: var(--ink); }
+:root[data-theme="pastel-green"] .hero-page .hero-ctas .btn-outline,
+:root[data-theme="orange"] .hero-page .hero-ctas .btn-outline,
+:root[data-theme="yellow"] .hero-page .hero-ctas .btn-outline,
+:root[data-theme="indigo"] .hero-page .hero-ctas .btn-outline,
+:root[data-theme="violet"] .hero-page .hero-ctas .btn-outline { border-color: var(--accent); color: var(--ink); }
 .hero-page .hero-ctas .btn-terra {
   background: #fff;
   color: var(--accent);
@@ -3260,14 +3410,22 @@ footer .social a:hover .icon-chip,
   :root[data-theme="pastel"] .hero-page,
   :root[data-theme="terra"] .hero-page,
   :root[data-theme="pastel-bright"] .hero-page,
-  :root[data-theme="pastel-green"] .hero-page {
+  :root[data-theme="pastel-green"] .hero-page,
+  :root[data-theme="orange"] .hero-page,
+  :root[data-theme="yellow"] .hero-page,
+  :root[data-theme="indigo"] .hero-page,
+  :root[data-theme="violet"] .hero-page {
     background: linear-gradient(160deg, var(--paper) 0%, rgba(204,80,40,0.07) 100%);
   }
   :root[data-theme="light"] .hero:not(:has(.hero-text)),
   :root[data-theme="pastel"] .hero:not(:has(.hero-text)),
   :root[data-theme="terra"] .hero:not(:has(.hero-text)),
   :root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)),
-  :root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) {
+  :root[data-theme="pastel-green"] .hero:not(:has(.hero-text)),
+  :root[data-theme="orange"] .hero:not(:has(.hero-text)),
+  :root[data-theme="yellow"] .hero:not(:has(.hero-text)),
+  :root[data-theme="indigo"] .hero:not(:has(.hero-text)),
+  :root[data-theme="violet"] .hero:not(:has(.hero-text)) {
     background: linear-gradient(160deg, var(--paper) 0%, rgba(204,80,40,0.07) 100%);
   }
 }
@@ -3302,8 +3460,8 @@ footer.site-footer {
 .course-card {
   background: var(--paper-alt);
   border: 1px solid var(--line-soft);
-  border-left: 4px solid transparent;
-  border-radius: 14px;
+  border-left: 4px solid color-mix(in srgb, var(--paper-alt) 35%, var(--accent) 65%);
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: box-shadow 0.22s ease, transform 0.22s ease, border-left-color 0.22s;
@@ -3313,7 +3471,9 @@ footer.site-footer {
   z-index: 1;
   align-items: stretch;
 }
-.course-card:hover {
+.course-card:hover,
+.course-card:focus-within,
+.course-card.selected {
   box-shadow: var(--shadow-hover);
   transform: translateY(-2px);
   border-left-color: var(--accent);
@@ -3733,7 +3893,7 @@ section.revealed .section-tag,
   --ink:          #071626;   /* deep navy */
   --ink-2:        #163556;   /* medium navy */
   --line-soft:    #9fcae8;   /* blue divider */
-  --muted:        #3a6e98;   /* blue-grey muted */
+  --muted:        #315d81;   /* blue-grey muted */
   --accent:       #1462b8;   /* strong clear blue */
   --accent-dark:  #0e4e9a;
   --grad:         linear-gradient(135deg, #5eb0e8 0%, #2880d0 45%, #1462b8 100%);
@@ -3765,11 +3925,11 @@ section.revealed .section-tag,
 :root[data-theme="pastel-bright"] .hero-ctas .btn-outline {
   color: #071626; border-color: rgba(20,98,184,0.45);
 }
-/* Inner-page plain hero (.hero:not(:has(.hero-text))): uses dark blue --grad → white text.
-   The dark overrides above are for the home split hero's light panel only. */
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) h1 { color: #fff; }
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) p  { color: rgba(255,255,255,0.82); }
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) .hero-kicker { color: rgba(255,255,255,0.72); }
+/* Inner-page plain hero (.hero:not(:has(.hero-text))) actually has a
+   transparent/light background on this theme (not a dark --grad fill), so it
+   needs the same dark ink text as the rest of the light themes — handled by
+   the shared "Light themes" rules above. (Previously forced to white here,
+   which was invisible against the light background — the header text bug.) */
 :root[data-theme="pastel-bright"] .logo-float-bubble {
   background: radial-gradient(ellipse 80% 80% at 50% 50%,
     rgba(160,220,255,0.72) 0%,
@@ -3785,60 +3945,73 @@ section.revealed .section-tag,
 }
 :root[data-theme="pastel-bright"] #theme-toggle::before { content: "🩵"; font-size: 15px; }
 
-/* 🌿 PASTEL-GREEN — full green gradient body, no cream */
+/* 🌿 PASTEL-GREEN — lime grass palette */
+/* Rebuilt to match the orange/blue recipe: paper itself is a genuinely
+   saturated pastel (not near-white), same structure as
+   :root[data-theme="pastel-bright"] above, just recoloured to green. */
 :root[data-theme="pastel-green"] {
-  --paper:        #cdeeda;   /* clear soft green — the whole page is green */
-  --paper-alt:    #b8e4c8;   /* slightly deeper green for cards */
-  --ink:          #051a0e;   /* deep forest */
-  --ink-2:        #0f3a1e;   /* medium forest */
-  --line-soft:    #8ecba6;   /* green divider */
-  --muted:        #2e6e48;   /* forest muted */
-  --accent:       #0e7a3a;   /* strong fresh green */
-  --accent-dark:  #085e2c;
-  --grad:         linear-gradient(135deg, #4eca74 0%, #1a9448 45%, #0e6e34 100%);
-  --grad-h:       linear-gradient(90deg,  #4eca74 0%, #1a9448 45%, #0e6e34 100%);
-  --grad-v:       linear-gradient(180deg, #4eca74 0%, #1a9448 45%, #0e6e34 100%);
-  --shadow:       0 4px 16px rgba(5,26,14,0.12);
-  --shadow-hover: 0 10px 24px rgba(5,26,14,0.20);
+  --paper:        #dcf0a8;   /* saturated pale lime, same weight as blue's d8ecff */
+  --paper-alt:    #c8e888;   /* deeper lime for cards, same weight as blue's c0dff8 */
+  --ink:          #16260a;
+  --ink-2:        #355616;
+  --line-soft:    #b8d488;
+  --muted:        #4a6b1e;
+  /* --accent is used as TEXT in many places sitewide (nav links, section
+     tags, body links, prices) — the vivid #a8d148 from green-dark reads
+     as basically invisible there (contrast ~1.5:1 against this pale
+     paper). Kept as a deep, still-green shade that passes 5:1+ so nav
+     links etc. stay readable. The vivid apple-green you asked for still
+     shows up everywhere it's actually safe to be vivid: the glow bubble,
+     page background, and buttons/gradient all use hardcoded green hex
+     values independent of this variable, so they're unaffected. */
+  --accent:       #3f6a10;
+  --accent-dark:  #2e4d0c;
+  --grad:         linear-gradient(135deg, #78a828 0%, #5a7a1a 45%, #435c13 100%);
+  --grad-h:       linear-gradient(90deg, #78a828 0%, #5a7a1a 45%, #435c13 100%);
+  --grad-v:       linear-gradient(180deg, #78a828 0%, #5a7a1a 45%, #435c13 100%);
+  --shadow:       0 4px 16px rgba(22,38,10,0.12);
+  --shadow-hover: 0 10px 24px rgba(22,38,10,0.20);
 }
 :root[data-theme="pastel-green"] body {
-  background: linear-gradient(160deg, #daf5e8 0%, #c8eeda 35%, #bce6cc 65%, #cdeeda 100%);
+  background: linear-gradient(160deg, #f0f8dc 0%, #e4f0b0 35%, #d0e488 65%, #dcf0a8 100%);
 }
 :root[data-theme="pastel-green"] .topbar {
-  background: rgba(205,238,218,0.96);
-  box-shadow: 0 1px 0 #8ecba6;
+  background: rgba(224,240,184,0.96);
+  box-shadow: 0 1px 0 #b8d488;
 }
 :root[data-theme="pastel-green"] .hero-text {
   background:
-    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(14,122,58,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(14,122,58,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #cdeeda 0%, #b8e4c8 50%, #a8dab8 100%) !important;
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(168,209,72,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(168,209,72,0.06) 0%, transparent 55%),
+    linear-gradient(155deg, #eaf4c8 0%, #c8e888 50%, #a8d148 100%) !important;
 }
-:root[data-theme="pastel-green"] .hero h1 { color: #051a0e; }
-:root[data-theme="pastel-green"] .hero p  { color: #0f3a1e; }
-:root[data-theme="pastel-green"] .hero-kicker { color: #2e6e48; }
+:root[data-theme="pastel-green"] .hero h1 { color: #16260a; }
+:root[data-theme="pastel-green"] .hero p  { color: #355616; }
+:root[data-theme="pastel-green"] .hero-kicker { color: #5d8131; }
 :root[data-theme="pastel-green"] .hero-photo::before {
-  background: linear-gradient(to right, #b8e4c8 0%, transparent 14%);
+  background: linear-gradient(to right, #c8e888 0%, transparent 14%);
 }
 :root[data-theme="pastel-green"] .hero-ctas .btn-outline {
-  color: #051a0e; border-color: rgba(14,122,58,0.45);
+  color: #16260a; border-color: rgba(130,180,20,0.45);
 }
 /* Pastel-green hero-page: now transparent like all other themes — white text with shadow */
 :root[data-theme="pastel-green"] .hero-page .hero-kicker { color: rgba(255,255,255,0.82); }
 :root[data-theme="pastel-green"] .hero-page h1 { color: #fff; }
 :root[data-theme="pastel-green"] .hero-page p { color: rgba(255,255,255,0.88); }
 :root[data-theme="pastel-green"] .logo-float-bubble {
+  /* Same alpha/stop structure as the blue theme's glow above, recoloured
+     to apple-green. */
   background: radial-gradient(ellipse 80% 80% at 50% 50%,
-    rgba(155,240,185,0.72) 0%,
-    rgba( 90,215,140,0.50) 18%,
-    rgba( 45,180,100,0.26) 40%,
-    rgba( 15,120, 60,0.09) 62%,
+    rgba(168,209, 72,0.72) 0%,
+    rgba(140,190, 50,0.50) 18%,
+    rgba(110,165, 30,0.26) 40%,
+    rgba( 80,130, 15,0.09) 62%,
     transparent 82%);
   box-shadow:
-    0 0  70px 28px  rgba(140,235,175,0.38),
-    0 0 150px 65px  rgba( 80,205,130,0.24),
-    0 0 260px 110px rgba( 40,165, 90,0.12),
-    0 0 400px 150px rgba( 10,100, 50,0.05);
+    0 0  70px 28px  rgba(168,209, 72,0.38),
+    0 0 150px 65px  rgba(140,190, 50,0.24),
+    0 0 260px 110px rgba(110,165, 30,0.12),
+    0 0 400px 150px rgba( 80,130, 15,0.05);
 }
 :root[data-theme="pastel-green"] #theme-toggle::before { content: "🌿"; font-size: 15px; }
 
@@ -3861,6 +4034,28 @@ section.revealed .section-tag,
   --grad-v: linear-gradient(180deg, #b52020 0%, #bb3e14 45%, #934010 100%);
   --shadow:       0 4px 16px rgba(0,0,0,0.07);
   --shadow-hover: 0 10px 24px rgba(0,0,0,0.13);
+}
+:root[data-theme="terra"] body {
+  background: linear-gradient(160deg, #fdfaf7 0%, #f7f0e8 35%, #f0e4d6 65%, #faf7f3 100%);
+}
+:root[data-theme="terra"] .topbar {
+  background: rgba(250,247,243,0.96);
+  box-shadow: 0 1px 0 #ddd5c8;
+}
+:root[data-theme="terra"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(185,62,20,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(185,62,20,0.05) 0%, transparent 55%),
+    linear-gradient(155deg, #faf7f3 0%, #f0ebe3 50%, #e4d8c6 100%) !important;
+}
+:root[data-theme="terra"] .hero h1 { color: #1a1410; }
+:root[data-theme="terra"] .hero p  { color: #4a3f35; }
+:root[data-theme="terra"] .hero-kicker { color: #7a6e64; }
+:root[data-theme="terra"] .hero-photo::before {
+  background: linear-gradient(to right, #f0ebe3 0%, transparent 14%);
+}
+:root[data-theme="terra"] .hero-ctas .btn-outline {
+  color: #1a1410; border-color: rgba(185,62,20,0.45);
 }
 :root[data-theme="terra"] #theme-toggle::before { content: "🍂"; font-size: 15px; }
 :root[data-theme="terra"] .logo-float-bubble {
@@ -4045,8 +4240,20 @@ section.revealed .section-tag,
    ═══════════════════════════════════════════════════════════════════ */
 .smitha-journey-section {
   background: var(--paper-alt);
-  padding: clamp(4rem, 8vw, 6rem) 0;
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(4rem, 8vw, 6rem);
   overflow: hidden;
+  position: relative;
+  border-radius: 16px;
+}
+/* Visible divider so this section never looks like it's fused to whatever
+   sits directly above it (founder-spotlight uses --paper, this uses
+   --paper-alt — the two tones alone weren't enough of a break). */
+.smitha-journey-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--grad-h);
 }
 .smitha-journey-inner {
   max-width: 1140px;
@@ -4070,13 +4277,12 @@ section.revealed .section-tag,
   line-height: 1.7;
 }
 
-/* Story row: text + at-work photos */
+/* Story row: text + at-work photos. Photo panel floats right so the
+   text wraps beside it while short, then continues at full width once
+   past the photos' bottom edge — no blank column left over. */
 .smitha-story-row {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 3rem;
-  align-items: start;
   margin-bottom: 3.5rem;
+  overflow: hidden; /* clearfix for the floated photo panel */
 }
 .smitha-story-text p {
   color: var(--ink-2);
@@ -4093,7 +4299,14 @@ section.revealed .section-tag,
   margin-top: 1.5rem !important;
 }
 /* Banner photo above at-work photos on right side */
-.smitha-photo-panel { display: flex; flex-direction: column; gap: 0.75rem; }
+.smitha-photo-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  float: right;
+  width: 340px;
+  margin: 0 0 1.5rem 3rem;
+}
 .smitha-banner-img {
   width: 100%;
   aspect-ratio: 2/1;       /* matches actual image ratio (1166×600 ≈ 2:1) — shows full width */
@@ -4212,11 +4425,7 @@ section.revealed .section-tag,
 
 /* Responsive */
 @media (max-width: 900px) {
-  .smitha-story-row {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  .smitha-photo-panel { max-width: 360px; }
+  .smitha-photo-panel { float: none; width: 100%; max-width: 360px; margin: 0 0 1.5rem; }
   .smitha-atwork-photos img:first-child {
     margin-top: 0;
   }
@@ -4231,4 +4440,730 @@ section.revealed .section-tag,
   .smitha-journey-transition p {
     white-space: normal;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CHAKRA PAGE THEMES — full light+dark theme pairs, matching the same
+   depth as the existing light/dark and pastel/pastel-dark pairs above.
+   Each page picks ONE of these families (set via data-page-family on
+   <html>, see script.js); the toggle switches between the family's
+   light name and dark name — never mixes families.
+   Families: red (light/dark, existing) · orange (orange/claude) ·
+   yellow (yellow/yellow-dark) · green (pastel-green/green-dark) ·
+   blue (pastel-bright/blue-dark) · indigo (indigo/indigo-dark) ·
+   violet (violet/violet-dark)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── ORANGE (light) — pairs with existing dark-family "claude" ── */
+:root[data-theme="orange"] {
+  --paper:        #ffdcb8;
+  --paper-alt:    #ffc98f;
+  --ink:          #331a05;
+  --ink-2:        #663610;
+  --line-soft:    #f0c49a;
+  --muted:        #805326;
+  --accent:       #974913;
+  --accent-dark:  #b8551a;
+  --grad:         linear-gradient(135deg, #f0a868 0%, #e07830 45%, #d9691c 100%);
+  --grad-h:       linear-gradient(90deg, #f0a868 0%, #e07830 45%, #d9691c 100%);
+  --grad-v:       linear-gradient(180deg, #f0a868 0%, #e07830 45%, #d9691c 100%);
+  --shadow:       0 4px 16px rgba(51,26,5,0.12);
+  --shadow-hover: 0 10px 24px rgba(51,26,5,0.20);
+}
+:root[data-theme="orange"] body {
+  background: linear-gradient(160deg, #ffe8cc 0%, #ffd39e 35%, #ffc478 65%, #ffdcb8 100%);
+}
+:root[data-theme="orange"] .topbar {
+  background: rgba(255,230,210,0.96);
+  box-shadow: 0 1px 0 #f0c49a;
+}
+:root[data-theme="orange"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(217,105,28,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(217,105,28,0.06) 0%, transparent 55%),
+    linear-gradient(155deg, #ffe6d2 0%, #ffd9b8 50%, #f8c8a0 100%) !important;
+}
+:root[data-theme="orange"] .hero h1 { color: #331a05; }
+:root[data-theme="orange"] .hero p  { color: #663610; }
+:root[data-theme="orange"] .hero-kicker { color: #a06830; }
+:root[data-theme="orange"] .hero-photo::before {
+  background: linear-gradient(to right, #ffd9b8 0%, transparent 14%);
+}
+:root[data-theme="orange"] .hero-ctas .btn-outline {
+  color: #331a05; border-color: rgba(217,105,28,0.45);
+}
+:root[data-theme="orange"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(255,150, 70,0.85) 0%,
+    rgba(250,115, 35,0.60) 18%,
+    rgba(230, 85, 20,0.32) 40%,
+    rgba(180, 65, 10,0.12) 62%,
+    transparent 82%);
+  box-shadow:
+    0 0  70px 28px  rgba(255,140, 60,0.48),
+    0 0 150px 65px  rgba(240,105, 40,0.32),
+    0 0 260px 110px rgba(210, 85, 25,0.16),
+    0 0 400px 150px rgba(160, 60, 15,0.07);
+}
+:root[data-theme="orange"] #theme-toggle::before { content: "🎨"; font-size: 15px; }
+
+/* ── BLUSH (light — pairs with "claude" dark). New light half for the
+   plum/terracotta "claude" palette, which used to be mismatched with
+   offerings.html's orange light theme. Soft blush-pink paper with the
+   same warm terracotta accent, so the light/dark toggle stays in one
+   coherent family. ── */
+:root[data-theme="blush"] {
+  --paper:        #faeee6;
+  --paper-alt:    #f5ddd0;
+  --ink:          #3d1f14;
+  --ink-2:        #6b3826;
+  --line-soft:    #ecc7b0;
+  --muted:        #8a5540;
+  --accent:       #96402c;
+  --accent-dark:  #7a3322;
+  --grad:         linear-gradient(135deg, #ab5238 0%, #96402c 45%, #7a3322 100%);
+  --grad-h:       linear-gradient(90deg,  #ab5238 0%, #96402c 45%, #7a3322 100%);
+  --grad-v:       linear-gradient(180deg, #ab5238 0%, #96402c 45%, #7a3322 100%);
+  --shadow:       0 4px 16px rgba(61,31,20,0.12);
+  --shadow-hover: 0 10px 24px rgba(61,31,20,0.20);
+}
+:root[data-theme="blush"] body {
+  background: linear-gradient(160deg, #fdf5f0 0%, #f9e6da 35%, #f5ddd0 65%, #faeee6 100%);
+}
+:root[data-theme="blush"] .topbar {
+  background: rgba(250,238,230,0.96);
+  box-shadow: 0 1px 0 #ecc7b0;
+}
+:root[data-theme="blush"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(150,64,44,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(150,64,44,0.05) 0%, transparent 55%),
+    linear-gradient(155deg, #faeee6 0%, #f5ddd0 50%, #eec4ae 100%) !important;
+}
+:root[data-theme="blush"] .hero h1 { color: #3d1f14; }
+:root[data-theme="blush"] .hero p  { color: #6b3826; }
+:root[data-theme="blush"] .hero-kicker { color: #8a5540; }
+:root[data-theme="blush"] .hero-photo::before {
+  background: linear-gradient(to right, #f5ddd0 0%, transparent 14%);
+}
+:root[data-theme="blush"] .hero-ctas .btn-outline {
+  color: #3d1f14; border-color: rgba(150,64,44,0.40);
+}
+:root[data-theme="blush"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(216,140,108,0.68) 0%,
+    rgba(196,102, 68,0.46) 18%,
+    rgba(160, 72, 46,0.24) 40%,
+    rgba(120, 50, 32,0.08) 62%,
+    transparent 82%);
+  box-shadow:
+    0 0  70px 28px  rgba(206,126, 92,0.36),
+    0 0 150px 65px  rgba(186, 96, 62,0.22),
+    0 0 260px 110px rgba(150, 72, 46,0.11),
+    0 0 400px 150px rgba(115, 50, 32,0.05);
+}
+:root[data-theme="blush"] #theme-toggle::before { content: "🎨"; font-size: 15px; }
+
+/* ── YELLOW (light) — rebuilt to match the orange/blue recipe: paper
+   itself is a genuinely saturated pastel (not near-white), same structure
+   as :root[data-theme="orange"] and :root[data-theme="pastel-bright"]
+   below, just recoloured to gold. ── */
+:root[data-theme="yellow"] {
+  --paper:        #fff0b0;   /* saturated pale gold, same weight as orange's ffdcb8 */
+  --paper-alt:    #ffe066;   /* deeper gold for cards, same weight as orange's ffc98f */
+  --ink:          #332900;
+  --ink-2:        #665200;
+  --line-soft:    #ffdb70;
+  --muted:        #806b00;
+  /* --accent is used as TEXT in many places sitewide (nav links, section
+     tags, body links, prices) — the vivid #ffd93d from yellow-dark reads
+     as basically invisible there (contrast ~1.3:1 against this pale
+     paper). Kept as a deep, still-golden shade that passes 4.5:1+ so nav
+     links etc. stay readable. The vivid gold you asked for still shows up
+     everywhere it's actually safe to be vivid: the glow bubble, page
+     background, and buttons/gradient all use hardcoded gold hex values
+     independent of this variable, so they're unaffected. */
+  --accent:       #7a5c00;
+  --accent-dark:  #5c4600;
+  /* Punchier, more saturated sunshine-gold — protected by the site-wide
+     .btn-terra text-shadow safety net so it can be this vivid. */
+  --grad:         linear-gradient(135deg, #ffd500 0%, #f5b800 45%, #e0a000 100%);
+  --grad-h:       linear-gradient(90deg, #ffd500 0%, #f5b800 45%, #e0a000 100%);
+  --grad-v:       linear-gradient(180deg, #ffd500 0%, #f5b800 45%, #e0a000 100%);
+  --shadow:       0 4px 16px rgba(51,41,0,0.12);
+  --shadow-hover: 0 10px 24px rgba(51,41,0,0.20);
+}
+:root[data-theme="yellow"] body {
+  background: linear-gradient(160deg, #fff8d6 0%, #ffe98a 35%, #ffdb70 65%, #fff0b0 100%);
+}
+:root[data-theme="yellow"] .topbar {
+  background: rgba(255,240,176,0.96);
+  box-shadow: 0 1px 0 #ffdb70;
+}
+:root[data-theme="yellow"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(255,217,61,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(255,217,61,0.06) 0%, transparent 55%),
+    linear-gradient(155deg, #fff5c2 0%, #ffe066 50%, #ffd93d 100%) !important;
+}
+:root[data-theme="yellow"] .hero h1 { color: #332900; }
+:root[data-theme="yellow"] .hero p  { color: #665200; }
+:root[data-theme="yellow"] .hero-kicker { color: #a68a00; }
+:root[data-theme="yellow"] .hero-photo::before {
+  background: linear-gradient(to right, #ffe066 0%, transparent 14%);
+}
+:root[data-theme="yellow"] .hero-ctas .btn-outline {
+  color: #332900; border-color: rgba(217,180,0,0.45);
+}
+:root[data-theme="yellow"] .logo-float-bubble {
+  /* Same alpha/stop structure as orange's glow below, recoloured to gold. */
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(255,217, 61,0.85) 0%,
+    rgba(250,195, 20,0.60) 18%,
+    rgba(230,165,  0,0.32) 40%,
+    rgba(180,130,  0,0.12) 62%,
+    transparent 82%);
+  box-shadow:
+    0 0  70px 28px  rgba(255,210, 50,0.48),
+    0 0 150px 65px  rgba(240,190, 20,0.32),
+    0 0 260px 110px rgba(210,160,  0,0.16),
+    0 0 400px 150px rgba(160,120,  0,0.07);
+}
+:root[data-theme="yellow"] #theme-toggle::before { content: "🎨"; font-size: 15px; }
+
+/* ── INDIGO (light) ── */
+:root[data-theme="indigo"] {
+  --paper:        #e2ddfa;
+  --paper-alt:    #d0c8f5;
+  --ink:          #150f33;
+  --ink-2:        #2c2266;
+  --line-soft:    #b8acdc;
+  --muted:        #5c50a0;
+  --accent:       #4b3f8f;
+  --accent-dark:  #372e6b;
+  --grad:         linear-gradient(135deg, #8f7fd4 0%, #6a5ab0 45%, #4b3f8f 100%);
+  --grad-h:       linear-gradient(90deg, #8f7fd4 0%, #6a5ab0 45%, #4b3f8f 100%);
+  --grad-v:       linear-gradient(180deg, #8f7fd4 0%, #6a5ab0 45%, #4b3f8f 100%);
+  --shadow:       0 4px 16px rgba(21,15,51,0.12);
+  --shadow-hover: 0 10px 24px rgba(21,15,51,0.20);
+}
+:root[data-theme="indigo"] body {
+  background: linear-gradient(160deg, #ece8fc 0%, #ded6f8 35%, #d0c4f2 65%, #e2ddfa 100%);
+}
+:root[data-theme="indigo"] .topbar {
+  background: rgba(226,221,250,0.96);
+  box-shadow: 0 1px 0 #b8acdc;
+}
+:root[data-theme="indigo"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(75,63,143,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(75,63,143,0.06) 0%, transparent 55%),
+    linear-gradient(155deg, #e2ddfa 0%, #d0c8f5 50%, #beb0ee 100%) !important;
+}
+:root[data-theme="indigo"] .hero h1 { color: #150f33; }
+:root[data-theme="indigo"] .hero p  { color: #2c2266; }
+:root[data-theme="indigo"] .hero-kicker { color: #5c50a0; }
+:root[data-theme="indigo"] .hero-photo::before {
+  background: linear-gradient(to right, #d0c8f5 0%, transparent 14%);
+}
+:root[data-theme="indigo"] .hero-ctas .btn-outline {
+  color: #150f33; border-color: rgba(75,63,143,0.45);
+}
+:root[data-theme="indigo"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(143,127,212,0.72) 0%,
+    rgba(115, 95,195,0.50) 18%,
+    rgba( 85, 65,170,0.26) 40%,
+    rgba( 55, 40,130,0.09) 62%,
+    transparent 82%);
+  box-shadow:
+    0 0  70px 28px  rgba(135,118,205,0.38),
+    0 0 150px 65px  rgba(110, 90,190,0.24),
+    0 0 260px 110px rgba( 80, 60,160,0.12),
+    0 0 400px 150px rgba( 50, 35,120,0.05);
+}
+:root[data-theme="indigo"] #theme-toggle::before { content: "🎨"; font-size: 15px; }
+/* Body-copy paragraphs sit directly on the light lavender page background +
+   watermark corona — the theme's --muted (#5c50a0) reads too washed out
+   there, so darken to --ink-2 for readability on this theme only. */
+:root[data-theme="indigo"] section > p { color: var(--ink-2); }
+
+/* ── VIOLET (light) ── */
+:root[data-theme="violet"] {
+  --paper:        #f2ddf8;
+  --paper-alt:    #e8c8f2;
+  --ink:          #2e0f33;
+  --ink-2:        #5c2266;
+  --line-soft:    #dcaee8;
+  --muted:        #794080;
+  --accent:       #7b3fa0;
+  --accent-dark:  #5c2f78;
+  --grad:         linear-gradient(135deg, #c47fd4 0%, #9d5bb8 45%, #7b3fa0 100%);
+  --grad-h:       linear-gradient(90deg,  #c47fd4 0%, #9d5bb8 45%, #7b3fa0 100%);
+  --grad-v:       linear-gradient(180deg, #c47fd4 0%, #9d5bb8 45%, #7b3fa0 100%);
+  --shadow:       0 4px 16px rgba(46,15,51,0.12);
+  --shadow-hover: 0 10px 24px rgba(46,15,51,0.20);
+}
+:root[data-theme="violet"] body {
+  background: linear-gradient(160deg, #f8ecfc 0%, #f2dcf8 35%, #ecc8f4 65%, #f2ddf8 100%);
+}
+:root[data-theme="violet"] .topbar {
+  background: rgba(242,221,248,0.96);
+  box-shadow: 0 1px 0 #dcaee8;
+}
+:root[data-theme="violet"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(123,63,160,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(123,63,160,0.06) 0%, transparent 55%),
+    linear-gradient(155deg, #f2ddf8 0%, #e8c8f2 50%, #ddb2ea 100%) !important;
+}
+:root[data-theme="violet"] .hero h1 { color: #2e0f33; }
+:root[data-theme="violet"] .hero p  { color: #5c2266; }
+:root[data-theme="violet"] .hero-kicker { color: #9850a0; }
+:root[data-theme="violet"] .hero-photo::before {
+  background: linear-gradient(to right, #e8c8f2 0%, transparent 14%);
+}
+:root[data-theme="violet"] .hero-ctas .btn-outline {
+  color: #2e0f33; border-color: rgba(123,63,160,0.45);
+}
+:root[data-theme="violet"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(196,127,212,0.72) 0%,
+    rgba(175, 95,195,0.50) 18%,
+    rgba(150, 65,170,0.26) 40%,
+    rgba(110, 40,130,0.09) 62%,
+    transparent 82%);
+  box-shadow:
+    0 0  70px 28px  rgba(190,120,205,0.38),
+    0 0 150px 65px  rgba(165, 90,190,0.24),
+    0 0 260px 110px rgba(135, 65,160,0.12),
+    0 0 400px 150px rgba(100, 40,120,0.05);
+}
+:root[data-theme="violet"] #theme-toggle::before { content: "🎨"; font-size: 15px; }
+
+/* ── YELLOW-DARK (pairs with "yellow") ── */
+:root[data-theme="yellow-dark"] {
+  /* Richer, more saturated mustard/lemon-gold surfaces than a plain
+     desaturated brown-black, so the "lemon yellow" family still reads
+     clearly at night — while --grad keeps darker gold stops (matching the
+     light theme's button gradient) so white button text stays legible. */
+  --paper:        #2c2306;
+  --paper-alt:    #3d3009;
+  --ink:          #fdf8e0;
+  --ink-2:        #e6d89c;
+  --muted:        #c2b166;
+  --line-soft:    #5c4c14;
+  --accent:       #ffd93d;
+  --accent-dark:  #d6b400;
+  /* Same dark/narrow-range gradient as the light theme's buttons — the
+     lighter c9a800 stop tested well below AA contrast for white text. */
+  --grad:         linear-gradient(135deg, #7a6300 0%, #6d5900 50%, #574700 100%);
+  --grad-h:       linear-gradient(90deg,  #7a6300 0%, #6d5900 50%, #574700 100%);
+  --grad-v:       linear-gradient(180deg, #7a6300 0%, #6d5900 50%, #574700 100%);
+  --shadow:       0 4px 20px rgba(0,0,0,0.60);
+  --shadow-hover: 0 12px 36px rgba(0,0,0,0.75);
+}
+:root[data-theme="yellow-dark"] body {
+  background:
+    radial-gradient(ellipse 75% 38% at 50% 0%, rgba(255,217,61,0.28) 0%, transparent 72%),
+    #2c2306;
+}
+:root[data-theme="yellow-dark"] .topbar {
+  background: #332807;
+  box-shadow: 0 1px 0 rgba(255,217,61,0.36), 0 2px 20px rgba(0,0,0,0.50);
+}
+:root[data-theme="yellow-dark"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 10% 15%, rgba(255,217,61,0.24) 0%, transparent 62%),
+    linear-gradient(155deg, #3a2d08 0%, #302506 55%, #261e05 100%) !important;
+  box-shadow: inset -1px 0 0 rgba(255,217,61,0.28);
+}
+:root[data-theme="yellow-dark"] .hero h1 { color: #fdf8e0; }
+:root[data-theme="yellow-dark"] .hero p  { color: #e6d89c; }
+:root[data-theme="yellow-dark"] .hero-kicker { color: rgba(255,232,150,0.78); }
+:root[data-theme="yellow-dark"] .hero-photo::before {
+  background: linear-gradient(to right, #302506 0%, transparent 15%);
+}
+:root[data-theme="yellow-dark"] .hero-ctas .btn-outline {
+  color: #fdf8e0; border-color: rgba(255,217,61,0.55);
+}
+:root[data-theme="yellow-dark"] .logo-badge {
+  background: #332807;
+  box-shadow: 0 0 0 2px var(--accent), 0 0 16px 4px rgba(255,217,61,0.38);
+}
+:root[data-theme="yellow-dark"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(255,233,140,0.88) 0%,
+    rgba(255,217, 61,0.65) 16%,
+    rgba(214,180,  0,0.34) 38%,
+    rgba(150,124,  0,0.14) 60%,
+    transparent 80%);
+  box-shadow:
+    0 0  70px 28px  rgba(255,233,140,0.56),
+    0 0 150px 65px  rgba(255,217, 61,0.36),
+    0 0 260px 110px rgba(214,180,  0,0.20),
+    0 0 400px 150px rgba(150,124,  0,0.09);
+}
+:root[data-theme="yellow-dark"] .section-warm {
+  background: linear-gradient(155deg, #3a2d08 0%, #2c2306 100%);
+}
+:root[data-theme="yellow-dark"] #theme-toggle::before { content: "☀"; font-size: 15px; }
+
+/* ── ORANGE-DARK (pairs with "orange" — proper dark copy of the light
+   orange family, replacing the mismatched plum "claude" theme that used
+   to pair with offerings.html/meditation.html) ── */
+:root[data-theme="orange-dark"] {
+  --paper:        #241505;
+  --paper-alt:    #331e08;
+  --ink:          #fdeee0;
+  --ink-2:        #e0bc98;
+  --muted:        #c99a68;
+  --line-soft:    #4a2c10;
+  --accent:       #ff8f3d;
+  --accent-dark:  #d9691c;
+  --grad:         linear-gradient(135deg, #996b42 0%, #8f4c1e 45%, #8a4311 100%);
+  --grad-h:       linear-gradient(90deg,  #996b42 0%, #8f4c1e 45%, #8a4311 100%);
+  --grad-v:       linear-gradient(180deg, #996b42 0%, #8f4c1e 45%, #8a4311 100%);
+  --shadow:       0 4px 20px rgba(0,0,0,0.60);
+  --shadow-hover: 0 12px 36px rgba(0,0,0,0.75);
+}
+:root[data-theme="orange-dark"] body {
+  background:
+    radial-gradient(ellipse 75% 38% at 50% 0%, rgba(255,143,61,0.24) 0%, transparent 72%),
+    #241505;
+}
+:root[data-theme="orange-dark"] .topbar {
+  background: #2c1907;
+  box-shadow: 0 1px 0 rgba(255,143,61,0.32), 0 2px 20px rgba(0,0,0,0.50);
+}
+:root[data-theme="orange-dark"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 10% 15%, rgba(255,143,61,0.20) 0%, transparent 62%),
+    linear-gradient(155deg, #2e1a08 0%, #251606 55%, #1e1204 100%) !important;
+  box-shadow: inset -1px 0 0 rgba(255,143,61,0.24);
+}
+:root[data-theme="orange-dark"] .hero h1 { color: #fdeee0; }
+:root[data-theme="orange-dark"] .hero p  { color: #e0bc98; }
+:root[data-theme="orange-dark"] .hero-kicker { color: rgba(255,200,150,0.72); }
+:root[data-theme="orange-dark"] .hero-photo::before {
+  background: linear-gradient(to right, #251606 0%, transparent 15%);
+}
+:root[data-theme="orange-dark"] .hero-ctas .btn-outline {
+  color: #fdeee0; border-color: rgba(255,143,61,0.50);
+}
+:root[data-theme="orange-dark"] .logo-badge {
+  background: #2c1907;
+  box-shadow: 0 0 0 2px var(--accent), 0 0 16px 4px rgba(255,143,61,0.34);
+}
+:root[data-theme="orange-dark"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(255,190,130,0.85) 0%,
+    rgba(255,143, 61,0.60) 16%,
+    rgba(217,105, 28,0.30) 38%,
+    rgba(150, 75, 20,0.12) 60%,
+    transparent 80%);
+  box-shadow:
+    0 0  70px 28px  rgba(255,190,130,0.52),
+    0 0 150px 65px  rgba(255,143, 61,0.32),
+    0 0 260px 110px rgba(217,105, 28,0.18),
+    0 0 400px 150px rgba(150, 75, 20,0.08);
+}
+:root[data-theme="orange-dark"] .section-warm {
+  background: linear-gradient(155deg, #2e1a08 0%, #241505 100%);
+}
+:root[data-theme="orange-dark"] #theme-toggle::before { content: "☀"; font-size: 15px; }
+
+/* ── GREEN-DARK (pairs with "pastel-green") ── */
+:root[data-theme="green-dark"] {
+  --paper:        #141c0e;
+  --paper-alt:    #1c2814;
+  --ink:          #eaf3d8;
+  --ink-2:        #c0d29e;
+  --muted:        #86a35a;
+  --line-soft:    #2e3d20;
+  --accent:       #a8d148;
+  --accent-dark:  #8ab52f;
+  --grad:         linear-gradient(135deg, #c2e070 0%, #a8d148 45%, #8ab52f 100%);
+  --grad-h:       linear-gradient(90deg, #c2e070 0%, #a8d148 45%, #8ab52f 100%);
+  --grad-v:       linear-gradient(180deg, #c2e070 0%, #a8d148 45%, #8ab52f 100%);
+  --shadow:       0 4px 20px rgba(0,0,0,0.60);
+  --shadow-hover: 0 12px 36px rgba(0,0,0,0.75);
+}
+:root[data-theme="green-dark"] body {
+  background:
+    radial-gradient(ellipse 75% 38% at 50% 0%, rgba(168,209,72,0.20) 0%, transparent 72%),
+    #101a0c;
+}
+:root[data-theme="green-dark"] .topbar {
+  background: #16210f;
+  box-shadow: 0 1px 0 rgba(138,181,47,0.28), 0 2px 20px rgba(0,0,0,0.50);
+}
+:root[data-theme="green-dark"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 10% 15%, rgba(138,181,47,0.16) 0%, transparent 62%),
+    linear-gradient(155deg, #1a2712 0%, #15200e 55%, #101808 100%) !important;
+  box-shadow: inset -1px 0 0 rgba(138,181,47,0.20);
+}
+:root[data-theme="green-dark"] .hero h1 { color: #f2f8e4; }
+:root[data-theme="green-dark"] .hero p  { color: #c0d29e; }
+:root[data-theme="green-dark"] .hero-kicker { color: rgba(210,232,168,0.65); }
+:root[data-theme="green-dark"] .hero-photo::before {
+  background: linear-gradient(to right, #15200e 0%, transparent 15%);
+}
+:root[data-theme="green-dark"] .hero-ctas .btn-outline {
+  color: #eef6dc; border-color: rgba(138,181,47,0.45);
+}
+:root[data-theme="green-dark"] .logo-badge {
+  background: #16210f;
+  box-shadow: 0 0 0 2px var(--accent), 0 0 16px 4px rgba(138,181,47,0.30);
+}
+:root[data-theme="green-dark"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(168,209, 72,0.80) 0%,
+    rgba(150,196, 58,0.55) 16%,
+    rgba(138,181, 47,0.28) 38%,
+    rgba( 99,133, 30,0.10) 60%,
+    transparent 80%);
+  box-shadow:
+    0 0  70px 28px  rgba(168,209, 72,0.48),
+    0 0 150px 65px  rgba(150,196, 58,0.30),
+    0 0 260px 110px rgba(138,181, 47,0.16),
+    0 0 400px 150px rgba( 99,133, 30,0.07);
+}
+:root[data-theme="green-dark"] .section-warm {
+  background: linear-gradient(155deg, #1a2712 0%, #101a0c 100%);
+}
+:root[data-theme="green-dark"] #theme-toggle::before { content: "☀"; font-size: 15px; }
+
+/* ── BLUE-DARK (pairs with "pastel-bright") ── */
+:root[data-theme="blue-dark"] {
+  --paper:        #10161c;
+  --paper-alt:    #162025;
+  --ink:          #dce8f0;
+  --ink-2:        #a8c0d0;
+  --muted:        #6d90a8;
+  --line-soft:    #223038;
+  --accent:       #5b9fd9;
+  --accent-dark:  #3f7fb5;
+  --grad:         linear-gradient(135deg, #8ec4ea 0%, #5b9fd9 100%);
+  --grad-h:       linear-gradient(90deg, #8ec4ea 0%, #5b9fd9 100%);
+  --grad-v:       linear-gradient(180deg, #8ec4ea 0%, #5b9fd9 100%);
+  --shadow:       0 4px 20px rgba(0,0,0,0.60);
+  --shadow-hover: 0 12px 36px rgba(0,0,0,0.75);
+}
+:root[data-theme="blue-dark"] body {
+  background:
+    radial-gradient(ellipse 75% 38% at 50% 0%, rgba(91,159,217,0.20) 0%, transparent 72%),
+    #10161c;
+}
+:root[data-theme="blue-dark"] .topbar {
+  background: #141c22;
+  box-shadow: 0 1px 0 rgba(91,159,217,0.28), 0 2px 20px rgba(0,0,0,0.50);
+}
+:root[data-theme="blue-dark"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 10% 15%, rgba(91,159,217,0.16) 0%, transparent 62%),
+    linear-gradient(155deg, #162228 0%, #121c22 55%, #0e161c 100%) !important;
+  box-shadow: inset -1px 0 0 rgba(91,159,217,0.20);
+}
+:root[data-theme="blue-dark"] .hero h1 { color: #ecf4fa; }
+:root[data-theme="blue-dark"] .hero p  { color: #a8c0d0; }
+:root[data-theme="blue-dark"] .hero-kicker { color: rgba(200,222,240,0.65); }
+:root[data-theme="blue-dark"] .hero-photo::before {
+  background: linear-gradient(to right, #121c22 0%, transparent 15%);
+}
+:root[data-theme="blue-dark"] .hero-ctas .btn-outline {
+  color: #dce8f0; border-color: rgba(91,159,217,0.45);
+}
+:root[data-theme="blue-dark"] .logo-badge {
+  background: #141c22;
+  box-shadow: 0 0 0 2px var(--accent), 0 0 16px 4px rgba(91,159,217,0.30);
+}
+:root[data-theme="blue-dark"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(142,196,234,0.80) 0%,
+    rgba(110,175,220,0.55) 16%,
+    rgba( 75,145,195,0.28) 38%,
+    rgba( 45,105,155,0.10) 60%,
+    transparent 80%);
+  box-shadow:
+    0 0  70px 28px  rgba(135,190,230,0.48),
+    0 0 150px 65px  rgba(105,170,215,0.30),
+    0 0 260px 110px rgba( 70,140,190,0.16),
+    0 0 400px 150px rgba( 40,100,150,0.07);
+}
+:root[data-theme="blue-dark"] .section-warm {
+  background: linear-gradient(155deg, #162228 0%, #10161c 100%);
+}
+:root[data-theme="blue-dark"] #theme-toggle::before { content: "☀"; font-size: 15px; }
+
+/* ── INDIGO-DARK (pairs with "indigo") ── */
+:root[data-theme="indigo-dark"] {
+  --paper:        #15121e;
+  --paper-alt:    #1e1a2b;
+  --ink:          #e6e0f5;
+  --ink-2:        #b8aed8;
+  --muted:        #8277ac;
+  --line-soft:    #2c2640;
+  --accent:       #8478d4;
+  --accent-dark:  #635aa8;
+  --grad:         linear-gradient(135deg, #a89ce8 0%, #8478d4 100%);
+  --grad-h:       linear-gradient(90deg, #a89ce8 0%, #8478d4 100%);
+  --grad-v:       linear-gradient(180deg, #a89ce8 0%, #8478d4 100%);
+  --shadow:       0 4px 20px rgba(0,0,0,0.60);
+  --shadow-hover: 0 12px 36px rgba(0,0,0,0.75);
+}
+:root[data-theme="indigo-dark"] body {
+  background:
+    radial-gradient(ellipse 75% 38% at 50% 0%, rgba(132,120,212,0.20) 0%, transparent 72%),
+    #15121e;
+}
+:root[data-theme="indigo-dark"] .topbar {
+  background: #191527;
+  box-shadow: 0 1px 0 rgba(132,120,212,0.28), 0 2px 20px rgba(0,0,0,0.50);
+}
+:root[data-theme="indigo-dark"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 10% 15%, rgba(132,120,212,0.16) 0%, transparent 62%),
+    linear-gradient(155deg, #1b1730 0%, #161228 55%, #120e20 100%) !important;
+  box-shadow: inset -1px 0 0 rgba(132,120,212,0.20);
+}
+:root[data-theme="indigo-dark"] .hero h1 { color: #f0ecfa; }
+:root[data-theme="indigo-dark"] .hero p  { color: #b8aed8; }
+:root[data-theme="indigo-dark"] .hero-kicker { color: rgba(216,206,240,0.65); }
+:root[data-theme="indigo-dark"] .hero-photo::before {
+  background: linear-gradient(to right, #161228 0%, transparent 15%);
+}
+:root[data-theme="indigo-dark"] .hero-ctas .btn-outline {
+  color: #e6e0f5; border-color: rgba(132,120,212,0.45);
+}
+:root[data-theme="indigo-dark"] .logo-badge {
+  background: #191527;
+  box-shadow: 0 0 0 2px var(--accent), 0 0 16px 4px rgba(132,120,212,0.30);
+}
+:root[data-theme="indigo-dark"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(168,156,232,0.80) 0%,
+    rgba(140,125,215,0.55) 16%,
+    rgba(105, 90,185,0.28) 38%,
+    rgba( 70, 58,145,0.10) 60%,
+    transparent 80%);
+  box-shadow:
+    0 0  70px 28px  rgba(160,148,225,0.48),
+    0 0 150px 65px  rgba(130,115,205,0.30),
+    0 0 260px 110px rgba( 95, 80,175,0.16),
+    0 0 400px 150px rgba( 65, 55,135,0.07);
+}
+:root[data-theme="indigo-dark"] .section-warm {
+  background: linear-gradient(155deg, #1b1730 0%, #15121e 100%);
+}
+:root[data-theme="indigo-dark"] #theme-toggle::before { content: "☀"; font-size: 15px; }
+/* Same fix as indigo (light) — body-copy paragraphs sitting directly on
+   the page's purple corona backdrop read too washed out with --muted;
+   darken... here, lighten to --ink-2 for readability. */
+:root[data-theme="indigo-dark"] section > p { color: var(--ink-2); }
+
+/* ── VIOLET-DARK (pairs with "violet") ── */
+:root[data-theme="violet-dark"] {
+  --paper:        #1c1220;
+  --paper-alt:    #26182c;
+  --ink:          #f0e0f5;
+  --ink-2:        #c8a8d8;
+  --muted:        #9870a8;
+  --line-soft:    #3a2640;
+  --accent:       #b47bd6;
+  --accent-dark:  #8f5eae;
+  --grad:         linear-gradient(135deg, #d0a8ea 0%, #b47bd6 100%);
+  --grad-h:       linear-gradient(90deg, #d0a8ea 0%, #b47bd6 100%);
+  --grad-v:       linear-gradient(180deg, #d0a8ea 0%, #b47bd6 100%);
+  --shadow:       0 4px 20px rgba(0,0,0,0.60);
+  --shadow-hover: 0 12px 36px rgba(0,0,0,0.75);
+}
+:root[data-theme="violet-dark"] body {
+  background:
+    radial-gradient(ellipse 75% 38% at 50% 0%, rgba(180,123,214,0.20) 0%, transparent 72%),
+    #1c1220;
+}
+:root[data-theme="violet-dark"] .topbar {
+  background: #201628;
+  box-shadow: 0 1px 0 rgba(180,123,214,0.28), 0 2px 20px rgba(0,0,0,0.50);
+}
+:root[data-theme="violet-dark"] .hero-text {
+  background:
+    radial-gradient(ellipse 90% 55% at 10% 15%, rgba(180,123,214,0.16) 0%, transparent 62%),
+    linear-gradient(155deg, #221930 0%, #1c1428 55%, #160f20 100%) !important;
+  box-shadow: inset -1px 0 0 rgba(180,123,214,0.20);
+}
+:root[data-theme="violet-dark"] .hero h1 { color: #f8ecfa; }
+:root[data-theme="violet-dark"] .hero p  { color: #c8a8d8; }
+:root[data-theme="violet-dark"] .hero-kicker { color: rgba(228,204,240,0.65); }
+:root[data-theme="violet-dark"] .hero-photo::before {
+  background: linear-gradient(to right, #1c1428 0%, transparent 15%);
+}
+:root[data-theme="violet-dark"] .hero-ctas .btn-outline {
+  color: #f0e0f5; border-color: rgba(180,123,214,0.45);
+}
+:root[data-theme="violet-dark"] .logo-badge {
+  background: #201628;
+  box-shadow: 0 0 0 2px var(--accent), 0 0 16px 4px rgba(180,123,214,0.30);
+}
+:root[data-theme="violet-dark"] .logo-float-bubble {
+  background: radial-gradient(ellipse 80% 80% at 50% 50%,
+    rgba(208,168,234,0.80) 0%,
+    rgba(190,140,220,0.55) 16%,
+    rgba(160,105,195,0.28) 38%,
+    rgba(120, 70,155,0.10) 60%,
+    transparent 80%);
+  box-shadow:
+    0 0  70px 28px  rgba(200,160,228,0.48),
+    0 0 150px 65px  rgba(180,130,212,0.30),
+    0 0 260px 110px rgba(145, 95,185,0.16),
+    0 0 400px 150px rgba(110, 65,145,0.07);
+}
+:root[data-theme="violet-dark"] .section-warm {
+  background: linear-gradient(155deg, #221930 0%, #1c1220 100%);
+}
+:root[data-theme="violet-dark"] #theme-toggle::before { content: "☀"; font-size: 15px; }
+
+/* ── White logo swap for the 5 new dark themes (matches dark/claude/pastel-dark) ── */
+[data-theme="yellow-dark"] .logo-badge img,
+[data-theme="green-dark"] .logo-badge img,
+[data-theme="green-dark"] .logo-float-bubble img,
+[data-theme="blue-dark"] .logo-badge img,
+[data-theme="blue-dark"] .logo-float-bubble img,
+[data-theme="indigo-dark"] .logo-badge img,
+[data-theme="indigo-dark"] .logo-float-bubble img,
+[data-theme="violet-dark"] .logo-badge img,
+[data-theme="violet-dark"] .logo-float-bubble img {
+  content: url("drida_logo_white.svg");
+  filter: none;
+}
+[data-theme="green-dark"] .logo-float-bubble img,
+[data-theme="blue-dark"] .logo-float-bubble img,
+[data-theme="indigo-dark"] .logo-float-bubble img,
+[data-theme="violet-dark"] .logo-float-bubble img {
+  opacity: 0.28;
+}
+/* Yellow-dark's watermark corona is a bright gold, not near-black like the
+   other dark themes — the white logo was blending into it and reading as
+   barely visible. The original dark-toned logo shows up better here. */
+[data-theme="yellow-dark"] .logo-float-bubble img {
+  opacity: 0.4;
+}
+
+/* ── Toggle icon catch-alls (any light-family theme → 🎨, any dark-family → ☀) ── */
+:root[data-theme="light"] #theme-toggle::before,
+:root[data-theme="pastel"] #theme-toggle::before,
+:root[data-theme="terra"] #theme-toggle::before,
+:root[data-theme="pastel-bright"] #theme-toggle::before,
+:root[data-theme="pastel-green"] #theme-toggle::before,
+:root[data-theme="orange"] #theme-toggle::before,
+:root[data-theme="yellow"] #theme-toggle::before,
+:root[data-theme="indigo"] #theme-toggle::before,
+:root[data-theme="violet"] #theme-toggle::before,
+:root[data-theme="blush"] #theme-toggle::before {
+  content: "🎨"; font-size: 15px;
+}
+:root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="pastel-bright"]):not([data-theme="terra"]):not([data-theme="pastel-green"]):not([data-theme="orange"]):not([data-theme="yellow"]):not([data-theme="indigo"]):not([data-theme="violet"]):not([data-theme="blush"]) #theme-toggle::before {
+  content: "☀"; font-size: 15px;
 }
