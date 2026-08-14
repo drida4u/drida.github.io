@@ -6,6 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- The <title> shows up in the browser tab -->
   <title>Drida</title>
+  <meta name="description" content="Drida is a non-profit meditation, yoga and fitness community led by Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Drida">
+  <meta property="og:title" content="Drida — Meditation, Yoga & Mindful Living">
+  <meta property="og:description" content="Drida is a non-profit meditation, yoga and fitness community led by Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
+  <meta property="og:image" content="https://drida.org/drida_logo.png">
+  <meta property="og:url" content="https://drida.org/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Drida — Meditation, Yoga & Mindful Living">
+  <meta name="twitter:description" content="Drida is a non-profit meditation, yoga and fitness community led by Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
+  <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <!-- This links our CSS file (styling) to this HTML file (structure) -->
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
   <link rel="stylesheet" href="style.css?v=20">
@@ -62,9 +73,9 @@
         <a href="products.html">Products</a>
         <a href="meetups.html#team">Drida Family</a>
         <div class="nav-dropdown">
-          <a href="index.html#about" class="nav-parent">About Us</a>
+          <a href="about.html" class="nav-parent">About Us</a>
           <div class="nav-submenu">
-            <a href="index.html#about">About Drida</a>
+            <a href="about.html">About Drida</a>
             <a href="meetups.html">Meet-ups</a>
             <a href="index.html#contact">Contact</a>
           </div>
@@ -114,7 +125,7 @@
     <!-- ═══ PROGRAMS — alternating editorial split blocks ═══ -->
 
     <!-- 1. Meditation -->
-    <section id="meditation" class="program-block">
+    <section id="meditation" class="program-block reveal">
       <div class="program-img">
         <img src="images/med.jpg" alt="White lotus on dark still water" style="object-fit:cover;object-position:35% center;width:100%;height:100%;">
       </div>
@@ -132,7 +143,7 @@
     </section>
 
     <!-- ═══ HOW IT WORKS ═══ -->
-    <section class="how-it-works">
+    <section class="how-it-works reveal">
       <span class="section-tag">Simple to Start</span>
       <h2>How It Works</h2>
       <div class="steps">
@@ -155,7 +166,7 @@
     </section>
 
     <!-- 2. Yoga -->
-    <section id="yoga" class="program-block prog-rev">
+    <section id="yoga" class="program-block prog-rev reveal">
       <div class="program-body">
         <span class="section-tag">Yoga</span>
         <h2>Move, Breathe, Balance</h2>
@@ -171,7 +182,7 @@
     </section>
 
     <!-- 3. Fitness -->
-    <section id="fitness" class="program-block">
+    <section id="fitness" class="program-block reveal">
       <div class="program-img">
         <img src="images/fitness.jpg" alt="Woman doing fitness workout" style="object-fit:cover;object-position:center center;width:100%;height:100%;">
       </div>
@@ -188,7 +199,7 @@
     </section>
 
     <!-- 4. Kutties — children's meditation -->
-    <section id="kutties" class="program-block prog-rev">
+    <section id="kutties" class="program-block prog-rev reveal">
       <div class="program-body">
         <span class="section-tag">Kutties Meditation</span>
         <h2>Calm, Focused Children</h2>
@@ -205,19 +216,32 @@
     </section>
 
     <!-- ═══ ABOUT SMITHA ═══ -->
-    <section id="about" class="about-editorial">
+    <section id="about" class="about-editorial reveal">
       <div class="about-photo-wrap">
         <img src="images/group-yoga1.png" alt="Small group of women doing yoga on beach" style="object-fit:cover;object-position:right center;width:100%;height:100%;">
       </div>
       <div class="about-content">
         <span class="section-tag">Our Story</span>
-        <h2>From a Small Group to 4,000+ Women</h2>
+        <h2>From a Small Group to 4,600+ Women</h2>
         <p>On 21 September 2021, Smitha Haridas started a simple WhatsApp group called <strong>Positive Vibes</strong> — a handful of women seeking stillness together. Nobody could have predicted what it would grow into.</p>
         <p>Batch by batch, the community grew. Women who came for meditation stayed for yoga and fitness. They found confidence, purpose — and then livelihood. Today Drida women run their own businesses, sell their own products, and support other women in becoming self-earning.</p>
         <p>Along the way, Drida launched <strong>Kasar</strong> — our own line of wellness products born from the community: hair mist, herbal shampoo and face toner, made with care and love.</p>
         <p>In 2025, Positive Vibes became <strong>Drida</strong> — <em>"where she awakens."</em> A new name for an ever-deepening mission.</p>
         <p class="charity-note">Beyond programmes, Drida quietly gives back — helping a child's education, visiting old age homes, supporting those in need in small but meaningful ways.</p>
         <a class="btn-terra" href="meetups.html" style="margin-top:1.5rem;display:inline-block;width:fit-content;">Watch Our Journey &rarr;</a>
+      </div>
+    </section>
+
+    <!-- ═══ BEFORE DRIDA — SHORT SUMMARY (full story on About Us) ═══ -->
+    <section id="smitha-journey" class="about-editorial reveal">
+      <div class="about-photo-wrap">
+        <img src="images/smitha-designer-atwork2.jpeg" alt="Smitha Haridas at her design studio, before founding Drida" style="object-fit:cover;width:100%;height:100%;">
+      </div>
+      <div class="about-content">
+        <span class="section-tag">Before Drida</span>
+        <h2>The Designer Who Became a Teacher</h2>
+        <p>Before she led 4,600 women into stillness, Smitha Haridas was a schoolteacher, then the founder of <strong>S.fab Designs</strong> — a costume studio whose work dressed well-known Malayalam TV actresses. In 2021, she set it all aside to share meditation freely, and Drida was born.</p>
+        <a class="btn-terra" href="about.html">Read Smitha's Full Story &rarr;</a>
       </div>
     </section>
 
@@ -264,7 +288,7 @@
     <div class="section-divider" aria-hidden="true"></div>
 
     <!-- ═══ FAQ ═══ -->
-    <section class="faq-section">
+    <section class="faq-section reveal">
       <span class="section-tag">Frequently Asked Questions</span>
       <h2>Everything You Need to Know</h2>
       <div class="faq-list">
@@ -303,21 +327,21 @@
     </section>
 
     <!-- ═══ IMPACT STATS ═══ -->
-    <div class="impact-stats">
+    <div class="impact-stats reveal">
       <div class="stat-block">
-        <span class="stat-num">4,600+</span>
+        <span class="stat-num" data-count="4600" data-suffix="+">4,600+</span>
         <span class="stat-label">Members</span>
       </div>
       <div class="stat-block">
-        <span class="stat-num">15</span>
+        <span class="stat-num" data-count="15" data-suffix="">15</span>
         <span class="stat-label">Free Batches</span>
       </div>
       <div class="stat-block">
-        <span class="stat-num">14</span>
+        <span class="stat-num" data-count="14" data-suffix="">14</span>
         <span class="stat-label">Batch Meet-ups</span>
       </div>
       <div class="stat-block">
-        <span class="stat-num">5</span>
+        <span class="stat-num" data-count="5" data-suffix="">5</span>
         <span class="stat-label">Programmes</span>
       </div>
     </div>
@@ -517,7 +541,7 @@
         <h4>Connect</h4>
         <ul>
           <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
-          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
+          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Haridas</a></li>
           <li><a href="support.html">Help &amp; Support</a></li>
           <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
@@ -561,6 +585,7 @@
   <!-- This links our JavaScript file. Placed at the end so the page loads first. -->
   <script src="auth-nav.js"></script>
   <script src="script.js?v=3"></script>
+  <script src="drida-effects.js?v=1"></script>
 
   <!-- Auto-detect PNG/JPG: if an image fails to load, try the other extension -->
   <script>

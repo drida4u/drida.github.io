@@ -4,8 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meditation — Drida</title>
+  <meta name="description" content="Discover meditation, stillness, and yoga with Drida. From beginner to advanced practice, find your path to inner peace through our guided programmes.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Drida">
+  <meta property="og:title" content="Meditation & Yoga — Drida">
+  <meta property="og:description" content="Discover meditation, stillness, and yoga with Drida. From beginner to advanced practice, find your path to inner peace through our guided programmes.">
+  <meta property="og:image" content="https://drida.org/drida_logo.png">
+  <meta property="og:url" content="https://drida.org/meditation.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Meditation & Yoga — Drida">
+  <meta name="twitter:description" content="Discover meditation, stillness, and yoga with Drida. From beginner to advanced practice, find your path to inner peace through our guided programmes.">
+  <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
   <link rel="stylesheet" href="style.css?v=20">
+  <style>
+    /* Override: vertical tile cards on meditation page (not horizontal rows) */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .course-card {
+      flex-direction: column;
+    }
+    .course-poster {
+      width: 100%;
+      max-width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 0;
+    }
+    .course-body {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+    @media (max-width: 760px) {
+      .courses-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .courses-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
@@ -41,7 +79,7 @@
       <nav>
         <a href="index.html">Home</a>
         <div class="nav-dropdown active">
-          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <a href="meditation.html" class="nav-parent active">Offerings</a>
           <div class="nav-submenu">
             <a href="meditation.html">Meditation</a>
             <a href="index.html#yoga">Yoga</a>
@@ -53,9 +91,9 @@
         <a href="products.html">Products</a>
         <a href="meetups.html#team">Drida Family</a>
         <div class="nav-dropdown">
-          <a href="index.html#about" class="nav-parent">About Us</a>
+          <a href="about.html" class="nav-parent">About Us</a>
           <div class="nav-submenu">
-            <a href="index.html#about">About Drida</a>
+            <a href="about.html">About Drida</a>
             <a href="meetups.html">Meet-ups</a>
             <a href="index.html#contact">Contact</a>
           </div>
@@ -145,12 +183,16 @@
 
         <!-- Batch 16 — upcoming free batch -->
         <div class="course-card" id="course-batch16">
-          <img class="course-poster" src="images/course-new-drida-batch.png" alt="Drida 16th Free Batch">
+          <div class="course-poster" style="background:var(--grad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;min-height:180px;">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span style="color:rgba(255,255,255,0.9);font-weight:700;font-size:0.88rem;letter-spacing:0.08em;text-transform:uppercase;">Coming Soon</span>
+            <span style="color:rgba(255,255,255,0.6);font-size:0.78rem;">Batch 16</span>
+          </div>
           <div class="course-body">
             <div class="course-tags">
               <span class="tag tag-free">Free</span>
               <span class="tag tag-live">Live</span>
-              <span class="tag" style="background:#e8f0fe;color:#3a5fc4;">Upcoming</span>
+              <span class="tag tag-online">Upcoming</span>
             </div>
             <h3>Drida 16th Batch — Coming Soon</h3>
             <p>The next free meditation batch from Drida. Chakra awareness, breathwork and guided affirmations — 40 days live with US. Register your interest now to be notified when enrollment opens.</p>
@@ -174,7 +216,7 @@
 
         <!-- Kids Meditation -->
         <div class="course-card" id="course-kids-meditation">
-          <img class="course-poster" src="images/course-kids-meditation.jpeg" alt="Meditation for Children">
+          <img class="course-poster" src="images/course-kids-meditation.png" alt="Meditation for Children">
           <div class="course-body">
             <div class="course-tags">
               <span class="tag tag-free">Free</span>
@@ -235,20 +277,20 @@
         <div class="step">
           <div class="step-num">03</div>
           <h3>Community</h3>
-          <p>You will never practise alone. The Drida family — 4,000+ women across the world — walks the journey with you.</p>
+          <p>You will never practise alone. The Drida family — 4,600+ women across the world — walks the journey with you.</p>
         </div>
       </div>
     </section>
 
     <!-- ═══ QUOTE / PULL ═══ -->
     <section class="band-cta-clean" style="text-align:center;">
-      <blockquote style="font-size:clamp(1.3rem,2.5vw,1.8rem);font-style:italic;font-weight:600;color:var(--ink);max-width:700px;margin:0 auto 1.5rem;line-height:1.5;">
+      <blockquote style="font-size:clamp(1.3rem,2.5vw,1.8rem);font-style:italic;font-weight:600;color:#fff;max-width:700px;margin:0 auto 1.5rem;line-height:1.5;">
         "The gift of health is keeping me alive."
       </blockquote>
-      <p style="color:var(--muted);font-size:1rem;">— A Drida affirmation, spoken together at every batch meetup</p>
+      <p style="color:rgba(255,255,255,0.82);font-size:1rem;">— A Drida affirmation, spoken together at every batch meetup</p>
       <div style="margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-        <a class="btn-terra" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
-        <a class="btn-outline" href="meetups.html">Watch Meetup Recordings</a>
+        <a class="btn-terra" style="background:#fff;color:var(--accent);" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
+        <a class="btn-outline" style="border-color:rgba(255,255,255,0.6);color:#fff;" href="meetups.html">Watch Meetup Recordings</a>
       </div>
     </section>
 
@@ -323,7 +365,7 @@
       <div class="contact-cards">
         <a class="contact-card" href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">
           <strong>WhatsApp</strong>
-          <span>Message Smitha Ma'am</span>
+          <span>Message Smitha Haridas</span>
           <span>Our Mentor</span>
         </a>
         <a class="contact-card" href="mailto:drida4u@gmail.com">

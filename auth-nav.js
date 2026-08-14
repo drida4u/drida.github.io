@@ -13,10 +13,22 @@
     if (!loginLink) return;
 
     if (saved) {
+      const user = JSON.parse(saved);
+      const firstName = (user.name || '').split(' ')[0];
+
       loginLink.textContent = 'My Courses';
       loginLink.href = 'my-courses.html';
 
       if (!document.getElementById('nav-logout')) {
+        // Greeting — "Hi, Sara"
+        if (firstName && !document.getElementById('nav-greeting')) {
+          const greetSpan = document.createElement('span');
+          greetSpan.id = 'nav-greeting';
+          greetSpan.textContent = 'Hi, ' + firstName;
+          greetSpan.style.cssText = 'font-size:0.85rem;opacity:0.75;font-weight:500;';
+          loginLink.parentNode.insertBefore(greetSpan, loginLink);
+        }
+
         const logoutA = document.createElement('a');
         logoutA.id = 'nav-logout';
         logoutA.href = '#';
@@ -38,6 +50,8 @@
       loginLink.href = 'login.html';
       const existing = document.getElementById('nav-logout');
       if (existing) existing.remove();
+      const existingGreeting = document.getElementById('nav-greeting');
+      if (existingGreeting) existingGreeting.remove();
     }
   }
 

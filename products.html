@@ -4,8 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Products - Drida</title>
+  <meta name="description" content="Drida's curated wellness products supporting your meditation and yoga practice. Proceeds support the Drida non-profit community.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Drida">
+  <meta property="og:title" content="Products — Drida">
+  <meta property="og:description" content="Drida's curated wellness products supporting your meditation and yoga practice. Proceeds support the Drida non-profit community.">
+  <meta property="og:image" content="https://drida.org/drida_logo.png">
+  <meta property="og:url" content="https://drida.org/products.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Products — Drida">
+  <meta name="twitter:description" content="Drida's curated wellness products supporting your meditation and yoga practice. Proceeds support the Drida non-profit community.">
+  <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
   <link rel="stylesheet" href="style.css?v=20">
+  <style>
+    .locked-video { position:absolute;inset:0;overflow:hidden; }
+    .locked-video img { width:100%;height:100%;object-fit:cover;filter:blur(3px) brightness(0.55); }
+    .lock-overlay { position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:#fff;text-align:center;padding:1rem;font-size:0.85rem; }
+    .lock-overlay .lock-icon { font-size:2rem; }
+  </style>
 </head>
 <body>
 
@@ -54,9 +71,9 @@
         <a href="products.html" class="active">Products</a>
         <a href="meetups.html#team">Drida Family</a>
         <div class="nav-dropdown">
-          <a href="index.html#about" class="nav-parent">About Us</a>
+          <a href="about.html" class="nav-parent">About Us</a>
           <div class="nav-submenu">
-            <a href="index.html#about">About Drida</a>
+            <a href="about.html">About Drida</a>
             <a href="meetups.html">Meet-ups</a>
             <a href="index.html#contact">Contact</a>
           </div>
@@ -131,6 +148,18 @@
           </div>
           <h3>Drida Crystal — Chakra Bracelets</h3>
           <p>Handcrafted chakra bracelets — each bracelet is energised and aligned to specific chakras for balance and wellbeing.</p>
+
+          <!-- Pooja video — locked for non-chakra-course members -->
+          <div style="position:relative;width:100%;padding-top:56.25%;border-radius:10px;overflow:hidden;margin:0.75rem 0;">
+            <div class="locked-video" id="lock-bracelet" data-video-id="XHJt9TpGN2k">
+              <img src="https://img.youtube.com/vi/XHJt9TpGN2k/hqdefault.jpg" alt="Bracelet Pooja">
+              <div class="lock-overlay">
+                <span class="lock-icon">🔒</span>
+                <span>Watch Smitha Haridas energise the bracelets</span>
+                <a href="courses.html#course-advanced-chakra-meditation" style="color:#ffd580;font-weight:600;">Advanced Chakra Course members only →</a>
+              </div>
+            </div>
+          </div>
           <div id="upi-crystal" style="display:flex;flex-direction:column;gap:0.45rem;margin-top:0.5rem">
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
@@ -260,6 +289,24 @@
 
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    auth.onAuthStateChanged(function(user) {
+      if (!user) return;
+      db.collection('users').doc(user.uid).get().then(function(doc) {
+        if (!doc.exists) return;
+        var enrolled = doc.data().enrolledCourses || [];
+        if (!enrolled.includes('course-advanced-chakra-meditation')) return;
+        document.querySelectorAll('.locked-video').forEach(function(el) {
+          var videoId = el.dataset.videoId;
+          el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>';
+        });
+      });
+    });
+  </script>
   <script src="auth-nav.js"></script>
   <script src="script.js?v=3"></script>
   <script>

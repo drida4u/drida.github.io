@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Drida</title>
+  <meta name="description" content="Meet Smitha Haridas — teacher, costume designer, and founder of Drida. Discover the story behind India's fastest-growing women's meditation community.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Drida">
+  <meta property="og:title" content="About Us — Drida">
+  <meta property="og:description" content="Meet Smitha Haridas — teacher, costume designer, and founder of Drida. Discover the story behind India's fastest-growing women's meditation community.">
+  <meta property="og:image" content="https://drida.org/drida_logo.png">
+  <meta property="og:url" content="https://drida.org/about.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="About Us — Drida">
+  <meta name="twitter:description" content="Meet Smitha Haridas — teacher, costume designer, and founder of Drida.">
+  <meta name="twitter:image" content="https://drida.org/drida_logo.png">
+  <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
+  <link rel="stylesheet" href="style.css?v=20">
+  <style>
+    /* ── About page layout ── */
+    .about-section { padding: clamp(3.5rem,7vw,5.5rem) clamp(1.5rem,6vw,5rem); }
+    .about-section + .about-section { padding-top: 0; }
+
+    /* Founder spotlight */
+    .founder-spotlight {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 3.5rem;
+      align-items: start;
+      padding: clamp(3.5rem,7vw,5.5rem) clamp(1.5rem,6vw,5rem);
+    }
+    .founder-photo-col { position: relative; }
+    .founder-photo-col img {
+      width: 100%;
+      border-radius: 18px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      box-shadow: var(--shadow-hover);
+    }
+    .founder-photo-badge {
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--grad);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+    .founder-text { padding-top: 0.5rem; }
+    .founder-text .section-tag { margin-bottom: 0.75rem; display: inline-block; }
+    .founder-text h2 { margin-bottom: 1rem; }
+    .founder-text p { color: var(--ink-2); margin-bottom: 1rem; line-height: 1.75; }
+    .founder-quote {
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--accent);
+      border-left: 3px solid var(--accent);
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      line-height: 1.6;
+    }
+
+    /* Journey / before drida — reuse existing smitha-journey CSS from style.css */
+
+    /* Mission pillars */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .mission-card {
+      background: var(--paper-alt);
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+    }
+    .mission-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .mission-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .mission-card p { font-size: 0.9rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+
+    /* Team section */
+    .team-section {
+      background: var(--paper-alt);
+      padding: clamp(3.5rem,7vw,5.5rem) clamp(1.5rem,6vw,5rem);
+    }
+    .team-section-header { text-align: center; margin-bottom: 2.5rem; }
+    .team-section-header h2 { margin-bottom: 0.5rem; }
+    .team-section-header p { color: var(--muted); max-width: 520px; margin: 0 auto; }
+
+    .founder-card {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 14px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .founder-card-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.8rem;
+    }
+    .founder-card-info h3 { margin: 0 0 0.2rem; font-size: 1.05rem; }
+    .founder-card-info .role { font-size: 0.82rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    .founder-card-info p { font-size: 0.88rem; color: var(--ink-2); margin: 0.4rem 0 0; }
+
+    .river-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    .river-card {
+      background: var(--paper);
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .river-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--grad);
+    }
+    .river-name {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    .river-lead {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+    .river-card p { font-size: 0.88rem; color: var(--ink-2); margin: 0 0 0.75rem; line-height: 1.6; }
+    .river-count {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    /* Stats band */
+    .stats-band {
+      background: var(--grad);
+      color: #fff;
+      padding: 3rem clamp(1.5rem,6vw,5rem);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      text-align: center;
+    }
+    .stat-item h3 { font-size: clamp(2rem,4vw,2.8rem); font-weight: 800; margin: 0 0 0.25rem; }
+    .stat-item p { font-size: 0.85rem; opacity: 0.85; margin: 0; }
+
+    @media (max-width: 900px) {
+      .founder-spotlight { grid-template-columns: 1fr; }
+      .founder-photo-col img { max-height: 320px; }
+      .mission-grid { grid-template-columns: 1fr 1fr; }
+      .river-grid { grid-template-columns: 1fr; }
+      .stats-band { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .mission-grid { grid-template-columns: 1fr; }
+      .stats-band { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-float-bubble" aria-hidden="true">
+    <img src="drida_logo.svg" alt="">
+  </div>
+
+  <header>
+    <div class="topstrip">
+      <span class="topstrip-label">Follow Drida:</span>
+      <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Facebook">
+        <svg viewBox="0 0 320 512" width="10" height="16" fill="currentColor"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
+      </a>
+      <span class="topstrip-sep"></span>
+      <a href="courses.html#course-drida-15th-batch" class="topstrip-link">Free Batch</a>
+      <a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida" class="topstrip-link topstrip-donate">Donate</a>
+    </div>
+
+    <div class="topbar">
+      <div class="brand">
+        <span class="logo-badge"><img src="drida_logo.svg" alt="Drida logo" class="logo"></span>
+        <span class="brand-name">Drida</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="meditation.html" class="nav-parent">Offerings</a>
+          <div class="nav-submenu">
+            <a href="meditation.html">Meditation</a>
+            <a href="index.html#yoga">Yoga</a>
+            <a href="index.html#fitness">Fitness</a>
+          </div>
+        </div>
+        <a href="courses.html">Courses</a>
+        <a href="trips.html">Experiences</a>
+        <a href="products.html">Products</a>
+        <a href="meetups.html#team">Drida Family</a>
+        <div class="nav-dropdown">
+          <a href="about.html" class="nav-parent active">About Us</a>
+          <div class="nav-submenu">
+            <a href="about.html">About Drida</a>
+            <a href="meetups.html">Meet-ups</a>
+            <a href="support.html">Contact</a>
+          </div>
+        </div>
+        <a href="login.html">Login</a>
+      </nav>
+      <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
+    </div>
+
+    <div class="hero-page">
+      <span class="hero-kicker">Our Story</span>
+      <h1>From a WhatsApp Group<br>to 4,600 Women</h1>
+      <p>Drida began on 21 September 2021. Today it is one of India's most vibrant women's meditation communities — free, purposeful, and growing.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Stats band -->
+    <div class="stats-band">
+      <div class="stat-item"><h3>4,600+</h3><p>Women in community</p></div>
+      <div class="stat-item"><h3>15</h3><p>Free batches completed</p></div>
+      <div class="stat-item"><h3>40 days</h3><p>Per meditation batch</p></div>
+      <div class="stat-item"><h3>2021</h3><p>Founded</p></div>
+    </div>
+
+    <!-- Founder spotlight -->
+    <div class="founder-spotlight reveal">
+      <div class="founder-photo-col">
+        <img src="images/smitha-designer-atwork2.jpeg" alt="Smitha Haridas, Founder of Drida">
+        <span class="founder-photo-badge">Founder &amp; Mentor</span>
+      </div>
+      <div class="founder-text">
+        <span class="section-tag">The Founder</span>
+        <h2>Smitha Haridas</h2>
+        <p>Smitha Haridas is the founder of Drida — a non-profit meditation community that offers free chakra meditation, breathwork, yoga, and guided wellness to women across India and beyond.</p>
+        <p>Before Drida, Smitha was a school teacher — patient, nurturing, deeply attentive to every student. Her next chapter was creativity: she founded <strong>S.fab Designs</strong>, a boutique costume design studio in Irinjalakuda, Thrissur, whose work dressed Malayalam television actresses for serials and award shows. She had a gift for seeing the best in every woman — and bringing it out.</p>
+        <p>Then, one day, she set it all aside. The studio, the costumes, the classroom. She turned inward, discovered the transformative power of chakra meditation and breathwork, and decided she wanted to share it freely with other women. On 21 September 2021, she started a small WhatsApp group called <em>Positive Vibes</em>. What happened next surprised everyone — including her.</p>
+        <blockquote class="founder-quote">"I was a teacher, then a designer. Both were about giving women their best selves. Meditation was simply the next — and deepest — way to do that."</blockquote>
+        <p>Positive Vibes grew into Drida in 2024. Today it is a thriving community of over 4,600 women, with 15 free meditation batches completed, multiple paid courses, yoga, fitness, pilgrimage trips, and a growing range of wellness products — all rooted in the same spirit that started with one WhatsApp group.</p>
+      </div>
+    </div>
+
+    <!-- Before Drida: costume design story -->
+    <section class="smitha-journey-section reveal">
+      <div class="smitha-journey-inner">
+        <div class="smitha-journey-header">
+          <span class="section-tag">Before Drida</span>
+          <h2>The Designer Who Became a Teacher</h2>
+          <p class="smitha-journey-lead">Before she led 4,600 women into stillness, Smitha Haridas spent years giving other women their most confident moments — stitch by stitch, design by design.</p>
+        </div>
+
+        <div class="smitha-story-row">
+          <div class="smitha-story-text">
+            <p>Smitha's first calling was the classroom. She taught children at the primary, secondary and high school levels — patient, nurturing, deeply attentive to every student. That gift of teaching never left her.</p>
+            <p>Her next chapter was creativity. She founded <strong>S.fab Designs</strong> — a boutique costume design studio in Irinjalakuda, Thrissur — with the tagline <em>"My Designs Your Prestige."</em> Her work dressed Malayalam television actresses for serials and award shows, including the well-known actress Sarayu. She had an eye for colour, drape, and the quiet confidence a well-made garment gives a woman — she also created a personal fashion line of matching mother-daughter outfits.</p>
+            <p>Then, one day, she set it all aside. The studio, the costumes, the classroom — all of it. She turned inward, discovered the transformative power of chakra meditation and breathwork, and decided she wanted to share it freely with other women.</p>
+            <p class="smitha-journey-quote">"I was a teacher, then a designer. Both were about giving women their best selves. Meditation was simply the next — and deepest — way to do that."</p>
+          </div>
+          <div class="smitha-photo-panel">
+            <img src="images/smitha-designer-banner.jpeg" alt="S.fab Designs — My Designs Your Prestige" class="smitha-banner-img" loading="lazy">
+            <div class="smitha-atwork-photos">
+              <img src="images/smitha-designer-atwork1.jpeg" alt="Smitha Haridas doing hand embroidery" loading="lazy">
+              <img src="images/smitha-designer-atwork2.jpeg" alt="Smitha Haridas at her design studio" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <div class="smitha-gallery-header">
+          <h3>From the Studio — Designs That Graced the Screen</h3>
+        </div>
+        <div class="smitha-gallery">
+          <div class="smitha-gallery-item">
+            <img src="images/smitha-designer-actress2.jpeg" alt="Malayalam TV actress in Smitha Haridas costume design" loading="lazy">
+            <span class="smitha-gallery-caption">TV actress — Smitha's design</span>
+          </div>
+          <div class="smitha-gallery-item">
+            <img src="images/smitha-designer-actress3.jpeg" alt="Malayalam TV actress in blue gown by S.fab Designs" loading="lazy">
+            <span class="smitha-gallery-caption">TV actress — S.fab Designs</span>
+          </div>
+          <div class="smitha-gallery-item">
+            <img src="images/smitha-designer-gown.jpeg" alt="Red and gold lace gown by S.fab Designs" loading="lazy">
+            <span class="smitha-gallery-caption">Red &amp; gold gown — S.fab Designs</span>
+          </div>
+          <div class="smitha-gallery-item">
+            <img src="images/smitha-designer-mother-daughter.jpeg" alt="Mother and daughter in matching designs" loading="lazy">
+            <span class="smitha-gallery-caption">Mother &amp; daughter collection</span>
+          </div>
+        </div>
+
+        <div class="smitha-journey-transition">
+          <div class="smitha-transition-line"></div>
+          <p>Then came 21 September 2021 — and everything changed.</p>
+          <div class="smitha-transition-line"></div>
+        </div>
+        <div class="smitha-drida-birth">
+          <p>Smitha started a small WhatsApp group called <strong>Positive Vibes</strong>. Women showed up every morning and evening for guided meditation. Word spread — batch after batch, city after city. What began as a handful of women became hundreds, then thousands.</p>
+          <p>In 2024, Positive Vibes became <strong>Drida</strong> — rooted in the Sanskrit word for inner strength and steadiness. Today, with over 4,600 members across 15 completed free batches, Drida is one of India's most vibrant women's wellness communities. Still free. Still led by Smitha Haridas. Still rooted in the same quiet intention that started it all.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission & values -->
+    <section class="about-section reveal">
+      <span class="section-tag">Why We Exist</span>
+      <h2>Our Mission</h2>
+      <p style="color:var(--ink-2);max-width:600px;">Drida exists to make inner wellness accessible to every woman — freely, without gatekeeping, without hierarchy, without cost.</p>
+      <div class="mission-grid">
+        <div class="mission-card">
+          <span class="mission-icon">🌸</span>
+          <h3>Free for All Women</h3>
+          <p>Our flagship meditation batches are completely free. No fees, no prerequisites — just a willingness to show up.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mission-icon">🌿</span>
+          <h3>Rooted in Tradition</h3>
+          <p>Chakra meditation, breathwork and guided visualisation — ancient practices made accessible for modern women.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mission-icon">🤝</span>
+          <h3>Community First</h3>
+          <p>Drida is run by women for women. Every volunteer, admin and coordinator is a community member giving back.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mission-icon">💼</span>
+          <h3>Women's Livelihood</h3>
+          <p>Beyond wellness, Drida is building employment opportunities for women through its growing product and service businesses.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mission-icon">✈️</span>
+          <h3>Pilgrimage &amp; Travel</h3>
+          <p>Spiritual trips to sacred sites across India — curated, safe, and accompanied by Smitha Haridas and the Drida family.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mission-icon">📿</span>
+          <h3>Mindful Products</h3>
+          <p>Energised malas, wellness products and accessories — made with intention, priced with purpose.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team structure -->
+    <section class="team-section reveal">
+      <div class="team-section-header">
+        <span class="section-tag">The Team</span>
+        <h2>The Drida Family</h2>
+        <p>Drida is held together by a network of dedicated women volunteers, organised into four river teams — each named after a sacred Indian river.</p>
+      </div>
+
+      <div class="founder-card">
+        <div class="founder-card-avatar">🪷</div>
+        <div class="founder-card-info">
+          <h3>Smitha Haridas</h3>
+          <span class="role">Founder &amp; Mentor</span>
+          <p>Leads all meditation sessions, community vision, and Drida's overall direction.</p>
+        </div>
+      </div>
+
+      <div class="river-grid">
+        <div class="river-card">
+          <span class="river-name">Team Ganga</span>
+          <span class="river-lead">Led by Smitha Haridas</span>
+          <p>Smitha's executive circle — 4 assistants who keep the wheels turning on every daily Drida activity.</p>
+          <span class="river-count">4 Executive Assistants</span>
+        </div>
+        <div class="river-card">
+          <span class="river-name">Team Yamuna</span>
+          <span class="river-lead">Led by Geetha P</span>
+          <p>All existing Drida batch members — our growing family of women on their wellness journey.</p>
+          <span class="river-count">3,500+ Members</span>
+        </div>
+        <div class="river-card">
+          <span class="river-name">Team Narmada</span>
+          <span class="river-lead">Led by Sheeba</span>
+          <p>Our rock stars — the programme coordinators who organise every meetup, event and live session.</p>
+          <span class="river-count">17 Coordinators</span>
+        </div>
+        <div class="river-card">
+          <span class="river-name">Team Godavari</span>
+          <span class="river-lead">Led by Sujatha</span>
+          <p>New batch members and admins — the future of Drida, trained and supported by chief admins and trainers.</p>
+          <span class="river-count">4 Chief Admins · 8 Trainers · 36 Admins</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="band-cta-clean">
+      <h2>Ready to Begin?</h2>
+      <p>Drida's free meditation batch is open to all women — no experience needed. Join thousands already on the journey.</p>
+      <a class="btn-white-pill" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo-wrap"><img src="drida_logo_white.svg" alt="Drida" width="50" height="50"></span>
+        <div>
+          <span class="footer-brand-name">Drida</span>
+          <p class="footer-tagline">Meditation &middot; Yoga &middot; Fitness &middot; Community</p>
+        </div>
+      </div>
+      <div class="footer-newsletter">
+        <p>Stay connected with Drida&rsquo;s journey</p>
+        <a class="footer-subscribe-btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="trips.html">Experiences</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="meetups.html">Meet-ups</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Offerings</h4>
+        <ul>
+          <li><a href="courses.html#course-drida-15th-batch">Free Meditation Batch</a></li>
+          <li><a href="courses.html#course-yoga-with-smitha">Yoga with Smitha</a></li>
+          <li><a href="courses.html#course-fitness">Fitness Program</a></li>
+          <li><a href="courses.html#course-kids-meditation">Kids Meditation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get Involved</h4>
+        <ul>
+          <li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
+          <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
+          <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
+          <li><a href="trips.html">Join a Trip</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
+          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Haridas</a></li>
+          <li><a href="support.html">Help &amp; Support</a></li>
+          <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+          <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Drida. All rights reserved. &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=3"></script>
+</body>
+</html>

@@ -1,32 +1,31 @@
 // ── Theme toggle ────────────────────────────────────────────────────────────
-// Button is embedded in every page's HTML. CSS (.icon-sun / .icon-moon)
-// shows/hides the correct icon based on [data-theme] on <html>.
-// JS only: sets data-theme attribute + wires the click event.
+// Cycles: light → pastel → dark → light
+// Icons (CSS-driven): 🎨 in light, 🌙 in pastel, ☀ in dark
 (() => {
   const STORAGE_KEY = 'drida-theme';
+  const THEMES = ['light', 'pastel', 'pastel-dark', 'pastel-bright', 'pastel-green', 'claude', 'dark', 'terra'];
   const root = document.documentElement;
 
-  function isDark() {
+  function getTheme() {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) return saved === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved && THEMES.includes(saved)) return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
-  function applyTheme(dark) {
-    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
   }
 
-  // Apply ASAP to prevent flash of wrong theme
-  applyTheme(isDark());
+  applyTheme(getTheme());
 
-  // Wire click handler once the button is in the DOM
   function wireToggle() {
     const btn = document.getElementById('theme-toggle');
     if (!btn) return;
     btn.addEventListener('click', () => {
-      const nowDark = root.getAttribute('data-theme') === 'dark';
-      localStorage.setItem(STORAGE_KEY, nowDark ? 'light' : 'dark');
-      applyTheme(!nowDark);
+      const current = root.getAttribute('data-theme') || 'light';
+      const next = THEMES[(THEMES.indexOf(current) + 1) % THEMES.length];
+      localStorage.setItem(STORAGE_KEY, next);
+      applyTheme(next);
     });
   }
 
@@ -36,9 +35,8 @@
     wireToggle();
   }
 
-  // React to OS-level dark/light switch while the page is open
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (!localStorage.getItem(STORAGE_KEY)) applyTheme(e.matches);
+    if (!localStorage.getItem(STORAGE_KEY)) applyTheme(e.matches ? 'dark' : 'light');
   });
 })();
 
@@ -110,7 +108,8 @@ navLinks.forEach(link => {
 // for (modeled on isha.sadhguru.org / kasarnaturals.com). Runs on every
 // page automatically - no need to edit each page's HTML.
 (() => {
-  const revealTargets = document.querySelectorAll("main section, .card");
+  // Also include divs that already have .reveal in their HTML (e.g. founder-spotlight)
+  const revealTargets = document.querySelectorAll("main section, .card, .reveal");
   revealTargets.forEach(el => el.classList.add("reveal"));
 
   // Stagger cards inside the same grid so they don't all pop in at once.
@@ -183,11 +182,26 @@ navLinks.forEach(link => {
   row.parentNode.insertBefore(dots, row.nextSibling);
 
   const allDots = dots.querySelectorAll(".pillar-dot");
+
+  // Find which card's centre is closest to the scroll container's centre
   const updateDots = () => {
-    const idx = Math.round(row.scrollLeft / row.offsetWidth);
-    allDots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
+    const rowCentre = row.scrollLeft + row.offsetWidth / 2;
+    let closest = 0, minDist = Infinity;
+    cards.forEach((card, i) => {
+      const dist = Math.abs((card.offsetLeft + card.offsetWidth / 2) - rowCentre);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    allDots.forEach((d, i) => d.classList.toggle("is-active", i === closest));
   };
   row.addEventListener("scroll", updateDots, { passive: true });
+
+  // Tap a dot → scroll that card to centre
+  allDots.forEach((dot, i) => {
+    dot.style.cursor = "pointer";
+    dot.addEventListener("click", () => {
+      cards[i].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+  });
 })();
 
 // ---------- Hero parallax ----------

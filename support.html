@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support &amp; Help Centre · Drida</title>
+  <meta name="description" content="Get help with Drida courses, payments, and community access. Reach us on WhatsApp, email, or YouTube — we're here to help.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Drida">
+  <meta property="og:title" content="Support & Help Centre — Drida">
+  <meta property="og:description" content="Get help with Drida courses, payments, and community access. Reach us on WhatsApp, email, or YouTube — we're here to help.">
+  <meta property="og:image" content="https://drida.org/drida_logo.png">
+  <meta property="og:url" content="https://drida.org/support.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Support & Help Centre — Drida">
+  <meta name="twitter:description" content="Get help with Drida courses, payments, and community access. Reach us on WhatsApp, email, or YouTube — we're here to help.">
+  <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
   <link rel="stylesheet" href="style.css?v=20">
   <style>
@@ -16,31 +27,37 @@
       align-items: center;
       text-align: center;
       padding: clamp(6rem, 12vw, 9rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 5vw, 4rem);
-      background: var(--grad);
+      background: transparent; /* orb shows through on all themes */
       position: relative;
       isolation: isolate;
     }
+    .support-hero::before {
+      display: none; /* orb provides the visual backdrop */
+    }
+    .support-hero > * { position: relative; z-index: 1; }
     .support-hero h1 {
       font-size: clamp(2rem, 4.5vw, 3.2rem);
       color: #fff;
       margin: 0.4rem 0 0.75rem;
       line-height: 1.15;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
     }
     .support-hero p {
-      color: rgba(255,255,255,0.82);
+      color: rgba(255,255,255,0.88);
       font-size: clamp(1rem, 1.8vw, 1.2rem);
       max-width: 500px;
       margin: 0 auto;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.35);
     }
     .support-hero .section-tag {
-      color: rgba(255,255,255,0.7);
-      border-color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.82);
+      border-color: rgba(255,255,255,0.35);
     }
 
     /* Quick contact strip */
     .support-contact-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 1.25rem;
       padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 6vw, 5rem);
       background: var(--paper-alt);
@@ -76,6 +93,22 @@
     .support-contact-icon.wa  { background: #e7f9ee; color: #25d366; }
     .support-contact-icon.mail{ background: #fef3ea; color: var(--accent); }
     .support-contact-icon.yt  { background: #fff0f0; color: #ff0000; }
+    /* All themes: support-hero is transparent — overrides now in base rule above */
+    /* Dark theme WA icon colours */
+    [data-theme="dark"] .support-contact-icon.wa,
+    [data-theme="pastel-dark"] .support-contact-icon.wa { background: #0e2018; color: #25d366; }
+    [data-theme="dark"] .support-contact-card .support-contact-icon[style*="fce8f3"],
+    [data-theme="pastel-dark"] .support-contact-card .support-contact-icon[style*="fce8f3"],
+    [data-theme="claude"] .support-contact-card .support-contact-icon[style*="fce8f3"] {
+      background: #280c22 !important; color: #e060a0 !important;
+    }
+    [data-theme="claude"] .support-contact-icon.wa   { background: #0e2018; color: #25d366; }
+    [data-theme="dark"] .support-contact-icon.mail,
+    [data-theme="pastel-dark"] .support-contact-icon.mail,
+    [data-theme="claude"] .support-contact-icon.mail { background: #28180c; color: var(--accent); }
+    [data-theme="dark"] .support-contact-icon.yt,
+    [data-theme="pastel-dark"] .support-contact-icon.yt,
+    [data-theme="claude"] .support-contact-icon.yt   { background: #280c0c; color: #ff5555; }
     .support-contact-card h4 { margin: 0 0 0.2rem; font-size: 1rem; }
     .support-contact-card p  { margin: 0; font-size: 0.85rem; color: var(--muted); }
 
@@ -154,6 +187,46 @@
     .support-cta h3 { margin: 0 0 0.5rem; font-size: 1.3rem; }
     .support-cta p  { color: var(--muted); margin: 0 0 1.4rem; font-size: 0.95rem; }
     .support-cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Escalation contact section */
+    .support-escalation {
+      margin: 2rem 0 0;
+      border: 1.5px solid var(--accent);
+      border-radius: 14px;
+      background: var(--paper);
+      padding: 1.75rem 2rem;
+    }
+    .support-escalation-inner {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .support-escalation-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .support-escalation h4 {
+      margin: 0 0 0.4rem;
+      font-size: 1rem;
+      color: var(--accent);
+    }
+    .support-escalation p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    @media (max-width: 480px) {
+      .support-escalation-inner { flex-direction: column; }
+      .support-escalation { padding: 1.25rem; }
+    }
   </style>
 </head>
 <body>
@@ -202,9 +275,9 @@
         <a href="products.html">Products</a>
         <a href="meetups.html#team">Drida Family</a>
         <div class="nav-dropdown">
-          <a href="index.html#about" class="nav-parent">About Us</a>
+          <a href="about.html" class="nav-parent">About Us</a>
           <div class="nav-submenu">
-            <a href="index.html#about">About Drida</a>
+            <a href="about.html">About Drida</a>
             <a href="meetups.html">Meet-ups</a>
             <a href="index.html#contact">Contact</a>
           </div>
@@ -225,6 +298,7 @@
     </section>
 
     <!-- Quick contact options -->
+    <!-- TODO: Replace 918075471581 below with the Drida support person's WhatsApp number once confirmed -->
     <div class="support-contact-strip">
       <a class="support-contact-card" href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">
         <div class="support-contact-icon wa">
@@ -253,6 +327,15 @@
           <p>Recordings &amp; guided sessions</p>
         </div>
       </a>
+      <a class="support-contact-card" href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">
+        <div class="support-contact-icon" style="background:#fce8f3;color:#c2186a;">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div>
+          <h4>Instagram</h4>
+          <p>@d_r_i_d_a_</p>
+        </div>
+      </a>
     </div>
 
     <!-- FAQ body -->
@@ -269,7 +352,7 @@
 
         <details>
           <summary>How do I register for a free meditation batch?</summary>
-          <p class="faq-ans">Visit our <a href="courses.html#course-drida-15th-batch">Courses page</a> and click "Register Interest" on the current batch. You'll be added to the WhatsApp group where Smitha Ma'am conducts the live sessions. No prior experience is needed.</p>
+          <p class="faq-ans">Visit our <a href="courses.html#course-drida-15th-batch">Courses page</a> and click "Register Interest" on the current batch. You'll be added to the WhatsApp group where Smitha Haridas conducts the live sessions. No prior experience is needed.</p>
         </details>
 
         <details>
@@ -289,7 +372,7 @@
 
         <details>
           <summary>What is a "batch" and how long does it last?</summary>
-          <p class="faq-ans">A batch is a 40-day guided meditation journey led live by Smitha Ma'am every day. Sessions are held morning and evening via WhatsApp. At the end of the batch, the community gathers for a joyful meetup to celebrate the transformation.</p>
+          <p class="faq-ans">A batch is a 40-day guided meditation journey led live by Smitha Haridas every day. Sessions are held morning and evening via WhatsApp. At the end of the batch, the community gathers for a joyful meetup to celebrate the transformation.</p>
         </details>
 
         <details>
@@ -304,7 +387,7 @@
 
         <details>
           <summary>What is Chakra Meditation and do I need prior experience?</summary>
-          <p class="faq-ans">Chakra Meditation is an energy-centre awareness practice taught by Smitha Ma'am. It is suitable for beginners — many members start with the free batch and naturally progress to Chakra and Advanced Chakra programmes over time.</p>
+          <p class="faq-ans">Chakra Meditation is an energy-centre awareness practice taught by Smitha Haridas. It is suitable for beginners — many members start with the free batch and naturally progress to Chakra and Advanced Chakra programmes over time.</p>
         </details>
       </div>
 
@@ -354,7 +437,7 @@
 
         <details>
           <summary>How do I become a volunteer or admin?</summary>
-          <p class="faq-ans">Drida volunteers and admins are usually long-time members who are invited by Smitha Ma'am or the team leads. If you are passionate about contributing, write to us at <a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">drida4u@gmail.com</a> — we'd love to hear from you.</p>
+          <p class="faq-ans">Drida volunteers and admins are usually long-time members who are invited by Smitha Haridas or the team leads. If you are passionate about contributing, write to us at <a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">drida4u@gmail.com</a> — we'd love to hear from you.</p>
         </details>
 
         <details>
@@ -373,8 +456,23 @@
         <h3>Still need help?</h3>
         <p>Our team is happy to assist — reach out and we'll get back to you as soon as we can.</p>
         <div class="support-cta-btns">
+          <!-- TODO: Replace 918075471581 below with support person's number -->
           <a class="btn-terra" href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
           <a class="btn-outline" href="mailto:drida4u@gmail.com?subject=Support%20Request">Send an Email</a>
+        </div>
+      </div>
+
+      <!-- Escalation contact -->
+      <div class="support-escalation">
+        <div class="support-escalation-inner">
+          <div class="support-escalation-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h4>Escalation — Smitha Haridas (Founder)</h4>
+            <p>If your concern has not been resolved by our support team, you may reach Smitha Haridas directly on WhatsApp. Please use this channel only for unresolved issues.</p>
+            <a class="btn-outline" href="https://wa.me/918075471581?text=Escalation%20—%20my%20support%20query%20was%20not%20resolved" target="_blank" rel="noopener noreferrer" style="margin-top:0.75rem;display:inline-block;">Message Smitha on WhatsApp</a>
+          </div>
         </div>
       </div>
 

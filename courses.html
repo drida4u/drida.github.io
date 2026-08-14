@@ -1,12 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Courses — Drida</title>
-  <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
-  <link rel="stylesheet" href="style.css?v=20">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Courses — Drida</title>
+<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Smitha Haridas." name="description"/>
+<meta content="website" property="og:type"/>
+<meta content="Drida" property="og:site_name"/>
+<meta content="Courses — Drida" property="og:title"/>
+<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Smitha Haridas." property="og:description"/>
+<meta content="https://drida.org/drida_logo.png" property="og:image"/>
+<meta content="https://drida.org/courses.html" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="Courses — Drida" name="twitter:title"/>
+<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Smitha Haridas." name="twitter:description"/>
+<meta content="https://drida.org/drida_logo.png" name="twitter:image"/>
+<script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
+<link href="style.css?v=20" rel="stylesheet"/>
+<style>
     /* Horizontal list — like Udemy/Coursera.
        Each course is a wide row: poster left, details right.
        Much better for portrait-orientation announcement posters. */
@@ -20,45 +32,61 @@
     .course-card {
       background: var(--paper-alt);
       border: 1px solid var(--line-soft);
-      border-left: 4px solid transparent;
+      border-left: 4px solid var(--line-soft); /* default; JS replaces with poster color */
       border-radius: 14px;
       overflow: hidden;
       box-shadow: var(--shadow);
-      transition: box-shadow 0.22s ease, transform 0.22s ease, border-left-color 0.22s;
+      transition: box-shadow 0.22s ease, transform 0.22s ease;
       display: flex;
-      flex-direction: row;     /* horizontal: poster | content */
+      flex-direction: column; /* stack top-row and bottom-section */
       position: relative;
       z-index: 1;
-      align-items: stretch;
+    }
+
+    /* Top row: poster + course info side by side */
+    /* Top row: poster + text, both same height (= poster height) */
+    .course-card-top {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch; /* both sides same height */
+    }
+
+    /* Bottom row: form + button, full width, same bg as card */
+    .course-bottom {
+      padding: 0.9rem 1.25rem 1.1rem;
+      border-top: 1px solid var(--line-soft);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .course-card:hover {
       box-shadow: var(--shadow-hover);
       transform: translateY(-2px);
-      border-left-color: var(--accent);
+      /* no border-left-color override — keeps sampled color consistent */
     }
 
     .course-card.coming-soon {
-      opacity: 0.75;
       border-style: dashed;
     }
 
+    /* .course-poster-wrap removed — images are direct flex children, styled via .course-poster */
+
     .course-poster {
-      width: 200px;
-      min-width: 200px;
-      height: auto;            /* card height = poster's natural height */
-      object-fit: contain;
-      object-position: center;
-      display: block;
-      background: var(--paper);
-      border-right: 1px solid var(--line-soft);
-      flex-shrink: 0;
-      align-self: stretch;
-    }
-    /* Portrait posters: slightly wider panel so text stays legible */
-    .course-poster.portrait {
       width: 220px;
       min-width: 220px;
+      flex-shrink: 0;
+      height: 100%;
+      min-height: 220px;
+      max-height: 340px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      align-self: stretch;
+    }
+    .course-poster.portrait {
+      width: 200px;
+      min-width: 200px;
     }
 
     .course-poster-placeholder {
@@ -74,13 +102,16 @@
       opacity: 0.18;
     }
 
+    /* Body: fills width, height capped to poster, scrolls if content overflows */
     .course-body {
-      padding: 1.25rem 1.5rem;
+      padding: 1rem 1.25rem 1rem 0.75rem;
       flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
-      justify-content: center;
+      overflow-y: auto;
+      max-height: 320px;
     }
 
     .course-tags {
@@ -123,9 +154,13 @@
       color: var(--muted);
       background: var(--line-soft);
       border-radius: 8px;
-      padding: 0.5rem 0.75rem;
-      line-height: 1.6;
+      padding: 0.45rem 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 1rem;
+      align-items: center;
     }
+    .course-details br { display: none; }
 
     .course-price {
       font-size: 1.15rem;
@@ -134,26 +169,41 @@
       margin-top: 0.2rem;
     }
 
-    .course-card .btn {
-      margin-top: 0.6rem;
+    .course-bottom .btn {
+      display: block;
+      width: fit-content;
+      min-width: 200px;
       text-align: center;
+      margin: 0 auto;
     }
 
-    /* UPI payment block (reuse from courses.js style) */
+    /* UPI payment block — now lives in .course-bottom */
     .upi-pay {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      margin-top: 0.75rem;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    /* Name + phone side by side */
+    .upi-fields-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .upi-fields-row .upi-input {
+      flex: 1;
+      min-width: 0;
+      width: auto;
     }
 
     .upi-input {
       border: 1px solid var(--line-soft);
       border-radius: 8px;
       padding: 0.55rem 0.75rem;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-family: inherit;
-      background: var(--paper);
+      background: var(--paper-alt);
       color: var(--ink);
       width: 100%;
       box-sizing: border-box;
@@ -162,6 +212,13 @@
     .upi-input:focus {
       outline: none;
       border-color: var(--accent);
+    }
+
+    .upi-pay .btn {
+      display: block;
+      width: fit-content;
+      min-width: 200px;
+      margin: 0.25rem auto 0;
     }
 
     .upi-note {
@@ -184,417 +241,734 @@
       max-width: 680px;
     }
 
-    /* Mobile: stack poster above content */
-    @media (max-width: 600px) {
-      .course-card { flex-direction: column; }
-      .course-poster,
-      .course-poster.portrait {
+    /* ── Price range dual slider ── */
+    .cf-slider-outer { padding: 0.25rem 12px 0; } /* inset so thumbs at 0% and 100% aren't clipped */
+    .cf-slider-row {
+      position: relative;
+      height: 28px;
+      margin-bottom: 0.35rem;
+    }
+    .cf-slider-track {
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      transform: translateY(-50%);
+      height: 6px;
+      background: var(--line-soft);
+      border-radius: 3px;
+      z-index: 2;        /* above inputs so it's always visible */
+      pointer-events: none; /* clicks pass through to thumbs below */
+    }
+    .cf-slider-fill {
+      position: absolute;
+      height: 100%;
+      background: var(--accent);
+      border-radius: 3px;
+      left: 0%; width: 100%;
+    }
+    .cf-range {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      -webkit-appearance: none; appearance: none;
+      background: transparent;
+      pointer-events: none;
+      margin: 0;
+      z-index: 1;
+    }
+    /* Collapse the native range track completely — custom .cf-slider-track handles visuals */
+    .cf-range::-webkit-slider-runnable-track {
+      background: transparent !important;
+      height: 0 !important;
+      border: none;
+    }
+    .cf-range::-moz-range-track {
+      background: transparent !important;
+      height: 0 !important;
+      border: none;
+    }
+    .cf-range::-moz-range-progress { background: transparent !important; }
+    .cf-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid #fff;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.35);
+      cursor: pointer;
+      pointer-events: all;
+      margin-top: 0;
+    }
+    .cf-range::-moz-range-thumb {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid #fff;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.35);
+      cursor: pointer;
+      pointer-events: all;
+      border-style: solid;
+    }
+    .cf-slider-values {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-top: 0.1rem;
+    }
+    /* Dark themes: boost track contrast so it's clearly visible */
+    [data-theme="dark"] .cf-slider-track,
+    [data-theme="pastel-dark"] .cf-slider-track,
+    [data-theme="claude"] .cf-slider-track { background: rgba(255,255,255,0.38) !important; }
+    [data-theme="dark"] .cf-slider-values,
+    [data-theme="pastel-dark"] .cf-slider-values,
+    [data-theme="claude"] .cf-slider-values { color: var(--muted); }
+
+    /* Mobile + tablet: stack poster above content */
+    @media (max-width: 768px) {
+      .course-card-top { flex-direction: column; }
+      .course-poster {
         width: 100%;
         min-width: unset;
         height: auto;
-        max-height: 300px;
-        border-right: none;
+        min-height: unset;
+        max-height: 240px;
+        object-fit: cover;
+        object-position: center;
         border-bottom: 1px solid var(--line-soft);
       }
+      .upi-pay { max-width: 100%; }
     }
   </style>
 </head>
 <body>
+<div aria-hidden="true" class="logo-float-bubble">
+<img alt="" src="drida_logo.svg"/>
+</div>
+<header>
+<!-- Secondary topstrip: social icons + quick links above main nav (mirrors Isha website) -->
+<div class="topstrip">
+<span class="topstrip-label">Follow Drida:</span>
+<a aria-label="YouTube" class="topstrip-icon" href="https://youtube.com/@drida_life" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="16" viewbox="0 0 24 24" width="16"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"></path></svg>
+</a>
+<a aria-label="Instagram" class="topstrip-icon" href="https://www.instagram.com/d_r_i_d_a_/" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24" width="16"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" fill="currentColor" r="1.2" stroke="none"></circle></svg>
+</a>
+<a aria-label="WhatsApp" class="topstrip-icon" href="https://wa.me/918075471581" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="16" viewbox="0 0 24 24" width="16"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"></path></svg>
+</a>
+<a aria-label="Facebook" class="topstrip-icon" href="https://www.facebook.com/profile.php?id=61579257953722" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="16" viewbox="0 0 320 512" width="10"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"></path></svg>
+</a>
+<span class="topstrip-sep"></span>
+<a class="topstrip-link" href="courses.html#course-drida-15th-batch">Free Batch</a>
+<a class="topstrip-link topstrip-donate" href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate</a>
+</div>
+<div class="topbar">
+<div class="brand">
+<span class="logo-badge"><img alt="Drida logo" class="logo" src="drida_logo.svg"/></span>
+<span class="brand-name">Drida</span>
+</div>
+<nav>
+<a href="index.html">Home</a>
+<div class="nav-dropdown">
+<a class="nav-parent" href="meditation.html">Offerings</a>
+<div class="nav-submenu">
+<a href="meditation.html">Meditation</a>
+<a href="index.html#yoga">Yoga</a>
+<a href="index.html#fitness">Fitness</a>
+</div>
+</div>
+<a class="active" href="courses.html">Courses</a>
+<a href="trips.html">Experiences</a>
+<a href="products.html">Products</a>
+<a href="meetups.html#team">Drida Family</a>
+<div class="nav-dropdown">
+<a class="nav-parent" href="about.html">About Us</a>
+<div class="nav-submenu">
+<a href="about.html">About Drida</a>
+<a href="meetups.html">Meet-ups</a>
+<a href="index.html#contact">Contact</a>
+</div>
+</div>
+<a href="login.html">Login</a>
+</nav>
+<button aria-label="Toggle theme" id="theme-toggle" type="button"></button>
+</div>
+<div class="hero">
+<h1>Courses</h1>
+<p>Meditation, wellness &amp; spiritual programmes from Drida — for every stage of your journey.</p>
+</div>
+</header>
+<main>
+<p class="section-intro">Enroll directly through the website — log in, register or pay, and you're done. Need help? Use the <a href="index.html#contact">Contact page</a>.</p>
+<style>
+      /* ══ Amazon-style sidebar filter layout ══ */
+      .courses-layout {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 2rem;
+        align-items: start;
+        margin-top: 1.5rem;
+      }
 
-  <div class="logo-float-bubble" aria-hidden="true">
-    <img src="drida_logo.svg" alt="">
-  </div>
+      /* ── Sidebar ── */
+      .cf-sidebar {
+        background: var(--paper-alt);
+        border: 1px solid var(--line-soft);
+        border-radius: 14px;
+        padding: 1.25rem;
+        position: sticky;
+        top: 80px;
+      }
+      .cf-sidebar-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .cf-sidebar-head span {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: 0.01em;
+      }
+      #cf-clear {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--accent);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        font-family: inherit;
+        text-decoration: underline;
+        transition: opacity 0.15s;
+      }
+      #cf-clear:hover { opacity: 0.7; }
 
-  <header>
-  <!-- Secondary topstrip: social icons + quick links above main nav (mirrors Isha website) -->
-  <div class="topstrip">
-    <span class="topstrip-label">Follow Drida:</span>
-    <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="YouTube">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"/></svg>
-    </a>
-    <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
-    </a>
-    <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="WhatsApp">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-    </a>
-    <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" class="topstrip-icon" aria-label="Facebook">
-      <svg viewBox="0 0 320 512" width="10" height="16" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
-    </a>
-    <span class="topstrip-sep"></span>
-    <a href="courses.html#course-drida-15th-batch" class="topstrip-link">Free Batch</a>
-    <a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida" class="topstrip-link topstrip-donate">Donate</a>
-  </div>
+      /* Search in sidebar */
+      .cf-search-wrap {
+        position: relative;
+        margin-bottom: 1.25rem;
+      }
+      .cf-search-icon {
+        position: absolute;
+        left: 0.7rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+        pointer-events: none;
+      }
+      #cf-search {
+        width: 100%;
+        padding: 0.5rem 0.6rem 0.5rem 2.1rem;
+        border: 1.5px solid var(--line-soft);
+        border-radius: 8px;
+        background: var(--paper);
+        color: var(--ink);
+        font-size: 0.85rem;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.18s;
+        box-sizing: border-box;
+      }
+      #cf-search:focus { border-color: var(--accent); }
 
-    <div class="topbar">
-      <div class="brand">
-        <span class="logo-badge"><img src="drida_logo.svg" alt="Drida logo" class="logo"></span>
-        <span class="brand-name">Drida</span>
-      </div>
-      <nav>
-        <a href="index.html">Home</a>
-        <div class="nav-dropdown">
-          <a href="meditation.html" class="nav-parent">Offerings</a>
-          <div class="nav-submenu">
-            <a href="meditation.html">Meditation</a>
-            <a href="index.html#yoga">Yoga</a>
-            <a href="index.html#fitness">Fitness</a>
-          </div>
-        </div>
-        <a href="courses.html" class="active">Courses</a>
-        <a href="trips.html">Experiences</a>
-        <a href="products.html">Products</a>
-        <a href="meetups.html#team">Drida Family</a>
-        <div class="nav-dropdown">
-          <a href="index.html#about" class="nav-parent">About Us</a>
-          <div class="nav-submenu">
-            <a href="index.html#about">About Drida</a>
-            <a href="meetups.html">Meet-ups</a>
-            <a href="index.html#contact">Contact</a>
-          </div>
-        </div>
-        <a href="login.html">Login</a>
-      </nav>
-      <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
-    </div>
-    <div class="hero">
-      <h1>Courses</h1>
-      <p>Meditation, wellness &amp; spiritual programmes from Drida — for every stage of your journey.</p>
-    </div>
-  </header>
+      /* Filter group (Price / Status) */
+      .cf-group {
+        margin-bottom: 1.25rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .cf-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+      .cf-group-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin: 0 0 0.75rem;
+      }
 
-  <main>
-    <p class="section-intro">Enroll directly through the website — log in, register or pay, and you're done. Need help? Use the <a href="index.html#contact">Contact page</a>.</p>
+      /* Checkbox rows — VISIBLE checkboxes like Amazon */
+      .cf-checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        cursor: pointer;
+        padding: 0.3rem 0;
+        font-size: 0.88rem;
+        color: var(--ink);
+        transition: color 0.15s;
+        user-select: none;
+      }
+      .cf-checkbox-label:hover { color: var(--accent); }
+      .cf-checkbox-label input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 17px;
+        height: 17px;
+        min-width: 17px;
+        border: 2px solid var(--line-soft);
+        border-radius: 3px;
+        background: var(--paper);
+        cursor: pointer;
+        position: relative;
+        transition: border-color 0.15s, background 0.15s;
+        flex-shrink: 0;
+      }
+      .cf-checkbox-label input[type="checkbox"]:checked {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .cf-checkbox-label input[type="checkbox"]:checked::after {
+        content: '';
+        position: absolute;
+        left: 3px;
+        top: 0px;
+        width: 5px;
+        height: 9px;
+        border: 2px solid #fff;
+        border-top: none;
+        border-left: none;
+        transform: rotate(45deg);
+      }
+      .cf-count {
+        margin-left: auto;
+        font-size: 0.74rem;
+        color: var(--muted);
+        background: var(--paper);
+        border: 1px solid var(--line-soft);
+        border-radius: 999px;
+        padding: 0.05rem 0.45rem;
+        font-weight: 600;
+      }
 
-    <!-- Filter bar -->
-    <div id="course-filters" style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin:1.25rem 0 1.75rem;">
-      <span style="font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Show:</span>
-      <button class="cf-btn cf-active" data-filter="all">All</button>
-      <button class="cf-btn" data-filter="free">Free</button>
-      <button class="cf-btn" data-filter="paid">Paid</button>
-      <button class="cf-btn" data-filter="live">Live</button>
-      <button class="cf-btn" data-filter="soon">Coming Soon</button>
-    </div>
-    <style>
-      .cf-btn { font-size:0.78rem;font-weight:600;border:1.5px solid var(--line-soft);background:var(--paper);color:var(--ink);border-radius:999px;padding:0.3rem 0.85rem;cursor:pointer;transition:all 0.18s; }
-      .cf-btn.cf-active, .cf-btn:hover { background:var(--grad);color:#fff;border-color:transparent; }
-      .cat-section { margin-bottom: 3rem; }
+      /* Mobile: collapse sidebar to top bar */
+      .cf-mobile-toggle {
+        display: none;
+        width: 100%;
+        padding: 0.65rem 1rem;
+        background: var(--paper-alt);
+        border: 1px solid var(--line-soft);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--ink);
+        cursor: pointer;
+        font-family: inherit;
+        text-align: left;
+        margin-bottom: 0.75rem;
+      }
+      @media (max-width: 760px) {
+        .courses-layout { grid-template-columns: 1fr; }
+        .cf-sidebar { position: static; display: none; }
+        .cf-sidebar.open { display: block; }
+        .cf-mobile-toggle { display: flex; align-items: center; gap: 0.5rem; }
+      }
+
+      /* Course list area */
+      .cf-content { min-width: 0; }
+      #cf-no-results {
+        display: none;
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--muted);
+        font-size: 1rem;
+      }
+      .cat-section { margin-bottom: 2.5rem; }
       .cat-section[data-hidden="true"] { display: none; }
-      .cat-heading { font-size: 1.1rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); display: flex; align-items: center; gap: 0.5rem; }
+      .cat-heading { font-size: 1.05rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); display: flex; align-items: center; gap: 0.5rem; }
     </style>
+<!-- Mobile toggle -->
+<button class="cf-mobile-toggle" id="cf-mobile-toggle" onclick="document.querySelector('.cf-sidebar').classList.toggle('open');this.querySelector('.cf-toggle-icon').textContent=document.querySelector('.cf-sidebar').classList.contains('open')?'▲':'▼'">
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="16"><line x1="4" x2="20" y1="6" y2="6"></line><line x1="8" x2="20" y1="12" y2="12"></line><line x1="12" x2="20" y1="18" y2="18"></line></svg>
+      Filters
+      <span class="cf-toggle-icon" style="margin-left:auto">▼</span>
+</button>
+<div class="courses-layout">
+<!-- LEFT SIDEBAR -->
+<aside class="cf-sidebar">
+<div class="cf-sidebar-head">
+<span>Filters</span>
+<button id="cf-clear" type="button">Clear all</button>
+</div>
+<!-- Search -->
+<div class="cf-search-wrap">
+<svg class="cf-search-icon" fill="none" height="15" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="15"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+<input autocomplete="off" id="cf-search" placeholder="Search courses…" type="search"/>
+</div>
+<!-- Price -->
+<div class="cf-group">
+<h3 class="cf-group-title">Price</h3>
+<label class="cf-checkbox-label">
+<input class="cf-checkbox" type="checkbox" value="free"/>
+            Free
+            <span class="cf-count" id="count-free"></span>
+</label>
+<label class="cf-checkbox-label">
+<input class="cf-checkbox" type="checkbox" value="paid"/>
+            Paid
+            <span class="cf-count" id="count-paid"></span>
+</label>
+</div>
+<!-- Status -->
+<div class="cf-group">
+<h3 class="cf-group-title">Status</h3>
+<label class="cf-checkbox-label">
+<input class="cf-checkbox" type="checkbox" value="live"/>
+            Live / Ongoing
+            <span class="cf-count" id="count-live"></span>
+</label>
+<label class="cf-checkbox-label">
+<input class="cf-checkbox" type="checkbox" value="soon"/>
+            Coming Soon
+            <span class="cf-count" id="count-soon"></span>
+</label>
+</div>
+<!-- Category -->
+<div class="cf-group">
+<h3 class="cf-group-title">Category</h3>
+<label class="cf-checkbox-label">
+<input class="cf-cat-checkbox" type="checkbox" value="meditation"/>
+            Meditation
+            <span class="cf-count" id="count-cat-meditation"></span>
+</label>
+<label class="cf-checkbox-label">
+<input class="cf-cat-checkbox" type="checkbox" value="chakra"/>
+            Chakra
+            <span class="cf-count" id="count-cat-chakra"></span>
+</label>
+<label class="cf-checkbox-label">
+<input class="cf-cat-checkbox" type="checkbox" value="level2"/>
+            Level 2
+            <span class="cf-count" id="count-cat-level2"></span>
+</label>
+<label class="cf-checkbox-label">
+<input class="cf-cat-checkbox" type="checkbox" value="kids"/>
+            Kids
+            <span class="cf-count" id="count-cat-kids"></span>
+</label>
+<label class="cf-checkbox-label">
+<input class="cf-cat-checkbox" type="checkbox" value="yoga"/>
+            Yoga
+            <span class="cf-count" id="count-cat-yoga"></span>
+</label>
+<label class="cf-checkbox-label">
+<input class="cf-cat-checkbox" type="checkbox" value="fitness"/>
+            Fitness
+            <span class="cf-count" id="count-cat-fitness"></span>
+</label>
+</div>
+<!-- Price Range slider -->
+<div class="cf-group">
+<h3 class="cf-group-title">Price Range</h3>
+<div class="cf-slider-outer">
+<div class="cf-slider-row">
+<input class="cf-range" id="cf-price-min" max="2000" min="0" step="50" type="range" value="0"/>
+<input class="cf-range" id="cf-price-max" max="2000" min="0" step="50" type="range" value="2000"/>
+<div class="cf-slider-track">
+<div class="cf-slider-fill" id="cf-slider-fill"></div>
+</div>
+</div>
+<div class="cf-slider-values">
+<span id="cf-val-min">₹0</span>
+<span id="cf-val-max">₹2,000</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- RIGHT CONTENT -->
+<div class="cf-content">
+<div id="cf-no-results">No courses match your filters. <button onclick="document.getElementById('cf-clear').click()" style="background:none;border:none;color:var(--accent);font-weight:700;cursor:pointer;font-size:inherit;text-decoration:underline;">Clear filters</button></div>
+<div id="courses-list">
+<!-- ══════════ MEDITATION — FREE ══════════ -->
+<div class="cat-section" id="cat-meditation-free">
+<h2 class="cat-heading">Meditation — Free</h2>
+<div class="courses-grid">
+<div class="course-card" data-category="meditation" data-date="2026-06-25" data-price="0" data-type="free live" id="course-drida-15th-batch">
+    <div class="course-card-top"><img alt="Drida 15th Free Batch" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-new-drida-batch.png"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-free">Free</span>
+<span class="tag tag-live">Live</span>
+<span class="tag tag-online">Online</span>
+</div>
+<h3>Drida 15th Free Batch — Meditation</h3>
+<p>Join Drida's currently running 15th free meditation batch. Open to all — beginners and those wanting to deepen their practice.</p>
 
-    <div id="courses-list">
+</div></div>
+    <div class="course-bottom"><button class="btn" onclick="enrollCourse('drida-15th-batch','Drida 15th Free Batch',true,this)">Register Free</button></div>
+  </div>
+</div>
+</div>
+<!-- ══════════ MEDITATION — PAID ══════════ -->
+<div class="cat-section" id="cat-meditation-paid">
+<h2 class="cat-heading">Meditation — Paid</h2>
+<div class="courses-grid">
+<div class="course-card" data-category="chakra" data-date="2026-05-17" data-price="1250" data-type="paid" id="course-advanced-chakra-meditation">
+    <div class="course-card-top"><img alt="Advanced Chakra Meditation" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-advanced-chakra.png"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-active">Paid</span>
+<span class="tag tag-online">Online</span>
+</div>
+<h3>Chakra Meditation — Advanced</h3>
+<p>An advanced programme exploring the seven chakras in depth — activating, balancing and working with each energy centre through guided meditation.</p>
+<p class="course-price">₹1,250</p>
 
-      <!-- ══════════ MEDITATION — FREE ══════════ -->
-      <div class="cat-section" id="cat-meditation-free">
-        <h2 class="cat-heading">🧘 Meditation — Free</h2>
-        <div class="courses-grid">
+</div></div>
+    <div class="course-bottom"><div class="upi-pay" id="upi-chakra">
+<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+<div class="upi-fields-row">
+<input class="upi-input" id="n-upi-chakra" placeholder="Your full name" type="text"/>
+<input class="upi-input" id="p-upi-chakra" placeholder="Your phone number" type="tel"/>
+</div>
+<button class="btn" onclick="showUpi('upi-chakra','Chakra Meditation Advanced',1250)" type="button">Continue to Pay ₹1,250</button>
+</div></div>
+  </div>
+<div class="course-card" data-category="meditation level2" data-date="2026-08-01" data-price="500" data-type="paid" id="course-drida-level-2">
+    <div class="course-card-top"><img alt="Drida Meditation Level 2" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-drida-stage2.png"/><div class="course-body">
+<div class="course-tags"><span class="tag tag-paid">Paid</span><span class="tag tag-live">Live</span><span class="tag tag-online">Online</span></div>
+<h3>Drida Meditation — Level 2 (August Batch)</h3>
+<p>August batch now open. For those who have completed the free batch — rewire your mind, deepen your practice with Ho'oponopono, Law of Attraction and more.</p>
+<p class="course-price">₹500</p>
 
-          <div class="course-card" id="course-drida-15th-batch" data-date="2026-06-25" data-type="free live">
-            <img class="course-poster portrait" src="images/course-new-drida-batch.png" alt="Drida 15th Free Batch" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags">
-                <span class="tag tag-free">Free</span>
-                <span class="tag tag-live">Live</span>
-                <span class="tag tag-online">Online</span>
-              </div>
-              <h3>Drida 15th Free Batch — Meditation</h3>
-              <p>Join Drida's currently running 15th free meditation batch. Open to all — beginners and those wanting to deepen their practice.</p>
-              <button class="btn" onclick="enrollCourse('drida-15th-batch','Drida 15th Free Batch',true,this)">Register Free</button>
-            </div>
-          </div>
+</div></div>
+    <div class="course-bottom"><div class="upi-pay" id="upi-level2">
+<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+<div class="upi-fields-row">
+<input class="upi-input" id="n-upi-level2" placeholder="Your full name" type="text"/>
+<input class="upi-input" id="p-upi-level2" placeholder="Your phone number" type="tel"/>
+</div>
+<button class="btn" onclick="showUpi('upi-level2','Drida Meditation Level 2',500)" type="button">Continue to Pay ₹500</button>
+</div></div>
+  </div>
+</div>
+</div>
+<!-- ══════════ KIDS MEDITATION ══════════ -->
+<div class="cat-section" id="cat-kids">
+<h2 class="cat-heading">Kids Meditation</h2>
+<div class="courses-grid">
+<div class="course-card" data-category="kids" data-date="2026-04-08" data-price="1000" data-type="paid live" id="course-kutties-live-meditation">
+    <div class="course-card-top"><img alt="Kutties Live Meditation Classes" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-kutties-meditation.png"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-live">Live</span>
+<span class="tag tag-active">Paid</span>
+<span class="tag tag-online">Online</span>
+</div>
+<h3>Kutties Live Meditation Classes</h3>
+<p>Live online meditation sessions specially designed for children — helping kids build focus, calm and emotional balance from a young age.</p>
+<p class="course-price">₹1,000 <span style="font-size:0.75rem;font-weight:400;color:var(--muted);">/ connection</span></p>
 
-        </div>
-      </div>
+</div></div>
+    <div class="course-bottom"><div class="upi-pay" id="upi-kutties">
+<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+<div class="upi-fields-row">
+<input class="upi-input" id="n-upi-kutties" placeholder="Your full name" type="text"/>
+<input class="upi-input" id="p-upi-kutties" placeholder="Your phone number" type="tel"/>
+</div>
+<button class="btn" onclick="showUpi('upi-kutties','Kutties Live Meditation Classes',1000)" type="button">Continue to Pay ₹1,000</button>
+</div></div>
+  </div>
+<div class="course-card" data-category="kids" data-date="2026-01-01" data-price="0" data-type="paid" id="course-kids-meditation">
+    <div class="course-card-top"><img alt="Kids Meditation" class="course-poster" onerror="tryAltExt(this)" src="images/course-kids-meditation.png"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-active">Paid</span>
+<span class="tag tag-online">Online</span>
+</div>
+<h3>Kids Meditation</h3>
+<p>A structured meditation programme for children — building concentration, inner calm and joyful awareness through age-appropriate techniques.</p>
 
-      <!-- ══════════ MEDITATION — PAID ══════════ -->
-      <div class="cat-section" id="cat-meditation-paid">
-        <h2 class="cat-heading">🧘 Meditation — Paid</h2>
-        <div class="courses-grid">
-
-          <div class="course-card" id="course-drida-meditation-stage-2" data-date="2026-05-01" data-type="paid">
-            <img class="course-poster portrait" src="images/course-drida-stage2.png" alt="Drida Meditation Stage 2" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags">
-                <span class="tag tag-active">Paid</span>
-                <span class="tag tag-online">Online</span>
-              </div>
-              <h3>Drida Meditation — Stage 2</h3>
-              <p>The next level of the Drida meditation programme — deepen your practice with advanced techniques and group sittings.</p>
-              <p class="course-price">₹500</p>
-              <div class="upi-pay" id="upi-stage2">
-                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
-                <input id="n-upi-stage2" class="upi-input" type="text" placeholder="Your full name" />
-                <input id="p-upi-stage2" class="upi-input" type="tel" placeholder="Your phone number" />
-                <button class="btn" type="button" onclick="showUpi('upi-stage2','Drida Meditation Stage 2',500)">Continue to Pay ₹500</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="course-card" id="course-advanced-chakra-meditation" data-date="2026-05-17" data-type="paid">
-            <img class="course-poster portrait" src="images/course-advanced-chakra.png" alt="Advanced Chakra Meditation" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags">
-                <span class="tag tag-active">Paid</span>
-                <span class="tag tag-online">Online</span>
-              </div>
-              <h3>Chakra Meditation — Advanced</h3>
-              <p>An advanced programme exploring the seven chakras in depth — activating, balancing and working with each energy centre through guided meditation.</p>
-              <p class="course-price">₹1,250</p>
-              <div class="upi-pay" id="upi-chakra">
-                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
-                <input id="n-upi-chakra" class="upi-input" type="text" placeholder="Your full name" />
-                <input id="p-upi-chakra" class="upi-input" type="tel" placeholder="Your phone number" />
-                <button class="btn" type="button" onclick="showUpi('upi-chakra','Chakra Meditation Advanced',1250)">Continue to Pay ₹1,250</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="course-card coming-soon" id="course-drida-level-2" data-date="2099-01-02" data-type="soon">
-            <img class="course-poster portrait" src="images/course-drida-level2.png" alt="Drida Meditation Level 2 — Coming Soon" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags"><span class="tag tag-soon">Coming Soon</span></div>
-              <h3>Drida Meditation — Level 2</h3>
-              <p>The next evolution in Drida's meditation curriculum. Details coming soon — register your interest to be the first to know.</p>
-              <button class="btn" onclick="notifyMeCourse('drida-level-2','Drida Meditation Level 2',this)">Notify Me</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ══════════ KIDS MEDITATION ══════════ -->
-      <div class="cat-section" id="cat-kids">
-        <h2 class="cat-heading">🌟 Kids Meditation</h2>
-        <div class="courses-grid">
-
-          <div class="course-card" id="course-kutties-live-meditation" data-date="2026-04-08" data-type="paid live">
-            <img class="course-poster portrait" src="images/course-kutties-meditation.png" alt="Kutties Live Meditation Classes" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags">
-                <span class="tag tag-live">Live</span>
-                <span class="tag tag-active">Paid</span>
-                <span class="tag tag-online">Online</span>
-              </div>
-              <h3>Kutties Live Meditation Classes</h3>
-              <p>Live online meditation sessions specially designed for children — helping kids build focus, calm and emotional balance from a young age.</p>
-              <p class="course-price">₹1,000 <span style="font-size:0.75rem;font-weight:400;color:var(--muted);">/ connection</span></p>
-              <div class="upi-pay" id="upi-kutties">
-                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
-                <input id="n-upi-kutties" class="upi-input" type="text" placeholder="Your full name" />
-                <input id="p-upi-kutties" class="upi-input" type="tel" placeholder="Your phone number" />
-                <button class="btn" type="button" onclick="showUpi('upi-kutties','Kutties Live Meditation Classes',1000)">Continue to Pay ₹1,000</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="course-card" id="course-kids-meditation" data-date="2026-01-01" data-type="paid">
-            <img class="course-poster" src="images/course-kids-meditation.png" alt="Kids Meditation" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags">
-                <span class="tag tag-active">Paid</span>
-                <span class="tag tag-online">Online</span>
-              </div>
-              <h3>Kids Meditation</h3>
-              <p>A structured meditation programme for children — building concentration, inner calm and joyful awareness through age-appropriate techniques.</p>
-              <button class="btn" onclick="enrollCourse('kids-meditation','Kids Meditation',false,this)">Enquire &amp; Enroll</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ══════════ YOGA ══════════ -->
-      <div class="cat-section" id="cat-yoga">
-        <h2 class="cat-heading">🌿 Yoga</h2>
-        <div class="courses-grid">
-
-          <div class="course-card" id="course-yoga-with-smitha" data-date="2026-04-21" data-type="paid live">
-            <img class="course-poster" src="images/course-yoga-with-smitha.jpeg" alt="Yoga with Smitha" onerror="this.style.display='none'">
-            <div class="course-body">
-              <div class="course-tags">
-                <span class="tag tag-live">Live</span>
-                <span class="tag tag-active">Paid</span>
-                <span class="tag tag-online">Online</span>
-              </div>
-              <h3>Yoga with Smitha</h3>
-              <p>Live yoga classes with us — covering exercises, chakra poses and breathing techniques. Shape your body and calm your mind.</p>
-              <div class="course-details">
-                📅 Every Monday to Friday<br>
-                ⏰ 7 PM (40 minutes)<br>
+</div></div>
+    <div class="course-bottom"><button class="btn" onclick="enrollCourse('kids-meditation','Kids Meditation',false,this)">Enquire &amp; Enroll</button></div>
+  </div>
+</div>
+</div>
+<!-- ══════════ YOGA ══════════ -->
+<div class="cat-section" id="cat-yoga">
+<h2 class="cat-heading">Yoga</h2>
+<div class="courses-grid">
+<div class="course-card" data-category="yoga" data-date="2026-04-21" data-price="500" data-type="paid live" id="course-yoga-with-smitha">
+    <div class="course-card-top"><img alt="Yoga with Smitha" class="course-poster" onerror="this.style.display='none'" src="images/course-yoga-with-smitha.jpeg"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-live">Live</span>
+<span class="tag tag-active">Paid</span>
+<span class="tag tag-online">Online</span>
+</div>
+<h3>Yoga with Smitha</h3>
+<p>Live yoga classes with us — covering exercises, chakra poses and breathing techniques. Shape your body and calm your mind.</p>
+<div class="course-details">
+                📅 Every Monday to Friday<br/>
+                ⏰ 7 PM (40 minutes)<br/>
                 📌 Started 21 April 2026
               </div>
-              <p class="course-price">₹500</p>
-              <div class="upi-pay" id="upi-yoga">
-                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
-                <input id="n-upi-yoga" class="upi-input" type="text" placeholder="Your full name" />
-                <input id="p-upi-yoga" class="upi-input" type="tel" placeholder="Your phone number" />
-                <button class="btn" type="button" onclick="showUpi('upi-yoga','Yoga with Smitha',500)">Continue to Pay ₹500</button>
-              </div>
-            </div>
-          </div>
+<p class="course-price">₹500</p>
 
-          <div class="course-card coming-soon" id="course-yoga-class" data-date="2099-01-01" data-type="soon">
-            <img class="course-poster" src="images/course-yoga-coming-soon.jpeg" alt="Yoga Class — Coming Soon" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags"><span class="tag tag-soon">Coming Soon</span></div>
-              <h3>Yoga Class</h3>
-              <p>A new Drida yoga class is being planned. Stay tuned for details on timings and enrollment.</p>
-              <button class="btn" onclick="notifyMeCourse('yoga-class','Yoga Class',this)">Notify Me</button>
-            </div>
-          </div>
+</div></div>
+    <div class="course-bottom"><div class="upi-pay" id="upi-yoga">
+<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+<div class="upi-fields-row">
+<input class="upi-input" id="n-upi-yoga" placeholder="Your full name" type="text"/>
+<input class="upi-input" id="p-upi-yoga" placeholder="Your phone number" type="tel"/>
+</div>
+<button class="btn" onclick="showUpi('upi-yoga','Yoga with Smitha',500)" type="button">Continue to Pay ₹500</button>
+</div></div>
+  </div>
+<div class="course-card coming-soon" data-category="yoga" data-date="2099-01-01" data-price="0" data-type="soon" id="course-yoga-class">
+    <div class="course-card-top"><img alt="Yoga Class — Coming Soon" class="course-poster" onerror="tryAltExt(this)" src="images/course-yoga-coming-soon.jpeg"/><div class="course-body">
+<div class="course-tags"><span class="tag tag-soon">Coming Soon</span></div>
+<h3>Yoga Class</h3>
+<p>A new Drida yoga class is being planned. Stay tuned for details on timings and enrollment.</p>
 
-        </div>
-      </div>
+</div></div>
+    <div class="course-bottom"><button class="btn" onclick="notifyMeCourse('yoga-class','Yoga Class',this)">Notify Me</button></div>
+  </div>
+</div>
+</div>
+<!-- ══════════ FITNESS & DIETING ══════════ -->
+<div class="cat-section" id="cat-fitness">
+<h2 class="cat-heading">Fitness &amp; Dieting</h2>
+<div class="courses-grid">
+<div class="course-card" data-category="fitness" data-date="2026-01-01" data-price="0" data-type="paid" id="course-fitness">
+    <div class="course-card-top"><img alt="Fitness with Drida" class="course-poster" onerror="tryAltExt(this)" src="images/course-fitness.jpeg"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-active">Paid</span>
+<span class="tag tag-online">Online</span>
+</div>
+<h3>Fitness with Drida</h3>
+<p>A guided fitness programme that combines physical conditioning with mindful movement — building strength, flexibility and vitality.</p>
 
-      <!-- ══════════ FITNESS & DIETING ══════════ -->
-      <div class="cat-section" id="cat-fitness">
-        <h2 class="cat-heading">💪 Fitness &amp; Dieting</h2>
-        <div class="courses-grid">
+</div></div>
+    <div class="course-bottom"><button class="btn" onclick="enrollCourse('fitness','Fitness with Drida',false,this)">Enquire &amp; Enroll</button></div>
+  </div>
+<div class="course-card" data-category="fitness" data-price="1000" data-date="2026-03-08" data-type="paid" id="course-intermittent-fasting">
+    <div class="course-card-top"><img alt="Intermittent Fasting with Smitha" class="course-poster" onerror="tryAltExt(this)" src="images/course-intermittent-fasting.jpeg"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-active">Paid</span>
+<span class="tag tag-online">Online</span>
+</div>
+<h3>Intermittent Fasting with Smitha</h3>
+<p>A guided programme on intermittent fasting — combining modern nutrition science with mindful eating for holistic wellness and healthy weight management.</p>
+<p class="course-price">₹1,000</p>
 
-          <div class="course-card" id="course-fitness" data-date="2026-01-01" data-type="paid">
-            <img class="course-poster" src="images/course-fitness.jpeg" alt="Fitness with Drida" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags">
-                <span class="tag tag-active">Paid</span>
-                <span class="tag tag-online">Online</span>
-              </div>
-              <h3>Fitness with Drida</h3>
-              <p>A guided fitness programme that combines physical conditioning with mindful movement — building strength, flexibility and vitality.</p>
-              <button class="btn" onclick="enrollCourse('fitness','Fitness with Drida',false,this)">Enquire &amp; Enroll</button>
-            </div>
-          </div>
-
-          <div class="course-card" id="course-intermittent-fasting" data-date="2026-03-08" data-type="paid">
-            <img class="course-poster" src="images/course-intermittent-fasting.jpeg" alt="Intermittent Fasting with Smitha" onerror="tryAltExt(this)">
-            <div class="course-body">
-              <div class="course-tags">
-                <span class="tag tag-active">Paid</span>
-                <span class="tag tag-online">Online</span>
-              </div>
-              <h3>Intermittent Fasting with Smitha</h3>
-              <p>A guided programme on intermittent fasting — combining modern nutrition science with mindful eating for holistic wellness and healthy weight management.</p>
-              <p class="course-price">₹1,000</p>
-              <div class="upi-pay" id="upi-if">
-                <p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
-                <input id="n-upi-if" class="upi-input" type="text" placeholder="Your full name" />
-                <input id="p-upi-if" class="upi-input" type="tel" placeholder="Your phone number" />
-                <button class="btn" type="button" onclick="showUpi('upi-if','Intermittent Fasting with Smitha',1000)">Continue to Pay ₹1,000</button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- FOOTER: rich multi-column layout (mirrors Isha Foundation footer) -->
-  <footer class="site-footer">
-
-    <!-- Top: logo + tagline + subscribe CTA -->
-    <div class="footer-top">
-      <div class="footer-brand">
-        <span class="footer-logo-wrap"><img src="drida_logo_white.svg" alt="Drida" width="50" height="50"></span>
-        <div>
-          <span class="footer-brand-name">Drida</span>
-          <p class="footer-tagline">Meditation &middot; Yoga &middot; Fitness &middot; Community</p>
-        </div>
-      </div>
-      <div class="footer-newsletter">
-        <p>Stay connected with Drida&rsquo;s journey</p>
-        <a class="footer-subscribe-btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
-      </div>
-    </div>
-
-    <!-- Columns -->
-    <div class="footer-cols">
-      <div class="footer-col">
-        <h4>Explore</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="courses.html">Courses</a></li>
-          <li><a href="trips.html">Experiences</a></li>
-          <li><a href="products.html">Products</a></li>
-          <li><a href="meetups.html">Meet-ups</a></li>
-          <li><a href="login.html">Login / My Courses</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Offerings</h4>
-        <ul>
-          <li><a href="courses.html#course-drida-15th-batch">Free Meditation Batch</a></li>
-          <li><a href="courses.html#course-yoga-with-smitha">Yoga with Smitha</a></li>
-          <li><a href="courses.html#course-fitness">Fitness Program</a></li>
-          <li><a href="courses.html#course-kids-meditation">Kids Meditation</a></li>
-          <li><a href="courses.html#course-kutties">Kutties Course</a></li>
-          <li><a href="index.html#impact">Free Education for Kids</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Get Involved</h4>
-        <ul>
-          <li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
-          <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
-          <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
-          <li><a href="trips.html">Join a Trip</a></li>
-          <li><a href="meetups.html">Watch Meet-up Recordings</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Connect</h4>
-        <ul>
-          <li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
-          <li><a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer">WhatsApp Smitha Ma&rsquo;am</a></li>
-          <li><a href="support.html">Help &amp; Support</a></li>
-          <li><a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-          <li><a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-          <li><a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Bottom bar: copyright + social icons -->
-    <div class="footer-bottom">
-      <p class="footer-copy">&copy; <span id="year"></span> Drida Foundation &mdash; All rights reserved</p>
-      <div class="footer-social">
-        <a href="https://youtube.com/@drida_life" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/d_r_i_d_a_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none"/></svg>
-        </a>
-        <a href="https://www.facebook.com/profile.php?id=61579257953722" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-          <svg viewBox="0 0 320 512" width="10" height="18" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
-        </a>
-        <a href="https://wa.me/918075471581" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-        </a>
-      </div>
-      <p class="footer-legal">
-        <a href="privacy-policy.html">Privacy Policy</a>
-        &nbsp;&middot;&nbsp;
+</div></div>
+    <div class="course-bottom"><div class="upi-pay" id="upi-if">
+<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
+<div class="upi-fields-row">
+<input class="upi-input" id="n-upi-if" placeholder="Your full name" type="text"/>
+<input class="upi-input" id="p-upi-if" placeholder="Your phone number" type="tel"/>
+</div>
+<button class="btn" onclick="showUpi('upi-if','Intermittent Fasting with Smitha',1000)" type="button">Continue to Pay ₹1,000</button>
+</div></div>
+  </div>
+</div>
+</div>
+</div><!-- /courses-list -->
+</div><!-- /cf-content -->
+</div><!-- /courses-layout -->
+</main>
+<!-- FOOTER: rich multi-column layout (mirrors Isha Foundation footer) -->
+<footer class="site-footer">
+<!-- Top: logo + tagline + subscribe CTA -->
+<div class="footer-top">
+<div class="footer-brand">
+<span class="footer-logo-wrap"><img alt="Drida" height="50" src="drida_logo_white.svg" width="50"/></span>
+<div>
+<span class="footer-brand-name">Drida</span>
+<p class="footer-tagline">Meditation · Yoga · Fitness · Community</p>
+</div>
+</div>
+<div class="footer-newsletter">
+<p>Stay connected with Drida’s journey</p>
+<a class="footer-subscribe-btn" href="https://www.youtube.com/@drida_life?sub_confirmation=1" rel="noopener noreferrer" target="_blank">Subscribe on YouTube</a>
+</div>
+</div>
+<!-- Columns -->
+<div class="footer-cols">
+<div class="footer-col">
+<h4>Explore</h4>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="courses.html">Courses</a></li>
+<li><a href="trips.html">Experiences</a></li>
+<li><a href="products.html">Products</a></li>
+<li><a href="meetups.html">Meet-ups</a></li>
+<li><a href="login.html">Login / My Courses</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Offerings</h4>
+<ul>
+<li><a href="courses.html#course-drida-15th-batch">Free Meditation Batch</a></li>
+<li><a href="courses.html#course-yoga-with-smitha">Yoga with Smitha</a></li>
+<li><a href="courses.html#course-fitness">Fitness Program</a></li>
+<li><a href="courses.html#course-kids-meditation">Kids Meditation</a></li>
+<li><a href="courses.html#course-kutties">Kutties Course</a></li>
+<li><a href="index.html#impact">Free Education for Kids</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Get Involved</h4>
+<ul>
+<li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
+<li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
+<li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
+<li><a href="trips.html">Join a Trip</a></li>
+<li><a href="meetups.html">Watch Meet-up Recordings</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Connect</h4>
+<ul>
+<li><a href="mailto:drida4u@gmail.com">Email Us</a></li>
+<li><a href="https://wa.me/918075471581" rel="noopener noreferrer" target="_blank">WhatsApp Smitha Ma’am</a></li>
+<li><a href="support.html">Help &amp; Support</a></li>
+<li><a href="https://youtube.com/@drida_life" rel="noopener noreferrer" target="_blank">YouTube</a></li>
+<li><a href="https://www.instagram.com/d_r_i_d_a_/" rel="noopener noreferrer" target="_blank">Instagram</a></li>
+<li><a href="https://www.facebook.com/profile.php?id=61579257953722" rel="noopener noreferrer" target="_blank">Facebook</a></li>
+</ul>
+</div>
+</div>
+<!-- Bottom bar: copyright + social icons -->
+<div class="footer-bottom">
+<p class="footer-copy">© <span id="year"></span> Drida Foundation — All rights reserved</p>
+<div class="footer-social">
+<a aria-label="YouTube" href="https://youtube.com/@drida_life" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.5 5 12 5 12 5s-4.5 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.9 19 12 19 12 19s4.5 0 7-.1c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8zM9.7 15V9l5.4 3-5.4 3z"></path></svg>
+</a>
+<a aria-label="Instagram" href="https://www.instagram.com/d_r_i_d_a_/" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="none" height="18" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24" width="18"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" fill="currentColor" r="1.2" stroke="none"></circle></svg>
+</a>
+<a aria-label="Facebook" href="https://www.facebook.com/profile.php?id=61579257953722" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="18" viewbox="0 0 320 512" width="10"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"></path></svg>
+</a>
+<a aria-label="WhatsApp" href="https://wa.me/918075471581" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.4-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2 0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4.1.6.3 1.1.4 1.5.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3 0-.1-.2-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.9-1.3A10 10 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"></path></svg>
+</a>
+</div>
+<p class="footer-legal">
+<a href="privacy-policy.html">Privacy Policy</a>
+         · 
         <a href="privacy-policy.html#terms">Terms of Use</a>
-        &nbsp;&middot;&nbsp;
+         · 
         <a href="privacy-policy.html#refund">Refund Policy</a>
-        &nbsp;&middot;&nbsp;
+         · 
         <a href="support.html">Support</a>
-        &nbsp;&middot;&nbsp;
+         · 
         <a href="mailto:drida4u@gmail.com">Contact Us</a>
-      </p>
-    </div>
-
-  </footer>
-
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script src="drida-config.js"></script>
-  <script src="courses.js"></script>
-
-  <script>
+</p>
+</div>
+</footer>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="drida-config.js"></script>
+<script src="courses.js"></script>
+<script>
     function tryAltExt(img) {
       var src = img.src;
       if (src.indexOf('images/') === -1) { img.style.display = 'none'; return; }
@@ -611,36 +985,13 @@
 
     // ── Website enrollment (free / enquire) ──────────────────────────────
     function enrollCourse(courseId, courseName, isFree, btnEl) {
-      var saved = localStorage.getItem('drida-user');
-      if (!saved) {
-        window.location.href = 'login.html?return=' + encodeURIComponent('courses.html#' + courseId);
-        return;
-      }
-      var user = JSON.parse(saved);
-      btnEl.textContent = 'Submitting…';
-      btnEl.disabled = true;
-      db.collection('registrations').add({
-        uid: user.uid,
-        phone: user.phone,
-        courseId: courseId,
-        courseName: courseName,
-        isFree: isFree,
-        status: 'pending',
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(function() {
-        btnEl.textContent = isFree ? '✓ Registered!' : '✓ Enquiry Sent!';
-        btnEl.style.background = '#1a7a47';
-        var note = document.createElement('p');
-        note.className = 'upi-note';
-        note.style.marginTop = '0.5rem';
-        note.textContent = isFree
-          ? 'Done! Smitha Ma\'am will add you to the batch shortly.'
-          : 'Enquiry received! We\'ll share joining details with you soon.';
-        btnEl.insertAdjacentElement('afterend', note);
-      }).catch(function() {
-        btnEl.textContent = 'Try again';
-        btnEl.disabled = false;
-      });
+      // Redirect to WordPress LMS for registration/login
+      // New users → student registration page
+      // Returning users → courses dashboard
+      var wpBase = 'https://wp.drida.org';
+      var returnUrl = wpBase + '/courses/' + courseId + '/';
+      var registrationUrl = wpBase + '/student-registration/?return=' + encodeURIComponent(returnUrl);
+      window.location.href = registrationUrl;
     }
 
     // ── Notify Me for coming-soon courses ────────────────────────────────
@@ -698,38 +1049,149 @@
       document.getElementById(blockId).innerHTML = html;
     }
   </script>
-
-  <script src="auth-nav.js"></script>
-  <script src="script.js?v=3"></script>
-  <script>
-    // ── Filter for Courses (grouped layout) ──────────────────────────────────
+<script src="auth-nav.js"></script>
+<script src="script.js?v=3"></script>
+<script>
+    // ── Course filter: search + checkboxes + categories + price range ─────────
     (function() {
-      var allCards = Array.from(document.querySelectorAll('.course-card'));
-      var sections = Array.from(document.querySelectorAll('.cat-section'));
+      var allCards      = Array.from(document.querySelectorAll('.course-card'));
+      var sections      = Array.from(document.querySelectorAll('.cat-section'));
+      var searchEl      = document.getElementById('cf-search');
+      var clearBtn      = document.getElementById('cf-clear');
+      var typeBoxes     = Array.from(document.querySelectorAll('.cf-checkbox'));
+      var catBoxes      = Array.from(document.querySelectorAll('.cf-cat-checkbox'));
+      var priceMinEl    = document.getElementById('cf-price-min');
+      var priceMaxEl    = document.getElementById('cf-price-max');
+      var sliderFill    = document.getElementById('cf-slider-fill');
+      var valMinEl      = document.getElementById('cf-val-min');
+      var valMaxEl      = document.getElementById('cf-val-max');
+      var noResults     = document.getElementById('cf-no-results');
 
-      function render(filter) {
-        allCards.forEach(function(card) {
-          var types = (card.dataset.type || '').split(' ');
-          var show = filter === 'all' || types.indexOf(filter) !== -1;
-          card.style.display = show ? '' : 'none';
-        });
-        // Hide entire category section if no visible cards inside
-        sections.forEach(function(sec) {
-          var visibleCards = sec.querySelectorAll('.course-card');
-          var anyVisible = Array.from(visibleCards).some(function(c) { return c.style.display !== 'none'; });
-          sec.dataset.hidden = anyVisible ? 'false' : 'true';
-        });
+      // Dual-range slider sync
+      function updateSlider() {
+        var lo = parseInt(priceMinEl.value, 10);
+        var hi = parseInt(priceMaxEl.value, 10);
+        if (lo > hi) { var t = lo; lo = hi; hi = t; priceMinEl.value = lo; priceMaxEl.value = hi; }
+        var pct1 = lo / 2000 * 100;
+        var pct2 = hi / 2000 * 100;
+        if (sliderFill) { sliderFill.style.left = pct1 + '%'; sliderFill.style.width = (pct2 - pct1) + '%'; }
+        if (valMinEl) valMinEl.textContent = '₹' + lo.toLocaleString('en-IN');
+        if (valMaxEl) valMaxEl.textContent = '₹' + hi.toLocaleString('en-IN');
+        render();
       }
+      if (priceMinEl) priceMinEl.addEventListener('input', updateSlider);
+      if (priceMaxEl) priceMaxEl.addEventListener('input', updateSlider);
+      updateSlider();
 
-      document.querySelectorAll('#course-filters .cf-btn[data-filter]').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          document.querySelectorAll('#course-filters .cf-btn').forEach(function(b) { b.classList.remove('cf-active'); });
-          this.classList.add('cf-active');
-          render(this.dataset.filter);
-        });
+      // Populate type count badges (free/paid/live/soon)
+      ['free','paid','live','soon'].forEach(function(tag) {
+        var el = document.getElementById('count-' + tag);
+        if (el) el.textContent = allCards.filter(function(c) {
+          return (c.dataset.type || '').split(' ').indexOf(tag) !== -1;
+        }).length;
       });
 
-      render('all');
+      // Populate category count badges
+      ['meditation','chakra','level2','kids','yoga','fitness'].forEach(function(cat) {
+        var el = document.getElementById('count-cat-' + cat);
+        if (el) el.textContent = allCards.filter(function(c) {
+          return (c.dataset.category || '').split(' ').indexOf(cat) !== -1;
+        }).length;
+      });
+
+function render() {
+        var query       = (searchEl.value || '').toLowerCase().trim();
+        var typeFilters = typeBoxes.filter(function(cb) { return cb.checked; }).map(function(cb) { return cb.value; });
+        var catFilters  = catBoxes.filter(function(cb) { return cb.checked; }).map(function(cb) { return cb.value; });
+        var priceMin    = parseInt(priceMinEl.value, 10) || 0;
+        var priceMax    = parseInt(priceMaxEl.value, 10) || 2000;
+        var anyVisible  = false;
+
+        allCards.forEach(function(card) {
+          var types  = (card.dataset.type || '').split(' ');
+          var cats   = (card.dataset.category || '').split(' ');
+          var price  = card.dataset.price || '0';
+          var text   = (card.textContent || '').toLowerCase();
+
+          var typeOk  = typeFilters.length === 0 || typeFilters.some(function(f) { return types.indexOf(f) !== -1; });
+          var catOk   = catFilters.length === 0  || catFilters.some(function(f) { return cats.indexOf(f) !== -1; });
+          var p = parseInt(price, 10) || 0;
+          var priceOk = (p >= priceMin) && (p <= priceMax);
+          var searchOk= query === '' || text.indexOf(query) !== -1;
+
+          var show = typeOk && catOk && priceOk && searchOk;
+          card.style.display = show ? '' : 'none';
+          if (show) anyVisible = true;
+        });
+
+        sections.forEach(function(sec) {
+          var hasVisible = Array.from(sec.querySelectorAll('.course-card'))
+                               .some(function(c) { return c.style.display !== 'none'; });
+          sec.dataset.hidden = hasVisible ? 'false' : 'true';
+        });
+
+        if (noResults) noResults.style.display = anyVisible ? 'none' : 'block';
+      }
+
+      var allBoxes = typeBoxes.concat(catBoxes);
+      allBoxes.forEach(function(cb) { cb.addEventListener('change', render); });
+      searchEl.addEventListener('input', render);
+      clearBtn.addEventListener('click', function() {
+        searchEl.value = '';
+        allBoxes.forEach(function(cb) { cb.checked = false; });
+        if (priceMinEl) priceMinEl.value = 0;
+        if (priceMaxEl) priceMaxEl.value = 2000;
+        updateSlider();
+      });
+
+      render();
+    })();
+
+    /* Poster: wrap in div, sample left edge → card border, bottom edge → fill gap */
+    (function() {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+
+      function avgColor(data, skipExtreme) {
+        var r=0,g=0,b=0,c=0;
+        for (var i=0;i<data.length;i+=4) {
+          if (skipExtreme) { var av=(data[i]+data[i+1]+data[i+2])/3; if(av>240||av<15) continue; }
+          r+=data[i];g+=data[i+1];b+=data[i+2];c++;
+        }
+        return c ? 'rgb('+Math.round(r/c)+','+Math.round(g/c)+','+Math.round(b/c)+')' : null;
+      }
+
+      document.querySelectorAll('.course-poster').forEach(function(img) {
+        /* wrap in .course-poster-wrap */
+        var wrap = document.createElement('div');
+        wrap.className = 'course-poster-wrap' + (img.classList.contains('portrait') ? ' portrait' : '');
+        img.parentNode.insertBefore(wrap, img);
+        wrap.appendChild(img);
+
+        var card = wrap.closest('.course-card');
+
+        function applyColors() {
+          try {
+            var cw = img.naturalWidth || 1, ch = img.naturalHeight || 1;
+            canvas.width = cw; canvas.height = ch;
+            ctx.drawImage(img, 0, 0, cw, ch);
+
+            /* Left edge → card left border */
+            var lw = Math.max(4, Math.floor(cw * 0.04));
+            var lc = avgColor(ctx.getImageData(0, 0, lw, ch).data, true);
+            if (lc && card) {
+              card.style.borderLeftColor = lc;
+              card.style.borderLeftWidth = '4px';
+              card.style.borderLeftStyle = 'solid';
+            }
+
+
+          } catch(e) { /* cross-origin — skip */ }
+        }
+
+        if (img.complete && img.naturalWidth) applyColors();
+        else img.addEventListener('load', applyColors);
+      });
     })();
   </script>
 </body>

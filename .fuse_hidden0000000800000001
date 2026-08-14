@@ -624,27 +624,17 @@ a.pillar-card {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 0;
-    /* Reset desktop auto-centering and negative margin */
-    max-width: 100%;
-    margin: 1.5rem 0 2rem;
+    margin-top: 1rem;
     align-items: stretch;
-    /* MUST be flex-start: justify-content:center + overflow-x:auto causes
-       a CSS scroll bug where the first card is unreachable on mobile */
-    justify-content: flex-start;
-    padding: 0;
-    scroll-padding-inline: 10%;
+    padding: 0 10% 0 10%;
   }
   .pillar-row::-webkit-scrollbar { display: none; }
 
   .pillar-card {
-    /* 78% + 6% scroll-margin each side = centred with side peeks */
-    flex: 0 0 78%;
+    flex: 0 0 80%;
     min-width: 0;
-    width: 78%;
-    /* scroll-margin centres the card in the visible area */
-    scroll-margin-inline: 11%;
-    /* replace desktop overlap margins */
-    margin: 0 6px !important;
+    width: 80%;
+    margin: 0 8px !important;
     height: 260px;
     border-radius: 12px;
     scroll-snap-align: center;
@@ -652,9 +642,6 @@ a.pillar-card {
     animation: none !important;
     transform: none !important;
   }
-  /* Add visual side peek: first card starts offset so user sees more of card 2 */
-  .pillar-card:first-child { margin-left: 11% !important; }
-  .pillar-card:last-child  { margin-right: 11% !important; }
   /* Kill the zoom JS effect on touch screens */
   .pillar-card.is-active,
   .pillar-card.is-dimmed {
@@ -2065,13 +2052,21 @@ footer .social a:hover .icon-chip,
     linear-gradient(155deg, #1e1630 0%, #18122a 55%, #130f20 100%) !important;
   box-shadow: inset -1px 0 0 rgba(217,119,87,0.22);
 }
-/* All themes: inner hero-page is transparent — breathing orb shows through */
-
-/* Claude hero: home split hero (left panel has own bg; right shows body glow) */
-:root[data-theme="claude"] .hero {
+/* Claude hero: transparent so the body's warm radial gradient shows through.
+   hero-text (left panel) has its own dark bg; right side shows the body glow. */
+:root[data-theme="claude"] .hero,
+:root[data-theme="claude"] .hero:not(:has(.hero-text)) {
   background: transparent;
 }
-/* Claude inner-page heroes: transparent (orb shows through) — same as all themes. */
+:root[data-theme="claude"] .hero-page {
+  background: linear-gradient(135deg, #221530 0%, #160f22 100%);
+}
+:root[data-theme="claude"] .hero-page::before,
+:root[data-theme="pastel-dark"] .hero-page::before,
+:root[data-theme="dark"] .hero-page::before {
+  background: url("drida_logo_white.svg") no-repeat center / auto 80%;
+  opacity: 0.08;
+}
 :root[data-theme="claude"] .hero h1 { color: #f5f0f0; }
 :root[data-theme="claude"] .hero p  { color: #c8bdd4; }
 :root[data-theme="claude"] .hero-kicker { color: rgba(217,180,210,0.65); }
@@ -3111,85 +3106,100 @@ footer .social a:hover .icon-chip,
   .team-river-grid { grid-template-columns: 1fr; }
 }
 
-/* ── Inner-page hero: transparent — breathing orb shows through ── */
+/* ── Inner-page hero: text-forward, gradient background ── */
 .hero-page {
-  min-height: 42vh;
+  min-height: 52vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   padding: clamp(5rem, 10vw, 7rem) clamp(2rem, 7vw, 6rem) clamp(2.5rem, 4vw, 3.5rem);
-  background: transparent;
+  background: var(--grad);
   position: relative;
   overflow: hidden;
   isolation: isolate;
 }
 .hero-page::before {
-  display: none; /* orb provides the visual backdrop */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("drida_logo.svg") no-repeat center / auto 80%;
+  opacity: 0.06;
+  pointer-events: none;
 }
 .hero-page .hero-kicker {
-  color: rgba(255,255,255,0.82);
+  color: rgba(255,255,255,0.75);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
   display: block;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
 }
 .hero-page h1 {
   color: #fff;
   font-size: clamp(2.4rem, 5vw, 4rem);
   line-height: 1.1;
   margin: 0 0 1rem;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
 }
 .hero-page p {
-  color: rgba(255,255,255,0.88);
+  color: rgba(255,255,255,0.82);
   max-width: 540px;
   font-size: 1.08rem;
   line-height: 1.65;
   margin: 0 0 1.75rem;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.35);
 }
 
-/* Light themes: hero is transparent so body bg shows — use dark ink text for readability */
+/* Light-body themes: transparent blends into body → give a subtle gradient so
+   it reads as a distinct banner, not just a floating text block */
+:root[data-theme="light"] .hero-page,
+:root[data-theme="pastel"] .hero-page,
+:root[data-theme="terra"] .hero-page {
+  background: linear-gradient(135deg,
+    rgba(181,32,32,0.09)  0%,
+    rgba(194,68,22,0.07) 50%,
+    rgba(184,96,20,0.04) 100%);
+  border-bottom: 1px solid var(--line-soft);
+}
+:root[data-theme="pastel-bright"] .hero-page {
+  background: linear-gradient(135deg,
+    rgba(74,142,194,0.10) 0%,
+    rgba(54,112,160,0.07) 50%,
+    rgba(30, 80,130,0.04) 100%);
+  border-bottom: 1px solid var(--line-soft);
+}
+:root[data-theme="pastel-green"] .hero-page {
+  background: linear-gradient(135deg,
+    rgba(46,138,82,0.10) 0%,
+    rgba(30,110,62,0.07) 50%,
+    rgba(15, 80,40,0.04) 100%);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+/* Light-body themes: hero is transparent → text must be dark */
 :root[data-theme="light"] .hero-page .hero-kicker,
 :root[data-theme="pastel"] .hero-page .hero-kicker,
 :root[data-theme="terra"] .hero-page .hero-kicker,
-:root[data-theme="pastel-bright"] .hero-page .hero-kicker,
-:root[data-theme="pastel-green"] .hero-page .hero-kicker { color: var(--muted); text-shadow: none; }
+:root[data-theme="pastel-bright"] .hero-page .hero-kicker { color: var(--muted); }
+
 :root[data-theme="light"] .hero-page h1,
 :root[data-theme="pastel"] .hero-page h1,
 :root[data-theme="terra"] .hero-page h1,
-:root[data-theme="pastel-bright"] .hero-page h1,
-:root[data-theme="pastel-green"] .hero-page h1 { color: var(--ink); text-shadow: none; }
+:root[data-theme="pastel-bright"] .hero-page h1 { color: var(--ink); }
+
 :root[data-theme="light"] .hero-page p,
 :root[data-theme="pastel"] .hero-page p,
 :root[data-theme="terra"] .hero-page p,
-:root[data-theme="pastel-bright"] .hero-page p,
-:root[data-theme="pastel-green"] .hero-page p { color: var(--ink-2); text-shadow: none; }
-/* Same for plain inner hero */
-:root[data-theme="light"] .hero:not(:has(.hero-text)) h1,
-:root[data-theme="pastel"] .hero:not(:has(.hero-text)) h1,
-:root[data-theme="terra"] .hero:not(:has(.hero-text)) h1,
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) h1,
-:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) h1 { color: var(--ink); text-shadow: none; }
-:root[data-theme="light"] .hero:not(:has(.hero-text)) p,
-:root[data-theme="pastel"] .hero:not(:has(.hero-text)) p,
-:root[data-theme="terra"] .hero:not(:has(.hero-text)) p,
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) p,
-:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) p { color: var(--ink-2); text-shadow: none; }
-:root[data-theme="light"] .hero:not(:has(.hero-text)) .hero-kicker,
-:root[data-theme="pastel"] .hero:not(:has(.hero-text)) .hero-kicker,
-:root[data-theme="terra"] .hero:not(:has(.hero-text)) .hero-kicker,
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) .hero-kicker,
-:root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) .hero-kicker { color: var(--muted); text-shadow: none; }
-/* CTA buttons on light theme hero-page */
+:root[data-theme="pastel-bright"] .hero-page p { color: var(--ink-2); }
+
+:root[data-theme="light"] .hero-page .hero-ctas .btn-terra,
+:root[data-theme="pastel"] .hero-page .hero-ctas .btn-terra,
+:root[data-theme="terra"] .hero-page .hero-ctas .btn-terra,
+:root[data-theme="pastel-bright"] .hero-page .hero-ctas .btn-terra { background: var(--grad); color: #fff; }
+
 :root[data-theme="light"] .hero-page .hero-ctas .btn-outline,
 :root[data-theme="pastel"] .hero-page .hero-ctas .btn-outline,
 :root[data-theme="terra"] .hero-page .hero-ctas .btn-outline,
-:root[data-theme="pastel-bright"] .hero-page .hero-ctas .btn-outline,
-:root[data-theme="pastel-green"] .hero-page .hero-ctas .btn-outline { border-color: var(--accent); color: var(--ink); }
+:root[data-theme="pastel-bright"] .hero-page .hero-ctas .btn-outline { border-color: var(--accent); color: var(--ink); }
 .hero-page .hero-ctas .btn-terra {
   background: #fff;
   color: var(--accent);
@@ -3204,73 +3214,30 @@ footer .social a:hover .icon-chip,
   border-color: #fff;
 }
 
-/* Existing inner-page plain hero (courses/trips/login etc): transparent, orb shows through */
+/* Existing inner-page plain hero (courses/trips): style it too */
 .hero:not(:has(.hero-text)) {
-  min-height: 42vh;
+  min-height: 52vh;
   padding: clamp(4rem, 8vw, 6rem) clamp(2rem, 7vw, 6rem) clamp(2rem, 4vw, 3rem);
-  background: transparent;
+  background: var(--grad);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   grid-template-columns: unset;
   position: relative;
   isolation: isolate;
 }
 .hero:not(:has(.hero-text))::before {
-  display: none; /* orb provides the visual backdrop */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("drida_logo.svg") no-repeat center / auto 80%;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
 }
 .hero:not(:has(.hero-text)) > * { position: relative; z-index: 1; }
-.hero:not(:has(.hero-text)) h1 { color: #fff; font-size: clamp(2.4rem, 5vw, 4rem); margin: 0 0 0.75rem; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
-.hero:not(:has(.hero-text)) p  { color: rgba(255,255,255,0.88); max-width: 540px; font-size: 1.05rem; margin: 0; text-shadow: 0 1px 8px rgba(0,0,0,0.35); }
-
-/* ── Mobile hero banner fixes ───────────────────────────────────────
-   Both .hero-page (about / meditation) and the plain inner hero
-   (courses / trips / login / meetups / products / my-courses) need
-   tighter padding on phones. Desktop clamp() values start too large
-   for narrow viewports. Also: on light themes the transparent hero
-   looked flat on mobile — add a subtle warm gradient so it has depth
-   even without the desktop orb being prominent.                       */
-@media (max-width: 768px) {
-  /* hero-page: about.html, meditation.html */
-  .hero-page {
-    padding: 2.5rem 1.5rem 2rem;
-    min-height: 26vh;
-  }
-  .hero-page h1 {
-    font-size: clamp(1.9rem, 7vw, 2.6rem);
-  }
-  .hero-page p {
-    font-size: 0.95rem;
-    margin-bottom: 1.25rem;
-  }
-
-  /* plain inner hero: courses, trips, login, meetups, products, my-courses */
-  .hero:not(:has(.hero-text)) {
-    padding: 2.5rem 1.5rem 2rem;
-    min-height: 26vh;
-  }
-  .hero:not(:has(.hero-text)) h1 {
-    font-size: clamp(1.9rem, 7vw, 2.6rem);
-  }
-
-  /* Light themes: transparent hero looks flat on mobile because the
-     680px orb shrinks to 220px and only shows faintly. Add a subtle
-     gradient wash so the hero feels grounded on small screens.        */
-  :root[data-theme="light"] .hero-page,
-  :root[data-theme="pastel"] .hero-page,
-  :root[data-theme="terra"] .hero-page,
-  :root[data-theme="pastel-bright"] .hero-page,
-  :root[data-theme="pastel-green"] .hero-page {
-    background: linear-gradient(160deg, var(--paper) 0%, rgba(204,80,40,0.07) 100%);
-  }
-  :root[data-theme="light"] .hero:not(:has(.hero-text)),
-  :root[data-theme="pastel"] .hero:not(:has(.hero-text)),
-  :root[data-theme="terra"] .hero:not(:has(.hero-text)),
-  :root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)),
-  :root[data-theme="pastel-green"] .hero:not(:has(.hero-text)) {
-    background: linear-gradient(160deg, var(--paper) 0%, rgba(204,80,40,0.07) 100%);
-  }
-}
+.hero:not(:has(.hero-text)) h1 { color: #fff; font-size: clamp(2.4rem, 5vw, 4rem); margin: 0 0 0.75rem; }
+.hero:not(:has(.hero-text)) p  { color: rgba(255,255,255,0.82); max-width: 540px; font-size: 1.05rem; margin: 0; }
 
 /* ── Logo bubble fix: all main content sits above the fixed bubble ── */
 main {
@@ -3327,6 +3294,7 @@ footer.site-footer {
   object-position: center;
   display: block;
   background: var(--paper);
+  border-right: 1px solid var(--line-soft);
   flex-shrink: 0;
 }
 .course-poster.portrait { width: 200px; min-width: 200px; max-width: 200px; }
@@ -3349,8 +3317,7 @@ footer.site-footer {
 }
 .tag-free   { background: #e8f8f0; color: #1a7a47; }
 .tag-live   { background: linear-gradient(135deg, #cc2828, #e06020); color: #fff; }
-.tag-active,
-.tag-paid   { background: #fff3e0; color: #b85c00; }
+.tag-active { background: #fff3e0; color: #b85c00; }
 .tag-soon   { background: var(--line-soft); color: var(--muted); }
 .tag-online { background: #e8f0fe; color: #3a5fc4; }
 .course-card h3 { margin: 0; font-size: 1.1rem; line-height: 1.3; }
@@ -3726,119 +3693,120 @@ section.revealed .section-tag,
    PASTEL-BRIGHT — Rose (dusty rose on warm white)
    Warm, feminine — complementary to terracotta, clearly distinct.
    ═══════════════════════════════════════════════════════════════════ */
-/* 🩵 PASTEL-BLUE — full blue gradient body, no cream */
+/* Pastel baby blue — very soft, airy, almost white with gentle blue tint */
 :root[data-theme="pastel-bright"] {
-  --paper:        #d8ecff;   /* clear sky blue — the whole page is blue */
-  --paper-alt:    #c0dff8;   /* slightly deeper blue for cards */
-  --ink:          #071626;   /* deep navy */
-  --ink-2:        #163556;   /* medium navy */
-  --line-soft:    #9fcae8;   /* blue divider */
-  --muted:        #3a6e98;   /* blue-grey muted */
-  --accent:       #1462b8;   /* strong clear blue */
-  --accent-dark:  #0e4e9a;
-  --grad:         linear-gradient(135deg, #5eb0e8 0%, #2880d0 45%, #1462b8 100%);
-  --grad-h:       linear-gradient(90deg,  #5eb0e8 0%, #2880d0 45%, #1462b8 100%);
-  --grad-v:       linear-gradient(180deg, #5eb0e8 0%, #2880d0 45%, #1462b8 100%);
-  --shadow:       0 4px 16px rgba(7,22,38,0.12);
-  --shadow-hover: 0 10px 24px rgba(7,22,38,0.20);
+  --paper:        #f5f9ff;   /* near-white with the faintest blue breath */
+  --paper-alt:    #eaf3ff;   /* very pale blue for cards/alt sections */
+  --ink:          #18273a;   /* deep navy-ink */
+  --ink-2:        #3d5a78;   /* medium slate-blue */
+  --line-soft:    #d0e4f5;   /* pale periwinkle divider */
+  --muted:        #6a8faa;   /* soft slate-blue muted */
+  --accent:       #4a8ec2;   /* clear periwinkle-blue accent */
+  --accent-dark:  #36709e;
+  --grad:         linear-gradient(135deg, #72b0d8 0%, #4a8ec2 45%, #3670a0 100%);
+  --grad-h:       linear-gradient(90deg,  #72b0d8 0%, #4a8ec2 45%, #3670a0 100%);
+  --grad-v:       linear-gradient(180deg, #72b0d8 0%, #4a8ec2 45%, #3670a0 100%);
+  --shadow:       0 4px 16px rgba(18,39,58,0.07);
+  --shadow-hover: 0 10px 24px rgba(18,39,58,0.13);
 }
 :root[data-theme="pastel-bright"] body {
-  background: linear-gradient(160deg, #e8f5ff 0%, #d4ebff 35%, #c8e4ff 65%, #d8ecff 100%);
+  background:
+    radial-gradient(ellipse 80% 35% at 50% 0%, rgba(74,142,194,0.08) 0%, transparent 65%),
+    #f5f9ff;
 }
 :root[data-theme="pastel-bright"] .topbar {
-  background: rgba(216,236,255,0.96);
-  box-shadow: 0 1px 0 #9fcae8;
+  background: rgba(245,249,255,0.96);
+  box-shadow: 0 1px 0 #d0e4f5;
 }
 :root[data-theme="pastel-bright"] .hero-text {
   background:
-    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(20,98,184,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(20,98,184,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #d8ecff 0%, #c4e0ff 50%, #b4d6ff 100%) !important;
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(74,142,194,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(74,142,194,0.05) 0%, transparent 55%),
+    linear-gradient(155deg, #f5f9ff 0%, #eaf3ff 50%, #daeaf8 100%) !important;
 }
-/* Home split hero (light-blue .hero-text panel) → dark text fine on light bg */
-:root[data-theme="pastel-bright"] .hero h1 { color: #071626; }
-:root[data-theme="pastel-bright"] .hero p  { color: #163556; }
-:root[data-theme="pastel-bright"] .hero-kicker { color: #3a6e98; }
+:root[data-theme="pastel-bright"] .hero h1 { color: #18273a; }
+:root[data-theme="pastel-bright"] .hero p  { color: #3d5a78; }
+:root[data-theme="pastel-bright"] .hero-kicker { color: #6a8faa; }
 :root[data-theme="pastel-bright"] .hero-photo::before {
-  background: linear-gradient(to right, #c8e4ff 0%, transparent 14%);
+  background: linear-gradient(to right, #eaf3ff 0%, transparent 14%);
 }
 :root[data-theme="pastel-bright"] .hero-ctas .btn-outline {
-  color: #071626; border-color: rgba(20,98,184,0.45);
+  color: #18273a; border-color: rgba(74,142,194,0.40);
 }
-/* Inner-page plain hero (.hero:not(:has(.hero-text))): uses dark blue --grad → white text.
-   The dark overrides above are for the home split hero's light panel only. */
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) h1 { color: #fff; }
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) p  { color: rgba(255,255,255,0.82); }
-:root[data-theme="pastel-bright"] .hero:not(:has(.hero-text)) .hero-kicker { color: rgba(255,255,255,0.72); }
 :root[data-theme="pastel-bright"] .logo-float-bubble {
   background: radial-gradient(ellipse 80% 80% at 50% 50%,
-    rgba(160,220,255,0.72) 0%,
-    rgba(100,185,248,0.50) 18%,
-    rgba( 60,150,230,0.26) 40%,
-    rgba( 25,100,190,0.09) 62%,
+    rgba(114,176,216,0.60) 0%,
+    rgba( 74,142,194,0.38) 18%,
+    rgba( 54,112,160,0.18) 40%,
+    rgba( 30, 80,130,0.06) 62%,
     transparent 82%);
   box-shadow:
-    0 0  70px 28px  rgba(140,210,255,0.38),
-    0 0 150px 65px  rgba( 90,170,240,0.24),
-    0 0 260px 110px rgba( 50,130,210,0.12),
-    0 0 400px 150px rgba( 20, 80,170,0.05);
+    0 0  70px 28px  rgba(114,176,216,0.28),
+    0 0 150px 65px  rgba( 74,142,194,0.18),
+    0 0 260px 110px rgba( 54,112,160,0.08),
+    0 0 400px 150px rgba( 30, 80,130,0.03);
 }
 :root[data-theme="pastel-bright"] #theme-toggle::before { content: "🩵"; font-size: 15px; }
 
-/* 🌿 PASTEL-GREEN — full green gradient body, no cream */
+/* ═══════════════════════════════════════════════════════════════════
+   PASTEL-GREEN — soft sage mint, pure white base, fresh + calm
+   ═══════════════════════════════════════════════════════════════════ */
 :root[data-theme="pastel-green"] {
-  --paper:        #cdeeda;   /* clear soft green — the whole page is green */
-  --paper-alt:    #b8e4c8;   /* slightly deeper green for cards */
-  --ink:          #051a0e;   /* deep forest */
-  --ink-2:        #0f3a1e;   /* medium forest */
-  --line-soft:    #8ecba6;   /* green divider */
-  --muted:        #2e6e48;   /* forest muted */
-  --accent:       #0e7a3a;   /* strong fresh green */
-  --accent-dark:  #085e2c;
-  --grad:         linear-gradient(135deg, #4eca74 0%, #1a9448 45%, #0e6e34 100%);
-  --grad-h:       linear-gradient(90deg,  #4eca74 0%, #1a9448 45%, #0e6e34 100%);
-  --grad-v:       linear-gradient(180deg, #4eca74 0%, #1a9448 45%, #0e6e34 100%);
-  --shadow:       0 4px 16px rgba(5,26,14,0.12);
-  --shadow-hover: 0 10px 24px rgba(5,26,14,0.20);
+  --paper:        #f4fbf6;
+  --paper-alt:    #e8f5ec;
+  --ink:          #0e2218;
+  --ink-2:        #2d5a3d;
+  --line-soft:    #c2e0cc;
+  --muted:        #568a6a;
+  --accent:       #2e8a52;
+  --accent-dark:  #1f6e3e;
+  --grad:         linear-gradient(135deg, #5aac7a 0%, #2e8a52 45%, #1e6e3e 100%);
+  --grad-h:       linear-gradient(90deg,  #5aac7a 0%, #2e8a52 45%, #1e6e3e 100%);
+  --grad-v:       linear-gradient(180deg, #5aac7a 0%, #2e8a52 45%, #1e6e3e 100%);
+  --shadow:       0 4px 16px rgba(14,34,24,0.07);
+  --shadow-hover: 0 10px 24px rgba(14,34,24,0.13);
 }
 :root[data-theme="pastel-green"] body {
-  background: linear-gradient(160deg, #daf5e8 0%, #c8eeda 35%, #bce6cc 65%, #cdeeda 100%);
+  background:
+    radial-gradient(ellipse 80% 35% at 50% 0%, rgba(46,138,82,0.08) 0%, transparent 65%),
+    #f4fbf6;
 }
 :root[data-theme="pastel-green"] .topbar {
-  background: rgba(205,238,218,0.96);
-  box-shadow: 0 1px 0 #8ecba6;
+  background: rgba(244,251,246,0.96);
+  box-shadow: 0 1px 0 #c2e0cc;
 }
 :root[data-theme="pastel-green"] .hero-text {
   background:
-    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(14,122,58,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(14,122,58,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #cdeeda 0%, #b8e4c8 50%, #a8dab8 100%) !important;
+    radial-gradient(ellipse 90% 55% at 88% 8%, rgba(46,138,82,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 5% 92%, rgba(46,138,82,0.05) 0%, transparent 55%),
+    linear-gradient(155deg, #f4fbf6 0%, #e8f5ec 50%, #d6edde 100%) !important;
 }
-:root[data-theme="pastel-green"] .hero h1 { color: #051a0e; }
-:root[data-theme="pastel-green"] .hero p  { color: #0f3a1e; }
-:root[data-theme="pastel-green"] .hero-kicker { color: #2e6e48; }
+:root[data-theme="pastel-green"] .hero h1 { color: #0e2218; }
+:root[data-theme="pastel-green"] .hero p  { color: #2d5a3d; }
+:root[data-theme="pastel-green"] .hero-kicker { color: #568a6a; }
 :root[data-theme="pastel-green"] .hero-photo::before {
-  background: linear-gradient(to right, #b8e4c8 0%, transparent 14%);
+  background: linear-gradient(to right, #e8f5ec 0%, transparent 14%);
 }
 :root[data-theme="pastel-green"] .hero-ctas .btn-outline {
-  color: #051a0e; border-color: rgba(14,122,58,0.45);
+  color: #0e2218; border-color: rgba(46,138,82,0.40);
 }
-/* Pastel-green hero-page: now transparent like all other themes — white text with shadow */
-:root[data-theme="pastel-green"] .hero-page .hero-kicker { color: rgba(255,255,255,0.82); }
-:root[data-theme="pastel-green"] .hero-page h1 { color: #fff; }
-:root[data-theme="pastel-green"] .hero-page p { color: rgba(255,255,255,0.88); }
+:root[data-theme="pastel-green"] .hero-page .hero-kicker { color: var(--muted); }
+:root[data-theme="pastel-green"] .hero-page h1 { color: var(--ink); }
+:root[data-theme="pastel-green"] .hero-page p { color: var(--ink-2); }
+:root[data-theme="pastel-green"] .hero-page .hero-ctas .btn-terra { background: var(--grad); color: #fff; }
+:root[data-theme="pastel-green"] .hero-page .hero-ctas .btn-outline { border-color: var(--accent); color: var(--ink); }
 :root[data-theme="pastel-green"] .logo-float-bubble {
   background: radial-gradient(ellipse 80% 80% at 50% 50%,
-    rgba(155,240,185,0.72) 0%,
-    rgba( 90,215,140,0.50) 18%,
-    rgba( 45,180,100,0.26) 40%,
-    rgba( 15,120, 60,0.09) 62%,
+    rgba( 90,172,122,0.58) 0%,
+    rgba( 46,138, 82,0.36) 18%,
+    rgba( 30,110, 62,0.16) 40%,
+    rgba( 15, 80, 40,0.06) 62%,
     transparent 82%);
   box-shadow:
-    0 0  70px 28px  rgba(140,235,175,0.38),
-    0 0 150px 65px  rgba( 80,205,130,0.24),
-    0 0 260px 110px rgba( 40,165, 90,0.12),
-    0 0 400px 150px rgba( 10,100, 50,0.05);
+    0 0  70px 28px  rgba( 90,172,122,0.26),
+    0 0 150px 65px  rgba( 46,138, 82,0.16),
+    0 0 260px 110px rgba( 30,110, 62,0.07),
+    0 0 400px 150px rgba( 15, 80, 40,0.03);
 }
 :root[data-theme="pastel-green"] #theme-toggle::before { content: "🌿"; font-size: 15px; }
 
@@ -4096,9 +4064,9 @@ section.revealed .section-tag,
 .smitha-photo-panel { display: flex; flex-direction: column; gap: 0.75rem; }
 .smitha-banner-img {
   width: 100%;
-  aspect-ratio: 2/1;       /* matches actual image ratio (1166×600 ≈ 2:1) — shows full width */
+  aspect-ratio: 3/4;
   object-fit: cover;
-  object-position: center; /* full image visible: model (left) + boutique name (right) */
+  object-position: top;
   border-radius: 10px;
   box-shadow: var(--shadow);
 }
@@ -4109,14 +4077,13 @@ section.revealed .section-tag,
 }
 .smitha-atwork-photos img {
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 1/1;
   object-fit: cover;
-  object-position: center top;
   border-radius: 10px;
   box-shadow: var(--shadow);
 }
 .smitha-atwork-photos img:first-child {
-  margin-top: 1rem;
+  margin-top: 1rem; /* offset stagger */
 }
 
 /* Gallery */
@@ -4149,7 +4116,6 @@ section.revealed .section-tag,
   width: 100%;
   aspect-ratio: 3/4;
   object-fit: cover;
-  object-position: center top;
   display: block;
   transition: transform 0.35s ease;
 }

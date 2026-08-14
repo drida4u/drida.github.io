@@ -54,11 +54,31 @@
   </header>
 
   <main>
-    <div id="loading-screen">Checking access…</div>
+    <div id="loading-screen" style="text-align:center;padding:4rem 1rem;color:var(--muted);">Checking access…</div>
 
-    <div id="access-denied">
+    <!-- Admin login form — shown when not authenticated -->
+    <div id="admin-login" style="display:none;max-width:380px;margin:4rem auto;padding:0 1.5rem;">
+      <div class="card" style="padding:2rem;">
+        <h2 style="margin-bottom:0.25rem;">Admin Login</h2>
+        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1.5rem;">Drida support team access</p>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label for="admin-email" style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;">Email</label>
+          <input id="admin-email" type="email" placeholder="admin@drida.com"
+            style="width:100%;border:1px solid var(--line-soft);border-radius:8px;padding:0.6rem 0.85rem;font-size:0.95rem;background:var(--paper);color:var(--ink);box-sizing:border-box;">
+        </div>
+        <div class="form-group" style="margin-bottom:1.25rem;">
+          <label for="admin-password" style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:0.4rem;">Password</label>
+          <input id="admin-password" type="password" placeholder="••••••••"
+            style="width:100%;border:1px solid var(--line-soft);border-radius:8px;padding:0.6rem 0.85rem;font-size:0.95rem;background:var(--paper);color:var(--ink);box-sizing:border-box;">
+        </div>
+        <button id="admin-login-btn" class="btn-terra" style="width:100%;">Log In</button>
+        <p id="admin-login-error" style="color:#c0392b;font-size:0.85rem;margin-top:0.75rem;display:none;"></p>
+      </div>
+    </div>
+
+    <div id="access-denied" style="display:none;text-align:center;padding:4rem 1rem;">
       <h2>Access Denied</h2>
-      <p>This page is for Drida admins only. <a href="index.html">Go home</a>.</p>
+      <p>This account is not an admin. <a href="index.html">Go home</a>.</p>
     </div>
 
     <div id="admin-app" style="display:none;">
@@ -127,6 +147,7 @@
                   <th>Last Login</th>
                   <th>Enrolled Courses</th>
                   <th>Add Course</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="users-tbody"></tbody>
@@ -337,41 +358,112 @@
         tbody.innerHTML = '';
         snap.forEach(function(doc) {
           var d = doc.data();
+          var isDeleted = d.deleted === true;
           var courses = (d.enrolledCourses || []).join(', ') || '—';
-          var input = document.createElement('input');
-          input.className = 'enrolled-input';
-          input.placeholder = 'course-id';
-          var addBtn = document.createElement('button');
-          addBtn.className = 'btn-sm btn-enroll';
-          addBtn.textContent = 'Add';
-          addBtn.onclick = function() { addCourseToUser(doc.id, input, addBtn); };
+
           var tr = document.createElement('tr');
+          if (isDeleted) tr.style.opacity = '0.45';
+
           tr.innerHTML =
-            '<td>' + (d.phone || '—') + '</td>' +
+            '<td>' + (d.phone || '—') + (isDeleted ? ' <span style="color:#c0392b;font-size:0.75rem;font-weight:600;">[DELETED]</span>' : '') + '</td>' +
             '<td>' + fmtDate(d.lastLogin) + '</td>' +
             '<td style="font-size:0.8rem;color:var(--muted)">' + courses + '</td>';
-          var actionTd = document.createElement('td');
-          actionTd.style.display = 'flex';
-          actionTd.style.gap = '0.4rem';
-          actionTd.style.alignItems = 'center';
-          actionTd.appendChild(input);
-          actionTd.appendChild(addBtn);
-          tr.appendChild(actionTd);
+
+          // Add Course cell
+          var addCourseTd = document.createElement('td');
+          if (!isDeleted) {
+            var input = document.createElement('input');
+            input.className = 'enrolled-input';
+            input.placeholder = 'course-id';
+            var addBtn = document.createElement('button');
+            addBtn.className = 'btn-sm btn-enroll';
+            addBtn.textContent = 'Add';
+            addBtn.onclick = function() { addCourseToUser(doc.id, input, addBtn); };
+            addCourseTd.style.display = 'flex';
+            addCourseTd.style.gap = '0.4rem';
+            addCourseTd.style.alignItems = 'center';
+            addCourseTd.appendChild(input);
+            addCourseTd.appendChild(addBtn);
+          } else {
+            addCourseTd.textContent = '—';
+          }
+          tr.appendChild(addCourseTd);
+
+          // Actions cell — Delete / Restore
+          var actionsTd = document.createElement('td');
+          actionsTd.style.cssText = 'display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;';
+          if (!isDeleted) {
+
+            var delBtn = document.createElement('button');
+            delBtn.className = 'btn-sm';
+            delBtn.style.cssText = 'background:#c0392b;color:#fff;border:none;';
+            delBtn.textContent = 'Delete';
+            delBtn.onclick = function() {
+              if (!confirm('Delete this account? They will not be able to log in again.\n\nPhone: ' + (d.phone || 'unknown'))) return;
+              db.collection('users').doc(doc.id).update({ deleted: true, deletedAt: firebase.firestore.FieldValue.serverTimestamp() })
+                .then(function() { tr.style.opacity = '0.45'; delBtn.replaceWith(restoreBtn.cloneNode(true)); loadUsers(); })
+                .catch(function() { alert('Could not delete. Try again.'); });
+            };
+            actionsTd.appendChild(delBtn);
+          } else {
+            var restoreBtn = document.createElement('button');
+            restoreBtn.className = 'btn-sm btn-enroll';
+            restoreBtn.textContent = 'Restore';
+            restoreBtn.onclick = function() {
+              if (!confirm('Restore this account? They will be able to log in again.')) return;
+              db.collection('users').doc(doc.id).update({ deleted: false, deletedAt: firebase.firestore.FieldValue.delete() })
+                .then(function() { loadUsers(); })
+                .catch(function() { alert('Could not restore. Try again.'); });
+            };
+            actionsTd.appendChild(restoreBtn);
+          }
+          tr.appendChild(actionsTd);
           tbody.appendChild(tr);
         });
       });
     }
 
-    // ── Auth check ────────────────────────────────────────────
+    // ── Email/password login for admin ────────────────────────
+    document.getElementById('admin-login-btn').addEventListener('click', function() {
+      var email = document.getElementById('admin-email').value.trim();
+      var pass  = document.getElementById('admin-password').value;
+      var errEl = document.getElementById('admin-login-error');
+      var btn   = this;
+      errEl.style.display = 'none';
+      btn.textContent = 'Logging in…';
+      btn.disabled = true;
+      auth.signInWithEmailAndPassword(email, pass)
+        .then(function() { /* onAuthStateChanged handles the rest */ })
+        .catch(function(e) {
+          btn.textContent = 'Log In';
+          btn.disabled = false;
+          errEl.textContent = 'Incorrect email or password.';
+          errEl.style.display = 'block';
+        });
+    });
+
+    // Allow Enter key in password field
+    document.getElementById('admin-password').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('admin-login-btn').click();
+    });
+
+    // ── Auth state ────────────────────────────────────────────
     auth.onAuthStateChanged(function(user) {
       document.getElementById('loading-screen').style.display = 'none';
       if (!user) {
-        window.location.href = 'login.html?return=admin.html';
+        document.getElementById('admin-login').style.display = 'block';
         return;
       }
+      // Logged in — check isAdmin flag in Firestore
       db.collection('users').doc(user.uid).get().then(function(doc) {
-        if (!doc.exists || !doc.data().isAdmin) {
-          document.getElementById('access-denied').style.display = 'block';
+        var isAdmin = doc.exists && doc.data().isAdmin === true;
+        if (!isAdmin) {
+          // Could be a regular phone-OTP user — sign them out and show login
+          auth.signOut();
+          document.getElementById('admin-login').style.display = 'block';
+          var errEl = document.getElementById('admin-login-error');
+          errEl.textContent = 'This account does not have admin access.';
+          errEl.style.display = 'block';
           return;
         }
         document.getElementById('admin-app').style.display = 'block';
@@ -383,8 +475,10 @@
 
     document.getElementById('admin-logout').addEventListener('click', function(e) {
       e.preventDefault();
-      localStorage.removeItem('drida-user');
-      auth.signOut().then(function() { window.location.href = 'index.html'; });
+      auth.signOut().then(function() {
+        document.getElementById('admin-app').style.display = 'none';
+        document.getElementById('admin-login').style.display = 'block';
+      });
     });
   </script>
 </body>

@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Batch Meet-ups — Drida</title>
+  <meta name="description" content="Join Drida's community batch meet-ups and group sessions. Watch recordings, connect with the Drida family, and follow your wellness journey together.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Drida">
+  <meta property="og:title" content="Batch Meet-ups — Drida Community">
+  <meta property="og:description" content="Join Drida's community batch meet-ups and group sessions. Watch recordings, connect with the Drida family, and follow your wellness journey together.">
+  <meta property="og:image" content="https://drida.org/drida_logo.png">
+  <meta property="og:url" content="https://drida.org/meetups.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Batch Meet-ups — Drida Community">
+  <meta name="twitter:description" content="Join Drida's community batch meet-ups and group sessions. Watch recordings, connect with the Drida family, and follow your wellness journey together.">
+  <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var t=localStorage.getItem("drida-theme");if(t)document.documentElement.setAttribute("data-theme",t)}()</script>
   <link rel="stylesheet" href="style.css?v=20">
   <style>
@@ -59,6 +70,47 @@
 
     .meetup-video-placeholder svg {
       opacity: 0.35;
+    }
+
+    /* YouTube Shorts — portrait 9:16 container */
+    .meetup-video.shorts {
+      padding-top: 177.78%;
+    }
+
+    /* Locked video overlay */
+    .locked-video {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .locked-video img {
+      width: 100%; height: 100%; object-fit: cover; filter: blur(3px) brightness(0.55);
+    }
+    .lock-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+    }
+    .lock-overlay .lock-icon { font-size: 2rem; }
+    .lock-overlay a { color: #ffd580; font-weight: 600; }
+
+    /* Members-only section */
+    .members-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line-soft);
+    }
+    .members-section h2 { margin-bottom: 0.4rem; }
+    .members-section .members-note {
+      font-size: 0.9rem; color: var(--ink-2); margin-bottom: 1.5rem;
     }
 
     .meetup-info {
@@ -134,11 +186,11 @@
         <a href="courses.html">Courses</a>
         <a href="trips.html">Experiences</a>
         <a href="products.html">Products</a>
-        <a href="meetups.html#team">Drida Family</a>
-        <div class="nav-dropdown active">
-          <a href="index.html#about" class="nav-parent">About Us</a>
+        <a href="meetups.html#team" class="active">Drida Family</a>
+        <div class="nav-dropdown">
+          <a href="about.html" class="nav-parent">About Us</a>
           <div class="nav-submenu">
-            <a href="index.html#about">About Drida</a>
+            <a href="about.html">About Drida</a>
             <a href="meetups.html">Meet-ups</a>
             <a href="index.html#contact">Contact</a>
           </div>
@@ -149,10 +201,16 @@
     </div>
   </header>
 
+  <div class="hero">
+    <span class="hero-kicker">Community</span>
+    <h1>Drida Family &amp; Meet-ups</h1>
+    <p>Celebrating every batch together — community recordings, Drida Day, and our growing family.</p>
+  </div>
+
   <main>
     <section>
       <h2>Batch Meet-ups</h2>
-      <p>After every free batch, Drida holds a community meet-up — a celebration of the journey together. Here are recordings from all 14 previous batch meet-ups.</p>
+      <p>After every free batch, Drida holds a community meet-up — a celebration of the journey together. Here are recordings from all 14 previous batch meet-ups. <strong>Note:</strong> Batches 1–10 were held under the name <em>Positive Vibes (PV)</em> — Drida's earlier name before the 2025 rebrand. Drida Day is celebrated every year on <strong>19th March</strong>!</p>
 
       <div class="meetup-grid" id="meetup-list">
 
@@ -222,136 +280,109 @@
 
         <!-- Batch 10 -->
         <div class="meetup-card">
-          <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+          <div class="meetup-video shorts">
+            <iframe src="https://www.youtube.com/embed/n8p5LSFTMWw" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 10</span>
-            <h3>Batch 10 Meet-up</h3>
-            <p>Celebration with Drida's 10th free batch participants</p>
+            <span class="meetup-batch-num">PV 10</span>
+            <h3>PV 10 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 10th free batch participants</p>
           </div>
         </div>
 
         <!-- Batch 9 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+            <iframe src="https://www.youtube.com/embed/4Au1XWyfKwA" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 9</span>
-            <h3>Batch 9 Meet-up</h3>
-            <p>Celebration with Drida's 9th free batch participants</p>
+            <span class="meetup-batch-num">PV 9</span>
+            <h3>PV 9 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 9th free batch participants</p>
           </div>
         </div>
 
         <!-- Batch 8 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+            <iframe src="https://www.youtube.com/embed/JOIjF9ecUJ4" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 8</span>
-            <h3>Batch 8 Meet-up</h3>
-            <p>Celebration with Drida's 8th free batch participants</p>
+            <span class="meetup-batch-num">PV 8</span>
+            <h3>PV 8 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 8th free batch participants &middot; <a href="https://youtube.com/shorts/Qo8G4s90ABM" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">Watch Short →</a></p>
           </div>
         </div>
 
         <!-- Batch 7 -->
         <div class="meetup-card">
-          <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+          <div class="meetup-video shorts">
+            <iframe src="https://www.youtube.com/embed/6uAlVv6fihY" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 7</span>
-            <h3>Batch 7 Meet-up</h3>
-            <p>Celebration with Drida's 7th free batch participants</p>
+            <span class="meetup-batch-num">PV 7</span>
+            <h3>PV 7 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 7th free batch participants</p>
           </div>
         </div>
 
         <!-- Batch 6 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+            <iframe src="https://www.youtube.com/embed/4LsQZ8q3egY" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 6</span>
-            <h3>Batch 6 Meet-up</h3>
-            <p>Celebration with Drida's 6th free batch participants</p>
+            <span class="meetup-batch-num">PV 6</span>
+            <h3>PV 6 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 6th free batch participants</p>
           </div>
         </div>
 
         <!-- Batch 5 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+            <iframe src="https://www.youtube.com/embed/rAk0hhfCKLc" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 5</span>
-            <h3>Batch 5 Meet-up</h3>
-            <p>Celebration with Drida's 5th free batch participants</p>
+            <span class="meetup-batch-num">PV 5</span>
+            <h3>PV 5 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 5th free batch participants</p>
           </div>
         </div>
 
         <!-- Batch 4 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+            <iframe src="https://www.youtube.com/embed/gWgBWV758rA" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 4</span>
-            <h3>Batch 4 Meet-up</h3>
-            <p>Celebration with Drida's 4th free batch participants</p>
+            <span class="meetup-batch-num">PV 4</span>
+            <h3>PV 4 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 4th free batch participants &middot; <a href="https://youtu.be/m16BjRwNyCQ" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">Watch Part 2 →</a></p>
           </div>
         </div>
 
         <!-- Batch 3 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+            <iframe src="https://www.youtube.com/embed/uWLFiCKHP18" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 3</span>
-            <h3>Batch 3 Meet-up</h3>
-            <p>Celebration with Drida's 3rd free batch participants</p>
+            <span class="meetup-batch-num">PV 3</span>
+            <h3>PV 3 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 3rd free batch participants</p>
           </div>
         </div>
 
         <!-- Batch 2 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <div class="meetup-video-placeholder">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              <span>Video coming soon</span>
-            </div>
+            <iframe src="https://www.youtube.com/embed/d9-JFnqJuN4" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 2</span>
-            <h3>Batch 2 Meet-up</h3>
-            <p>Celebration with Drida's 2nd free batch participants</p>
+            <span class="meetup-batch-num">PV 2</span>
+            <h3>PV 2 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 2nd free batch participants</p>
           </div>
         </div>
 
@@ -364,13 +395,80 @@
             </div>
           </div>
           <div class="meetup-info">
-            <span class="meetup-batch-num">Batch 1</span>
-            <h3>Batch 1 Meet-up</h3>
-            <p>Celebration with Drida's 1st free batch participants — where it all began</p>
+            <span class="meetup-batch-num">PV 1</span>
+            <h3>PV 1 Meet-up</h3>
+            <p>Celebration with Positive Vibes' 1st free batch participants — where it all began</p>
           </div>
         </div>
 
       </div>
+
+      <!-- Members Only Section -->
+      <div class="members-section">
+        <h2>🔒 Members Only</h2>
+        <p class="members-note">These videos are exclusively for <strong>Advanced Chakra Course</strong> members. <a href="courses.html#course-advanced-chakra-meditation" style="color:var(--accent);">Enrol here →</a></p>
+        <div class="meetup-grid">
+
+          <!-- Guru Poornima -->
+          <div class="meetup-card">
+            <div class="meetup-video">
+              <div class="locked-video" id="lock-guru-poornima" data-video-id="TTTsUWb8W4I">
+                <img src="https://img.youtube.com/vi/TTTsUWb8W4I/hqdefault.jpg" alt="Guru Poornima">
+                <div class="lock-overlay">
+                  <span class="lock-icon">🔒</span>
+                  <span>Advanced Chakra Course members only</span>
+                  <a href="courses.html#course-advanced-chakra-meditation">Enrol to unlock →</a>
+                </div>
+              </div>
+            </div>
+            <div class="meetup-info">
+              <span class="meetup-batch-num">Special</span>
+              <h3>Guru Poornima with Smitha Haridas</h3>
+              <p>A special video message from Smitha Haridas on Guru Poornima</p>
+            </div>
+          </div>
+
+          <!-- PV to Drida Transformation -->
+          <div class="meetup-card">
+            <div class="meetup-video">
+              <div class="locked-video" id="lock-pv-drida" data-video-id="H34KltdvsIU">
+                <img src="https://img.youtube.com/vi/H34KltdvsIU/hqdefault.jpg" alt="PV to Drida Transformation">
+                <div class="lock-overlay">
+                  <span class="lock-icon">🔒</span>
+                  <span>Advanced Chakra Course members only</span>
+                  <a href="courses.html#course-advanced-chakra-meditation">Enrol to unlock →</a>
+                </div>
+              </div>
+            </div>
+            <div class="meetup-info">
+              <span class="meetup-batch-num">Story</span>
+              <h3>Positive Vibes → Drida</h3>
+              <p>The story of our transformation — from Positive Vibes to Drida</p>
+            </div>
+          </div>
+
+          <!-- Logo Reveal -->
+          <div class="meetup-card">
+            <div class="meetup-video">
+              <div class="locked-video" id="lock-logo-reveal" data-video-id="Ej3DZ-jt13U">
+                <img src="https://img.youtube.com/vi/Ej3DZ-jt13U/hqdefault.jpg" alt="Drida Logo Reveal">
+                <div class="lock-overlay">
+                  <span class="lock-icon">🔒</span>
+                  <span>Advanced Chakra Course members only</span>
+                  <a href="courses.html#course-advanced-chakra-meditation">Enrol to unlock →</a>
+                </div>
+              </div>
+            </div>
+            <div class="meetup-info">
+              <span class="meetup-batch-num">Story</span>
+              <h3>Drida Logo Reveal</h3>
+              <p>The unveiling of the Drida brand and logo</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </section>
   </main>
 
@@ -379,7 +477,7 @@
     <section id="team" class="team-section" style="margin-top:0;">
       <span class="section-tag">The Drida Family</span>
       <h2>Our Teams</h2>
-      <p class="team-intro">Drida runs on the strength of over 4,000 members and a dedicated team of volunteers, organised into four river-named groups — each a pillar of the community.</p>
+      <p class="team-intro">Drida runs on the strength of over 4,600 members and a dedicated team of volunteers, organised into four river-named groups — each a pillar of the community.</p>
 
       <div class="founder-row">
         <div class="founder-bubble">
@@ -396,7 +494,7 @@
       <div class="team-river-grid">
         <div class="river-card river-ganga">
           <span class="river-name">Team Ganga</span>
-          <span class="river-lead">Led by Smitha Ma'am</span>
+          <span class="river-lead">Led by Smitha Haridas</span>
           <p>Smitha's executive circle — 4 assistants who keep the wheels turning on every daily Drida activity.</p>
           <span class="river-count">4 Executive Assistants</span>
         </div>
@@ -517,6 +615,26 @@
 
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    // Unlock members-only videos for Advanced Chakra Course enrollees
+    auth.onAuthStateChanged(function(user) {
+      if (!user) return;
+      db.collection('users').doc(user.uid).get().then(function(doc) {
+        if (!doc.exists) return;
+        var enrolled = doc.data().enrolledCourses || [];
+        if (!enrolled.includes('course-advanced-chakra-meditation')) return;
+        // Unlock all locked videos
+        document.querySelectorAll('.locked-video').forEach(function(el) {
+          var videoId = el.dataset.videoId;
+          el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>';
+        });
+      });
+    });
+  </script>
   <script src="auth-nav.js"></script>
   <script src="script.js?v=3"></script>
 </body>

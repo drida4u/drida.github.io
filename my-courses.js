@@ -9,11 +9,18 @@
 // they can't see links they're not enrolled in - the real
 // protection happens on Firebase's side, not in this file.
 //
-// courseContent/{courseId} document shape:
-//   { videos: ["https://youtube.com/...", "https://youtube.com/..."] }
-// Add/reorder links any time in the Firebase Console - no code
-// changes needed. (Older courses may still have the previous single
-// "link" field; that's handled below too, shown as "Session 1".)
+// courseContent/{courseId} document shape — two options:
+//
+//  OPTION A — Playlist (recommended, simplest):
+//   { playlist: "PLTClT_B0t4lAxxxxxxxx" }
+//   Just the playlist ID (the part after ?list= in the YouTube URL).
+//   New videos added to the YouTube playlist appear here automatically.
+//
+//  OPTION B — Individual videos:
+//   { videos: ["https://youtube.com/watch?v=...", ...] }
+//   List each session link. Add/reorder in Firebase Console anytime.
+//
+// (Older docs with a single "link" field still work — shown as Session 1.)
 // ============================================================
 
 auth.onAuthStateChanged((user) => {
@@ -22,7 +29,12 @@ auth.onAuthStateChanged((user) => {
     return;
   }
   const phoneEl = document.getElementById('user-phone');
-  if (phoneEl) phoneEl.textContent = 'Logged in as ' + user.phoneNumber;
+  if (phoneEl) {
+    // Show display name from Google if available, otherwise email or phone
+    const saved = JSON.parse(localStorage.getItem('drida-user') || '{}');
+    const label = saved.name || user.displayName || saved.email || saved.phone || '';
+    phoneEl.textContent = label ? 'Welcome, ' + label : '';
+  }
   loadMyCourses(user.uid);
 });
 
@@ -49,40 +61,59 @@ function loadMyCourses(uid) {
           const course = courseDoc.data();
           const content = contentDoc.exists ? contentDoc.data() : {};
 
-          // Support both the new "videos" array (a real playlist) and
-          // the older single "link" field, so nothing breaks for a
-          // course that hasn't been updated to the new shape yet.
-          const videos = Array.isArray(content.videos) && content.videos.length
-            ? content.videos
-            : (content.link ? [content.link] : []);
+          // ── Determine what to render ──────────────────────────────
+          // Priority: playlist field > videos array > legacy link field
+          const playlistId = content.playlist
+            ? content.playlist.replace(/^.*[?&]list=/, '').split('&')[0] // handle full URL or bare ID
+            : null;
 
-          // Convert any YouTube URL to an embeddable src
+          const videos = !playlistId && Array.isArray(content.videos) && content.videos.length
+            ? content.videos
+            : (!playlistId && content.link ? [content.link] : []);
+
+          // Convert any YouTube watch/share URL to an embeddable src
           function toEmbedUrl(url) {
             try {
               const u = new URL(url);
-              let id = u.searchParams.get('v'); // youtube.com/watch?v=ID
-              if (!id && u.hostname === 'youtu.be') id = u.pathname.slice(1); // youtu.be/ID
-              if (!id && u.pathname.includes('/embed/')) return url; // already embed URL
+              let id = u.searchParams.get('v');
+              if (!id && u.hostname === 'youtu.be') id = u.pathname.slice(1);
+              if (!id && u.pathname.includes('/embed/')) return url;
               return id ? 'https://www.youtube.com/embed/' + id : null;
             } catch { return null; }
           }
 
-          const playlistHtml = videos.length
-            ? videos.map((url, i) => {
-                const embedSrc = toEmbedUrl(url);
-                return embedSrc
-                  ? `<div style="margin-bottom:1.25rem;">
-                       <p style="font-size:0.85rem;font-weight:600;color:var(--muted);margin-bottom:0.4rem;">Session ${i + 1}</p>
-                       <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;background:#000;">
-                         <iframe src="${embedSrc}" title="Session ${i + 1}"
-                           style="position:absolute;inset:0;width:100%;height:100%;border:none;"
-                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                           allowfullscreen loading="lazy"></iframe>
-                       </div>
-                     </div>`
-                  : `<p><a href="${url}" target="_blank" rel="noopener noreferrer">Session ${i + 1}</a></p>`;
-              }).join('')
-            : '<p style="color:var(--muted);">Videos for this course will appear here once added.</p>';
+          let playlistHtml;
+          if (playlistId) {
+            // Embed the whole playlist — one player, browse all sessions inside
+            const embedSrc = `https://www.youtube.com/embed/videoseries?list=${playlistId}&rel=0`;
+            playlistHtml = `
+              <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;background:#000;margin-top:0.75rem;">
+                <iframe src="${embedSrc}" title="${course.title} — full playlist"
+                  style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen loading="lazy"></iframe>
+              </div>
+              <p style="font-size:0.78rem;color:var(--muted);margin-top:0.5rem;text-align:right;">
+                <a href="https://www.youtube.com/playlist?list=${playlistId}" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">Open full playlist on YouTube ↗</a>
+              </p>`;
+          } else if (videos.length) {
+            playlistHtml = videos.map((url, i) => {
+              const embedSrc = toEmbedUrl(url);
+              return embedSrc
+                ? `<div style="margin-bottom:1.25rem;">
+                     <p style="font-size:0.85rem;font-weight:600;color:var(--muted);margin-bottom:0.4rem;">Session ${i + 1}</p>
+                     <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden;background:#000;">
+                       <iframe src="${embedSrc}" title="Session ${i + 1}"
+                         style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                         allowfullscreen loading="lazy"></iframe>
+                     </div>
+                   </div>`
+                : `<p><a href="${url}" target="_blank" rel="noopener noreferrer">Session ${i + 1}</a></p>`;
+            }).join('');
+          } else {
+            playlistHtml = '<p style="color:var(--muted);">Videos for this course will appear here once added.</p>';
+          }
 
           const card = document.createElement('div');
           card.className = 'card';
