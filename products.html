@@ -90,7 +90,7 @@
           </div>
         </div>
         <a class="nav-cta-pill" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
-        <a href="login.html">Login</a>
+        <a href="/dashboard/">Login</a>
       </nav>
       <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
     </div>
@@ -236,7 +236,7 @@
           <li><a href="courses.html">Courses</a></li>
           <li><a href="trips.html">Experiences</a></li>
           <li><a href="products.html">Products</a></li>
-          <li><a href="login.html">Login / My Courses</a></li>
+          <li><a href="/dashboard/">Login / Dashboard</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -305,24 +305,7 @@
 
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script>
-    auth.onAuthStateChanged(function(user) {
-      if (!user) return;
-      db.collection('users').doc(user.uid).get().then(function(doc) {
-        if (!doc.exists) return;
-        var enrolled = doc.data().enrolledCourses || [];
-        if (!enrolled.includes('course-advanced-chakra-meditation')) return;
-        document.querySelectorAll('.locked-video').forEach(function(el) {
-          var videoId = el.dataset.videoId;
-          el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId + '" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>';
-        });
-      });
-    });
-  </script>
+  <!-- Firebase removed — members-only video unlock will be rebuilt via WordPress/Tutor LMS enrollment later -->
   <script src="auth-nav.js"></script>
   <script src="script.js?v=10"></script>
   <script src="drida-effects.js?v=1"></script>

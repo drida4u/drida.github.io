@@ -101,7 +101,7 @@ function loadPublicCourses() {
           ? buildUpiPayBlock(course)
           : course.price
             ? `<a class="btn" href="#contact">Contact to Enroll</a>`
-            : `<a class="btn" href="login.html">Member Login</a>`;
+            : `<a class="btn" href="/dashboard/">Member Login</a>`;
 
         const card = document.createElement('div');
         card.className = 'card';

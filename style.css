@@ -3950,11 +3950,11 @@ section.revealed .section-tag,
    saturated pastel (not near-white), same structure as
    :root[data-theme="pastel-bright"] above, just recoloured to green. */
 :root[data-theme="pastel-green"] {
-  --paper:        #dcf0a8;   /* saturated pale lime, same weight as blue's d8ecff */
-  --paper-alt:    #c8e888;   /* deeper lime for cards, same weight as blue's c0dff8 */
+  --paper:        #e8f6c4;   /* lightened pale lime (was #dcf0a8) */
+  --paper-alt:    #d8f0a8;   /* lightened card lime (was #c8e888) */
   --ink:          #16260a;
   --ink-2:        #355616;
-  --line-soft:    #b8d488;
+  --line-soft:    #cce4a8;
   --muted:        #4a6b1e;
   /* --accent is used as TEXT in many places sitewide (nav links, section
      tags, body links, prices) — the vivid #a8d148 from green-dark reads
@@ -3973,23 +3973,23 @@ section.revealed .section-tag,
   --shadow-hover: 0 10px 24px rgba(22,38,10,0.20);
 }
 :root[data-theme="pastel-green"] body {
-  background: linear-gradient(160deg, #f0f8dc 0%, #e4f0b0 35%, #d0e488 65%, #dcf0a8 100%);
+  background: linear-gradient(160deg, #f6fce8 0%, #eef6c8 35%, #dcecac 65%, #e8f6c4 100%);
 }
 :root[data-theme="pastel-green"] .topbar {
-  background: rgba(224,240,184,0.96);
-  box-shadow: 0 1px 0 #b8d488;
+  background: rgba(236,248,208,0.96);
+  box-shadow: 0 1px 0 #cce4a8;
 }
 :root[data-theme="pastel-green"] .hero-text {
   background:
     radial-gradient(ellipse 90% 55% at 88% 8%, rgba(168,209,72,0.12) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 5% 92%, rgba(168,209,72,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #eaf4c8 0%, #c8e888 50%, #a8d148 100%) !important;
+    linear-gradient(155deg, #f4f9e0 0%, #d8f0a8 50%, #c0dc78 100%) !important;
 }
 :root[data-theme="pastel-green"] .hero h1 { color: #16260a; }
 :root[data-theme="pastel-green"] .hero p  { color: #355616; }
 :root[data-theme="pastel-green"] .hero-kicker { color: #5d8131; }
 :root[data-theme="pastel-green"] .hero-photo::before {
-  background: linear-gradient(to right, #c8e888 0%, transparent 14%);
+  background: linear-gradient(to right, #d8f0a8 0%, transparent 14%);
 }
 :root[data-theme="pastel-green"] .hero-ctas .btn-outline {
   color: #16260a; border-color: rgba(130,180,20,0.45);
@@ -4569,11 +4569,11 @@ section.revealed .section-tag,
    as :root[data-theme="orange"] and :root[data-theme="pastel-bright"]
    below, just recoloured to gold. ── */
 :root[data-theme="yellow"] {
-  --paper:        #fff0b0;   /* saturated pale gold, same weight as orange's ffdcb8 */
-  --paper-alt:    #ffe066;   /* deeper gold for cards, same weight as orange's ffc98f */
+  --paper:        #fff6cc;   /* lightened pale gold (was #fff0b0) */
+  --paper-alt:    #fff0a8;   /* lightened card gold (was #ffe066) */
   --ink:          #332900;
   --ink-2:        #665200;
-  --line-soft:    #ffdb70;
+  --line-soft:    #ffe9a8;
   --muted:        #806b00;
   /* --accent is used as TEXT in many places sitewide (nav links, section
      tags, body links, prices) — the vivid #ffd93d from yellow-dark reads
@@ -4594,23 +4594,23 @@ section.revealed .section-tag,
   --shadow-hover: 0 10px 24px rgba(51,41,0,0.20);
 }
 :root[data-theme="yellow"] body {
-  background: linear-gradient(160deg, #fff8d6 0%, #ffe98a 35%, #ffdb70 65%, #fff0b0 100%);
+  background: linear-gradient(160deg, #fffbe8 0%, #fff2b8 35%, #ffe9a0 65%, #fff6cc 100%);
 }
 :root[data-theme="yellow"] .topbar {
-  background: rgba(255,240,176,0.96);
-  box-shadow: 0 1px 0 #ffdb70;
+  background: rgba(255,248,214,0.96);
+  box-shadow: 0 1px 0 #ffe9a8;
 }
 :root[data-theme="yellow"] .hero-text {
   background:
     radial-gradient(ellipse 90% 55% at 88% 8%, rgba(255,217,61,0.12) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 5% 92%, rgba(255,217,61,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #fff5c2 0%, #ffe066 50%, #ffd93d 100%) !important;
+    linear-gradient(155deg, #fffbe0 0%, #fff0a8 50%, #ffe066 100%) !important;
 }
 :root[data-theme="yellow"] .hero h1 { color: #332900; }
 :root[data-theme="yellow"] .hero p  { color: #665200; }
 :root[data-theme="yellow"] .hero-kicker { color: #a68a00; }
 :root[data-theme="yellow"] .hero-photo::before {
-  background: linear-gradient(to right, #ffe066 0%, transparent 14%);
+  background: linear-gradient(to right, #fff0a8 0%, transparent 14%);
 }
 :root[data-theme="yellow"] .hero-ctas .btn-outline {
   color: #332900; border-color: rgba(217,180,0,0.45);

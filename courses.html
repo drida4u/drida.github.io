@@ -425,7 +425,7 @@
 </div>
 </div>
 <a class="nav-cta-pill" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
-        <a href="login.html">Login</a>
+        <a href="/dashboard/">Login</a>
 </nav>
 <button aria-label="Toggle theme" id="theme-toggle" type="button"></button>
 </div>
@@ -930,7 +930,7 @@
 <li><a href="courses.html">Courses</a></li>
 <li><a href="trips.html">Experiences</a></li>
 <li><a href="products.html">Products</a></li>
-<li><a href="login.html">Login / My Courses</a></li>
+<li><a href="/dashboard/">Login / Dashboard</a></li>
 </ul>
 </div>
 <div class="footer-col">
@@ -996,10 +996,7 @@
 </p>
 </div>
 </footer>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js"></script>
+<!-- Firebase removed — enrollment now goes through WordPress/Tutor LMS via /dashboard/ -->
 <script src="drida-config.js"></script>
 <script src="courses.js"></script>
 <script>
@@ -1018,62 +1015,16 @@
     }
 
     // ── Website enrollment (free / enquire) ──────────────────────────────
+    // Firebase removed — enrollment now happens through WordPress/Tutor LMS.
+    // This just sends the visitor to the dashboard to register/enroll there.
     function enrollCourse(courseId, courseName, isFree, btnEl) {
-      var saved = localStorage.getItem('drida-user');
-      if (!saved) {
-        window.location.href = 'login.html?return=' + encodeURIComponent('courses.html#' + courseId);
-        return;
-      }
-      var user = JSON.parse(saved);
-      btnEl.textContent = 'Submitting…';
-      btnEl.disabled = true;
-      db.collection('registrations').add({
-        uid: user.uid,
-        phone: user.phone,
-        courseId: courseId,
-        courseName: courseName,
-        isFree: isFree,
-        status: 'pending',
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(function() {
-        btnEl.textContent = isFree ? '✓ Registered!' : '✓ Enquiry Sent!';
-        btnEl.style.background = '#1a7a47';
-        var note = document.createElement('p');
-        note.className = 'upi-note';
-        note.style.marginTop = '0.5rem';
-        note.textContent = isFree
-          ? 'Done! Smitha Ma\'am will add you to the batch shortly.'
-          : 'Enquiry received! We\'ll share joining details with you soon.';
-        btnEl.insertAdjacentElement('afterend', note);
-      }).catch(function() {
-        btnEl.textContent = 'Try again';
-        btnEl.disabled = false;
-      });
+      window.location.href = '/dashboard/';
     }
 
     // ── Notify Me for coming-soon courses ────────────────────────────────
+    // Firebase removed — send them to the dashboard to sign up instead.
     function notifyMeCourse(courseId, courseName, btnEl) {
-      var saved = localStorage.getItem('drida-user');
-      if (!saved) {
-        window.location.href = 'login.html?return=' + encodeURIComponent('courses.html#' + courseId);
-        return;
-      }
-      var user = JSON.parse(saved);
-      btnEl.textContent = 'Saving…';
-      btnEl.disabled = true;
-      db.collection('notify_requests').add({
-        uid: user.uid,
-        phone: user.phone,
-        courseId: courseId,
-        courseName: courseName,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(function() {
-        btnEl.textContent = '✓ You\'ll be notified!';
-        btnEl.style.background = '#1a7a47';
-      }).catch(function() {
-        btnEl.textContent = 'Try again';
-        btnEl.disabled = false;
-      });
+      window.location.href = '/dashboard/';
     }
 
     // Generic UPI payment flow — reads IDs from drida-config.js
