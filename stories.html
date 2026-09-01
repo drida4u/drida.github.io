@@ -121,8 +121,10 @@
       font-size: 0.85rem;
     }
     .meetup-video-placeholder svg { opacity: 0.35; }
-    /* YouTube Shorts — portrait 9:16 container */
-    .meetup-video.shorts { padding-top: 177.78%; }
+    /* YouTube Shorts still embed fine in the standard 16:9 box below —
+       YouTube's own player letterboxes the portrait video within it, so
+       every card in the grid stays the same size regardless of the
+       source video's orientation. */
     /* Locked video overlay */
     .locked-video { position: absolute; inset: 0; overflow: hidden; }
     .locked-video img {
@@ -251,7 +253,7 @@
 
     <section style="padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,6vw,5rem) 0;text-align:center;">
       <span class="section-tag">Also In This Family</span>
-      <h2>4,600+ Women, One Community</h2>
+      <h2>7,000+ Women, One Community</h2>
       <p style="color:var(--muted);max-width:640px;margin:0.75rem auto 0;">Since the first free batch in 2021, Drida has grown into one of India's most active women's meditation communities — 15 batches completed, meet-ups held across cities, and a family that keeps showing up for each other, long after the 40 days end.</p>
     </section>
 

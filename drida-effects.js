@@ -78,7 +78,7 @@
 
   /* ─────────────────────────────────────────
      5. COUNTER ANIMATION
-     HTML must have data-count="4600" data-suffix="+" on .stat-num
+     HTML must have data-count="7000" data-suffix="+" on .stat-num
   ───────────────────────────────────────── */
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
