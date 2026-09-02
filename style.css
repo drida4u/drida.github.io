@@ -743,7 +743,7 @@ a.pillar-card {
 /* ---------- Main layout ---------- */
 
 main {
-  max-width: 960px;
+  max-width: min(94vw, 1600px);   /* scales with the actual browser width, caps on ultra-wide monitors */
   margin: 0 auto;
   padding: 4.5rem 1.5rem;
 }
@@ -951,6 +951,30 @@ section > p {
   background-clip: text;
 }
 
+/* Drida Crystal product cards - the generic ".card p { flex: 1 }" rule
+   stretches every paragraph to fill leftover space, which left a big
+   ugly gap in the middle of shorter cards. Cancel that here and instead
+   push only the final buy block (UPI form or WhatsApp button) to the
+   bottom, so text stays tight at the top and cards line up cleanly. */
+#drida-crystal .card p {
+  flex: none;
+}
+
+/* Force every card to fill its grid row height (some browsers don't
+   reliably stretch a flex-column child to match neighbouring grid
+   items unless told explicitly), so the margin-top:auto push below
+   actually has full-height room to work with and buttons line up
+   across a row regardless of how much text each card has. */
+#drida-crystal .card {
+  height: 100%;
+}
+
+#drida-crystal .card > div[id^="upi-crystal-"],
+#drida-crystal .card > a.btn {
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
 /* UPI pay block on a public course card - QR code, the "open my UPI
    app" button (works on phones), and a small note reminding the payer
    to identify themselves so Sara can match the payment. */
@@ -979,7 +1003,11 @@ section > p {
 .upi-input {
   width: 100%;
   padding: 0.55rem 0.85rem;
-  border: 1px solid var(--line-soft);
+  /* Always mixed from --ink so the border reliably contrasts against
+     --paper in every theme, instead of relying on --line-soft (which
+     in some light themes, like yellow, sits too close to --paper to
+     read as a visible border until the field is focused). */
+  border: 1.5px solid color-mix(in srgb, var(--ink) 30%, transparent);
   border-radius: 10px;
   font-size: 0.92rem;
   font-family: inherit;
@@ -1120,7 +1148,7 @@ section > p {
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  max-width: 960px;
+  max-width: min(94vw, 1600px);
   margin: 0 auto 2.5rem;
 }
 
@@ -3888,11 +3916,11 @@ section.revealed .section-tag,
    ═══════════════════════════════════════════════════════════════════ */
 /* 🩵 PASTEL-BLUE — full blue gradient body, no cream */
 :root[data-theme="pastel-bright"] {
-  --paper:        #d8ecff;   /* clear sky blue — the whole page is blue */
-  --paper-alt:    #c0dff8;   /* slightly deeper blue for cards */
+  --paper:        #e6f3ff;   /* slightly lighter sky blue (was #d8ecff) */
+  --paper-alt:    #d2e8fc;   /* slightly lighter card blue (was #c0dff8) */
   --ink:          #071626;   /* deep navy */
   --ink-2:        #163556;   /* medium navy */
-  --line-soft:    #9fcae8;   /* blue divider */
+  --line-soft:    #86bce0;   /* darkened a touch for contrast against the lighter paper (was #9fcae8) */
   --muted:        #315d81;   /* blue-grey muted */
   --accent:       #1462b8;   /* strong clear blue */
   --accent-dark:  #0e4e9a;
@@ -3903,24 +3931,24 @@ section.revealed .section-tag,
   --shadow-hover: 0 10px 24px rgba(7,22,38,0.20);
 }
 :root[data-theme="pastel-bright"] body {
-  background: linear-gradient(160deg, #e8f5ff 0%, #d4ebff 35%, #c8e4ff 65%, #d8ecff 100%);
+  background: linear-gradient(160deg, #f0f9ff 0%, #e0f0ff 35%, #d4e9ff 65%, #e6f3ff 100%);
 }
 :root[data-theme="pastel-bright"] .topbar {
-  background: rgba(216,236,255,0.96);
-  box-shadow: 0 1px 0 #9fcae8;
+  background: rgba(230,243,255,0.96);
+  box-shadow: 0 1px 0 #86bce0;
 }
 :root[data-theme="pastel-bright"] .hero-text {
   background:
     radial-gradient(ellipse 90% 55% at 88% 8%, rgba(20,98,184,0.12) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 5% 92%, rgba(20,98,184,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #d8ecff 0%, #c4e0ff 50%, #b4d6ff 100%) !important;
+    linear-gradient(155deg, #e6f3ff 0%, #d4e9ff 50%, #c4dcfc 100%) !important;
 }
 /* Home split hero (light-blue .hero-text panel) → dark text fine on light bg */
 :root[data-theme="pastel-bright"] .hero h1 { color: #071626; }
 :root[data-theme="pastel-bright"] .hero p  { color: #163556; }
 :root[data-theme="pastel-bright"] .hero-kicker { color: #3a6e98; }
 :root[data-theme="pastel-bright"] .hero-photo::before {
-  background: linear-gradient(to right, #c8e4ff 0%, transparent 14%);
+  background: linear-gradient(to right, #d4e9ff 0%, transparent 14%);
 }
 :root[data-theme="pastel-bright"] .hero-ctas .btn-outline {
   color: #071626; border-color: rgba(20,98,184,0.45);
@@ -3950,11 +3978,11 @@ section.revealed .section-tag,
    saturated pastel (not near-white), same structure as
    :root[data-theme="pastel-bright"] above, just recoloured to green. */
 :root[data-theme="pastel-green"] {
-  --paper:        #e8f6c4;   /* lightened pale lime (was #dcf0a8) */
-  --paper-alt:    #d8f0a8;   /* lightened card lime (was #c8e888) */
+  --paper:        #f7fce9;   /* near-white pale lime, matches yellow's lightening (was #e8f6c4) */
+  --paper-alt:    #edf6d0;   /* lightened card lime (was #d8f0a8) */
   --ink:          #16260a;
   --ink-2:        #355616;
-  --line-soft:    #cce4a8;
+  --line-soft:    #bcd894;   /* darkened for contrast against the new lighter paper (was #cce4a8) */
   --muted:        #4a6b1e;
   /* --accent is used as TEXT in many places sitewide (nav links, section
      tags, body links, prices) — the vivid #a8d148 from green-dark reads
@@ -3973,23 +4001,23 @@ section.revealed .section-tag,
   --shadow-hover: 0 10px 24px rgba(22,38,10,0.20);
 }
 :root[data-theme="pastel-green"] body {
-  background: linear-gradient(160deg, #f6fce8 0%, #eef6c8 35%, #dcecac 65%, #e8f6c4 100%);
+  background: linear-gradient(160deg, #fbfef4 0%, #f7fce4 35%, #eef6cc 65%, #f7fce9 100%);
 }
 :root[data-theme="pastel-green"] .topbar {
-  background: rgba(236,248,208,0.96);
-  box-shadow: 0 1px 0 #cce4a8;
+  background: rgba(247,252,233,0.96);
+  box-shadow: 0 1px 0 #bcd894;
 }
 :root[data-theme="pastel-green"] .hero-text {
   background:
     radial-gradient(ellipse 90% 55% at 88% 8%, rgba(168,209,72,0.12) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 5% 92%, rgba(168,209,72,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #f4f9e0 0%, #d8f0a8 50%, #c0dc78 100%) !important;
+    linear-gradient(155deg, #fafce4 0%, #edf6d0 50%, #d4e8a0 100%) !important;
 }
 :root[data-theme="pastel-green"] .hero h1 { color: #16260a; }
 :root[data-theme="pastel-green"] .hero p  { color: #355616; }
 :root[data-theme="pastel-green"] .hero-kicker { color: #5d8131; }
 :root[data-theme="pastel-green"] .hero-photo::before {
-  background: linear-gradient(to right, #d8f0a8 0%, transparent 14%);
+  background: linear-gradient(to right, #edf6d0 0%, transparent 14%);
 }
 :root[data-theme="pastel-green"] .hero-ctas .btn-outline {
   color: #16260a; border-color: rgba(130,180,20,0.45);
@@ -4456,11 +4484,11 @@ section.revealed .section-tag,
 
 /* ── ORANGE (light) — pairs with existing dark-family "claude" ── */
 :root[data-theme="orange"] {
-  --paper:        #ffdcb8;
-  --paper-alt:    #ffc98f;
+  --paper:        #ffe9d0;   /* slightly lighter (was #ffdcb8) */
+  --paper-alt:    #ffdbb0;   /* slightly lighter (was #ffc98f) */
   --ink:          #331a05;
   --ink-2:        #663610;
-  --line-soft:    #f0c49a;
+  --line-soft:    #e0ac78;   /* darkened a touch for contrast against the lighter paper (was #f0c49a) */
   --muted:        #805326;
   --accent:       #974913;
   --accent-dark:  #b8551a;
@@ -4471,23 +4499,23 @@ section.revealed .section-tag,
   --shadow-hover: 0 10px 24px rgba(51,26,5,0.20);
 }
 :root[data-theme="orange"] body {
-  background: linear-gradient(160deg, #ffe8cc 0%, #ffd39e 35%, #ffc478 65%, #ffdcb8 100%);
+  background: linear-gradient(160deg, #fff1de 0%, #ffe2b8 35%, #ffd39a 65%, #ffe9d0 100%);
 }
 :root[data-theme="orange"] .topbar {
-  background: rgba(255,230,210,0.96);
-  box-shadow: 0 1px 0 #f0c49a;
+  background: rgba(255,238,220,0.96);
+  box-shadow: 0 1px 0 #e0ac78;
 }
 :root[data-theme="orange"] .hero-text {
   background:
     radial-gradient(ellipse 90% 55% at 88% 8%, rgba(217,105,28,0.12) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 5% 92%, rgba(217,105,28,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #ffe6d2 0%, #ffd9b8 50%, #f8c8a0 100%) !important;
+    linear-gradient(155deg, #fff0e0 0%, #ffe2c4 50%, #fcd4ac 100%) !important;
 }
 :root[data-theme="orange"] .hero h1 { color: #331a05; }
 :root[data-theme="orange"] .hero p  { color: #663610; }
 :root[data-theme="orange"] .hero-kicker { color: #a06830; }
 :root[data-theme="orange"] .hero-photo::before {
-  background: linear-gradient(to right, #ffd9b8 0%, transparent 14%);
+  background: linear-gradient(to right, #ffe2c4 0%, transparent 14%);
 }
 :root[data-theme="orange"] .hero-ctas .btn-outline {
   color: #331a05; border-color: rgba(217,105,28,0.45);
@@ -4569,11 +4597,11 @@ section.revealed .section-tag,
    as :root[data-theme="orange"] and :root[data-theme="pastel-bright"]
    below, just recoloured to gold. ── */
 :root[data-theme="yellow"] {
-  --paper:        #fff6cc;   /* lightened pale gold (was #fff0b0) */
-  --paper-alt:    #fff0a8;   /* lightened card gold (was #ffe066) */
+  --paper:        #fff7dc;   /* pale warm gold — lighter than the original #fff6cc but not near-white (dialed back from #fffdf3, which read as too washed-out) */
+  --paper-alt:    #fff0c2;   /* lightened card gold (was #fff0a8, dialed back from #fff8e0) */
   --ink:          #332900;
   --ink-2:        #665200;
-  --line-soft:    #ffe9a8;
+  --line-soft:    #e0c67a;   /* still darkened for visibility against the lighter paper, just less extreme than before (was #e6d5a0) */
   --muted:        #806b00;
   /* --accent is used as TEXT in many places sitewide (nav links, section
      tags, body links, prices) — the vivid #ffd93d from yellow-dark reads
@@ -4594,11 +4622,11 @@ section.revealed .section-tag,
   --shadow-hover: 0 10px 24px rgba(51,41,0,0.20);
 }
 :root[data-theme="yellow"] body {
-  background: linear-gradient(160deg, #fffbe8 0%, #fff2b8 35%, #ffe9a0 65%, #fff6cc 100%);
+  background: linear-gradient(160deg, #fffaea 0%, #fff3d0 35%, #ffecb4 65%, #fff7dc 100%);
 }
 :root[data-theme="yellow"] .topbar {
-  background: rgba(255,248,214,0.96);
-  box-shadow: 0 1px 0 #ffe9a8;
+  background: rgba(255,241,194,0.96);
+  box-shadow: 0 1px 0 #e0c67a;
 }
 :root[data-theme="yellow"] .hero-text {
   background:
@@ -4630,14 +4658,19 @@ section.revealed .section-tag,
     0 0 400px 150px rgba(160,120,  0,0.07);
 }
 :root[data-theme="yellow"] #theme-toggle::before { content: "🎨"; font-size: 15px; }
+:root[data-theme="yellow"] .upi-input,
+:root[data-theme="yellow"] input {
+  background: #fffffe;
+  border-color: #d9b84a;
+}
 
 /* ── INDIGO (light) ── */
 :root[data-theme="indigo"] {
-  --paper:        #e2ddfa;
-  --paper-alt:    #d0c8f5;
+  --paper:        #ece8fc;   /* slightly lighter (was #e2ddfa) */
+  --paper-alt:    #ddd6f9;   /* slightly lighter (was #d0c8f5) */
   --ink:          #150f33;
   --ink-2:        #2c2266;
-  --line-soft:    #b8acdc;
+  --line-soft:    #9c8ccc;   /* darkened a touch for contrast against the lighter paper (was #b8acdc) */
   --muted:        #5c50a0;
   --accent:       #4b3f8f;
   --accent-dark:  #372e6b;
@@ -4648,23 +4681,23 @@ section.revealed .section-tag,
   --shadow-hover: 0 10px 24px rgba(21,15,51,0.20);
 }
 :root[data-theme="indigo"] body {
-  background: linear-gradient(160deg, #ece8fc 0%, #ded6f8 35%, #d0c4f2 65%, #e2ddfa 100%);
+  background: linear-gradient(160deg, #f4f2fd 0%, #e8e2fa 35%, #ded4f6 65%, #ece8fc 100%);
 }
 :root[data-theme="indigo"] .topbar {
-  background: rgba(226,221,250,0.96);
-  box-shadow: 0 1px 0 #b8acdc;
+  background: rgba(236,232,252,0.96);
+  box-shadow: 0 1px 0 #9c8ccc;
 }
 :root[data-theme="indigo"] .hero-text {
   background:
     radial-gradient(ellipse 90% 55% at 88% 8%, rgba(75,63,143,0.12) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 5% 92%, rgba(75,63,143,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #e2ddfa 0%, #d0c8f5 50%, #beb0ee 100%) !important;
+    linear-gradient(155deg, #ece8fc 0%, #ddd6f9 50%, #cec0f2 100%) !important;
 }
 :root[data-theme="indigo"] .hero h1 { color: #150f33; }
 :root[data-theme="indigo"] .hero p  { color: #2c2266; }
 :root[data-theme="indigo"] .hero-kicker { color: #5c50a0; }
 :root[data-theme="indigo"] .hero-photo::before {
-  background: linear-gradient(to right, #d0c8f5 0%, transparent 14%);
+  background: linear-gradient(to right, #ddd6f9 0%, transparent 14%);
 }
 :root[data-theme="indigo"] .hero-ctas .btn-outline {
   color: #150f33; border-color: rgba(75,63,143,0.45);
@@ -4690,11 +4723,11 @@ section.revealed .section-tag,
 
 /* ── VIOLET (light) ── */
 :root[data-theme="violet"] {
-  --paper:        #f2ddf8;
-  --paper-alt:    #e8c8f2;
+  --paper:        #f7e9fa;   /* slightly lighter (was #f2ddf8) */
+  --paper-alt:    #efd6f6;   /* slightly lighter (was #e8c8f2) */
   --ink:          #2e0f33;
   --ink-2:        #5c2266;
-  --line-soft:    #dcaee8;
+  --line-soft:    #cc94dc;   /* darkened a touch for contrast against the lighter paper (was #dcaee8) */
   --muted:        #794080;
   --accent:       #7b3fa0;
   --accent-dark:  #5c2f78;
@@ -4705,23 +4738,23 @@ section.revealed .section-tag,
   --shadow-hover: 0 10px 24px rgba(46,15,51,0.20);
 }
 :root[data-theme="violet"] body {
-  background: linear-gradient(160deg, #f8ecfc 0%, #f2dcf8 35%, #ecc8f4 65%, #f2ddf8 100%);
+  background: linear-gradient(160deg, #fbf3fd 0%, #f8e8fc 35%, #f2d8f8 65%, #f7e9fa 100%);
 }
 :root[data-theme="violet"] .topbar {
-  background: rgba(242,221,248,0.96);
-  box-shadow: 0 1px 0 #dcaee8;
+  background: rgba(247,233,250,0.96);
+  box-shadow: 0 1px 0 #cc94dc;
 }
 :root[data-theme="violet"] .hero-text {
   background:
     radial-gradient(ellipse 90% 55% at 88% 8%, rgba(123,63,160,0.12) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 5% 92%, rgba(123,63,160,0.06) 0%, transparent 55%),
-    linear-gradient(155deg, #f2ddf8 0%, #e8c8f2 50%, #ddb2ea 100%) !important;
+    linear-gradient(155deg, #f7e9fa 0%, #efd6f6 50%, #e6c2ef 100%) !important;
 }
 :root[data-theme="violet"] .hero h1 { color: #2e0f33; }
 :root[data-theme="violet"] .hero p  { color: #5c2266; }
 :root[data-theme="violet"] .hero-kicker { color: #9850a0; }
 :root[data-theme="violet"] .hero-photo::before {
-  background: linear-gradient(to right, #e8c8f2 0%, transparent 14%);
+  background: linear-gradient(to right, #efd6f6 0%, transparent 14%);
 }
 :root[data-theme="violet"] .hero-ctas .btn-outline {
   color: #2e0f33; border-color: rgba(123,63,160,0.45);

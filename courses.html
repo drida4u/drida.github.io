@@ -17,7 +17,7 @@
 <meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Smitha Haridas." name="twitter:description"/>
 <meta content="https://drida.org/drida_logo.png" name="twitter:image"/>
 <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"yellow-dark":"yellow")}()</script>
-<link href="style.css?v=46" rel="stylesheet"/>
+<link href="style.css?v=51" rel="stylesheet"/>
 <style>
     /* Horizontal list — like Udemy/Coursera.
        Each course is a wide row: poster left, details right.
@@ -27,6 +27,10 @@
       flex-direction: column;
       gap: 1.25rem;
       margin-top: 1.75rem;
+      max-width: 700px; /* tightened further (was 880px) — at 880 the text column
+                            still had a lot of dead space to the right of the
+                            short title/description/price; 700 keeps poster +
+                            text proportioned closer to the actual content */
     }
 
     .course-card {
