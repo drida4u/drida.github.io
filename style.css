@@ -1269,8 +1269,15 @@ main img:not(.no-lightbox) {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
+  /* No !important here (there used to be one on both these properties).
+     It was silently overriding the deliberate margin-bottom that
+     offerings.html sets inline on its "Practice With Smitha" showcase
+     blocks to create breathing room — !important always wins over an
+     inline style, so that gap never actually rendered. Pages that don't
+     set their own margin still get 0 by default from this rule; pages
+     that do (like offerings.html) now actually get it. */
+  margin-top: 0;
+  margin-bottom: 0;
   padding: 5rem calc(50vw - 50% + 1.5rem);
 }
 
