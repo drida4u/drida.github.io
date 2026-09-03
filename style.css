@@ -1258,7 +1258,12 @@ main img:not(.no-lightbox) {
    out of main's 960px max-width and span the full viewport.      */
 
 .section-warm {
-  background: #f0ebe3;
+  /* Was a solid #f0ebe3 — with margin-top/bottom pinned to 0 these blocks
+     sit flush against neighbouring sections, so the fixed watermark logo
+     never got a gap to show through. Dropped to ~93%, same treatment
+     already used on .impact-stats, so a hint of it bleeds through instead
+     of the section reading as a dead, overlaid slab. */
+  background: rgba(240, 235, 227, 0.93);
   border-top: 1px solid #ddd5c8;
   border-bottom: 1px solid #ddd5c8;
   width: 100vw;
