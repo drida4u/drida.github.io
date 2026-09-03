@@ -114,6 +114,25 @@ h1, h2, h3 {
   letter-spacing: 0.01em;
 }
 
+/* Bare <h3> (no class override) needs a stronger bump above body text
+   than the browser default (1.17em) gives it — many section sub-headings
+   like "More Bracelets" or "Full Drida Crystal Price List" use plain
+   <h3> with no class, so they need a sane baseline here. Class-based h3
+   rules elsewhere in this file are more specific and still win. */
+h3 { font-size: 1.35rem; }
+
+/* <h4> had NO styling anywhere except the scoped .footer-col h4 — a bare
+   <h4> fell back to the browser default (1em, same size as body text),
+   making things like "Bracelets & Malas" indistinguishable from the list
+   below it. Give every h4 the same serif heading treatment as h1-h3. */
+h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
 /* ---------- Secondary topstrip ────────────────────────────────────
    Thin strip above the main topbar: social icons + quick links.
    Mirrors Isha Foundation's secondary nav strip pattern.            */
@@ -777,11 +796,22 @@ section > p {
 
 /* ---------- Cards ---------- */
 
+/* Flexbox, not Grid, on purpose: CSS Grid shares one set of column tracks
+   across every row, so a trailing partial row (e.g. 2 items left over at
+   the end of a list) always sits left-aligned under the full rows above -
+   there's no way to centre just that row with Grid alone. Flexbox sizes
+   each row's leftover space independently, so a short last row centres
+   itself naturally instead of hugging the left edge. */
 .card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.25rem;
   margin-top: 1.5rem;
+}
+.card-grid > .card {
+  flex: 1 1 260px;
+  max-width: 320px;
 }
 
 .card {
@@ -836,6 +866,53 @@ section > p {
   margin-bottom: 0.75rem;
   transition: transform 0.45s ease;
   display: block;
+}
+
+/* ---------- Click-to-enlarge image lightbox (site-wide, script.js) ---------- */
+main img:not(.no-lightbox) {
+  cursor: zoom-in;
+}
+.img-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 6, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: clamp(1rem, 4vw, 3rem);
+  cursor: zoom-out;
+  animation: lightboxFadeIn 0.15s ease;
+}
+@keyframes lightboxFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.img-lightbox-overlay img {
+  max-width: 92vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.55);
+  cursor: default;
+}
+.img-lightbox-close {
+  position: fixed;
+  top: clamp(0.75rem, 3vw, 1.5rem);
+  right: clamp(0.75rem, 3vw, 1.5rem);
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  font-size: 1.8rem;
+  line-height: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.img-lightbox-close:hover {
+  background: rgba(255,255,255,0.28);
 }
 
 /* Product/course images zoom in slightly on hover - the same small
@@ -958,6 +1035,15 @@ section > p {
    bottom, so text stays tight at the top and cards line up cleanly. */
 #drida-crystal .card p {
   flex: none;
+}
+
+/* The description is the first <p> in each card. Descriptions run 1-2
+   lines depending on the product, so without a floor here "View Benefits"
+   lands at a different height on every card in a row. Reserve enough
+   room for 2 lines so short one-line descriptions still line up with
+   long ones, without reintroducing the old full flex:1 blank-gap bug. */
+#drida-crystal .card > p:first-of-type {
+  min-height: 2.6em;
 }
 
 /* Force every card to fill its grid row height (some browsers don't
@@ -2910,7 +2996,11 @@ footer .social a:hover .icon-chip,
 .impact-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: #241010;  /* deep wine/maroon — matches the site's red identity instead of green */
+  /* Was a solid #241010 — fully opaque, so it blocked the fixed watermark
+     logo behind it completely. Dropped to ~92% so a hint of the watermark
+     glow still bleeds through at the edges, same treatment as the
+     transparent-band sections elsewhere; text stays plenty readable. */
+  background: rgba(36, 16, 16, 0.92);
   color: #f0ede8;
   border-radius: 16px;
   overflow: hidden;
@@ -3385,7 +3475,14 @@ footer .social a:hover .icon-chip,
 /* Existing inner-page plain hero (courses/trips/login etc): transparent, orb shows through */
 .hero:not(:has(.hero-text)) {
   min-height: 42vh;
-  padding: clamp(4rem, 8vw, 6rem) clamp(2rem, 7vw, 6rem) clamp(2rem, 4vw, 3rem);
+  /* Match <main>'s max-width + auto margin exactly (main {max-width:
+     min(94vw,1600px); margin:0 auto; padding:4.5rem 1.5rem}) so the
+     heading lines up with the content below it instead of drifting
+     left of it on wide screens, where main's centring adds extra
+     margin this hero never accounted for. */
+  max-width: min(94vw, 1600px);
+  margin: 0 auto;
+  padding: clamp(4rem, 8vw, 6rem) 1.5rem clamp(2rem, 4vw, 3rem);
   background: transparent;
   display: flex;
   flex-direction: column;
@@ -3498,6 +3595,10 @@ footer.site-footer {
   position: relative;
   z-index: 1;
   align-items: stretch;
+  /* Without a cap, .course-body's flex:1 stretches the text column to the
+     full page width on wide screens — a short "Enquire" card ends up as a
+     huge mostly-empty bar. Cap the whole row card at a sane reading width. */
+  max-width: 720px;
 }
 .course-card:hover,
 .course-card:focus-within,
@@ -4510,6 +4611,18 @@ section.revealed .section-tag,
     radial-gradient(ellipse 90% 55% at 88% 8%, rgba(217,105,28,0.12) 0%, transparent 60%),
     radial-gradient(ellipse 60% 40% at 5% 92%, rgba(217,105,28,0.06) 0%, transparent 55%),
     linear-gradient(155deg, #fff0e0 0%, #ffe2c4 50%, #fcd4ac 100%) !important;
+}
+/* The generic .course-card border-left color-mix (accent + paper-alt) reads
+   at ~1.6:1 contrast against this theme's peach paper-alt — accent and
+   paper-alt are both warm/light here, so the "accent stripe" is effectively
+   invisible. Override with a darker, more saturated line for this theme. */
+:root[data-theme="orange"] .course-card {
+  border-left-color: var(--ink-2);
+}
+:root[data-theme="orange"] .course-card:hover,
+:root[data-theme="orange"] .course-card:focus-within,
+:root[data-theme="orange"] .course-card.selected {
+  border-left-color: var(--accent-dark);
 }
 :root[data-theme="orange"] .hero h1 { color: #331a05; }
 :root[data-theme="orange"] .hero p  { color: #663610; }

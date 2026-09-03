@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <!-- This links our CSS file (styling) to this HTML file (structure) -->
   <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"dark":"light")}()</script>
-  <link rel="stylesheet" href="style.css?v=51">
+  <link rel="stylesheet" href="style.css?v=59">
   <style>
     /* Breathing room between opaque blocks — plain transparent margin so
        the fixed Drida watermark can show through naturally, same treatment
@@ -40,6 +40,62 @@
     #products > p,
     #community-video > p {
       color: var(--ink-2);
+    }
+
+    /* TRIAL — diagonal colour band behind card titles, like Isha
+       Foundation's programme cards (photo full, untouched — then a
+       diagonal-cut colour band BELOW it holding the title + a "More"
+       button in the same row — then plain white body text below).
+       Each card cycles through a different shade, like Isha's cards.
+       Scoped to #courses only so it's easy to compare against the rest
+       of the site's plain cards and roll back/out. */
+    #courses .card { padding: 0; overflow: hidden; }
+    #courses .card img {
+      margin: 0;
+      border-radius: 0;
+      width: 100%;
+      height: 220px;
+      object-fit: contain;      /* shows the FULL poster, nothing cropped */
+      background: var(--paper-alt);
+    }
+    #courses .card h3 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: var(--grad);
+      color: #fff;
+      margin: 0;
+      padding: 1.1rem 1.25rem;
+      clip-path: polygon(0 22%, 100% 0%, 100% 100%, 0% 100%);
+      font-size: 1.05rem;
+    }
+    /* Different shade per card, fire-palette variants — echoes Isha's
+       alternating band colours while staying on-brand. */
+    #courses .card:nth-child(2) h3 {
+      background: linear-gradient(135deg, #b7231a 0%, #d8461f 50%, #e87a1c 100%);
+    }
+    #courses .card:nth-child(3) h3 {
+      background: linear-gradient(135deg, #7a1f1f 0%, #a8341c 50%, #c25a1a 100%);
+    }
+    #courses .card h3 .band-more {
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.22);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s ease;
+    }
+    #courses .card h3 .band-more:hover {
+      background: rgba(255,255,255,0.36);
+    }
+    #courses .card p {
+      margin: 0.85rem 1.25rem 1.25rem;
     }
 
     /* Mission & values — moved here from About Us, uses this page's own
@@ -108,7 +164,7 @@
       <svg viewBox="0 0 320 512" width="10" height="16" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"/></svg>
     </a>
     <span class="topstrip-sep"></span>
-    <a href="courses.html#course-drida-15th-batch" class="topstrip-link">Free Batch</a>
+    <a href="courses.html#course-batch16" class="topstrip-link">Free Batch</a>
     <a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida" class="topstrip-link topstrip-donate">Donate</a>
   </div>
 
@@ -153,7 +209,7 @@
             <a href="support.html#help">Help</a>
           </div>
         </div>
-        <a class="nav-cta-pill" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
+        <a class="nav-cta-pill" href="courses.html#course-batch16">Join Free Batch</a>
         <a href="/dashboard/">Login</a>
       </nav>
       <button id="theme-toggle" type="button" aria-label="Toggle theme"></button>
@@ -165,7 +221,7 @@
         <h1>Stillness<br>is the<br>Beginning</h1>
         <p>Drida is a non-profit community offering free meditation, yoga and fitness — rooted in purpose, open to all women.</p>
         <div class="hero-ctas">
-          <a class="btn-terra" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
+          <a class="btn-terra" href="courses.html#course-batch16">Join Free Batch</a>
           <a class="btn-outline" href="#about">Our Story</a>
         </div>
       </div>
@@ -211,7 +267,7 @@
         <span class="section-tag">Meditation</span>
         <h2>Find Your Inner Stillness</h2>
         <p>Drida's guided meditation programme helps you build a daily practice — using breathwork, chakra awareness and visualisation techniques taught by Smitha Haridas over 15 free batches.</p>
-        <a class="btn-terra" href="courses.html#course-drida-15th-batch">Know More</a>
+        <a class="btn-terra" href="courses.html#course-batch16">Know More</a>
       </div>
     </section>
 
@@ -358,8 +414,8 @@
         <div class="card">
           <img src="images/course-new-drida-batch.png" alt="Drida 15th Free Batch" onerror="this.style.display='none'">
           <h3>Drida 15th Free Batch</h3>
-          <p>Currently running 15th batch of Drida's free online meditation programme. Open to all.</p>
-          <a class="btn" href="courses.html#course-drida-15th-batch">Enroll Free</a>
+          <p>Drida's 15th free meditation batch is currently running; admissions are closed. See details and register interest for the next batch.</p>
+          <a class="btn" href="courses.html#course-batch16">See Details</a>
         </div>
         <div class="card">
           <img src="images/course-yoga-with-smitha.jpeg" alt="Yoga with Smitha" style="object-position:top;" onerror="this.style.display='none'">
@@ -418,18 +474,18 @@
       <p>Sacred pilgrimages, nature getaways and community meet-ups — journeys that nourish the soul.</p>
       <div class="card-grid">
         <div class="card">
-          <img src="images/trip-pil-adikailash.png" alt="Adikailash Yatra" onerror="tryAltExt(this)">
+          <img src="images/trip-pil-adikailash-new4.jpg" alt="Adikailash Yatra" style="aspect-ratio:2/3;object-fit:contain;background:var(--paper)" onerror="tryAltExt(this)">
           <span class="badge">Ladies Only · Pilgrimage</span>
           <h3>Adikailash Yatra</h3>
           <p>A divine trek to Adikailash — the ancient Himalayan abode of Lord Shiva in Uttarakhand.</p>
           <a class="btn" href="trips.html#pilgrimages">View &amp; Register</a>
         </div>
         <div class="card">
-          <img src="images/trip-pil-mahakumbh-prayagraj.jpeg" alt="Maha Kumbh Prayagraj" onerror="this.style.display='none'">
-          <span class="badge">Pilgrimage</span>
-          <h3>Maha Kumbh — Prayagraj</h3>
-          <p>Drida's group to the world's largest spiritual gathering — a holy dip at the Triveni Sangam.</p>
-          <a class="btn" href="trips.html#pilgrimages">View All Pilgrimages</a>
+          <img src="images/trip-nainital.jpeg" alt="Nainital" onerror="this.style.display='none'">
+          <span class="badge">Fun Yatra</span>
+          <h3>Nainital</h3>
+          <p>The jewel of Kumaon — a hill station around the sparkling Naini Lake, a perfect blend of peace and adventure.</p>
+          <a class="btn" href="trips.html#fun-trips">View All Fun Yatras</a>
         </div>
         <div class="card">
           <span class="badge">Events</span>
@@ -458,16 +514,16 @@
           <a class="btn" href="products.html#kasar">Shop Kasar Naturals</a>
         </div>
         <div class="card">
-          <img src="images/product-drida-crystal.png" alt="Drida Crystal — Chakra Bracelets" onerror="this.style.display='none'">
+          <img src="images/crystal_pyrite_bracelet_lifestyle.jpg?v=2" alt="Drida Crystal — Chakra Bracelets" onerror="this.style.display='none'">
           <h3>Drida Crystal — Chakra Bracelets</h3>
           <p>Handcrafted chakra bracelets, energised and aligned for balance and wellbeing.</p>
-          <a class="btn" href="products.html#more-products">Buy Now</a>
+          <a class="btn" href="products.html#drida-crystal">Buy Now</a>
         </div>
         <div class="card">
           <img src="images/product-eksel4u-collection.png" alt="EK.SEL4U Nightwear Collection">
           <h3>EK.SEL4U Nightwear</h3>
           <p>Comfortable, stylish nightwear from Drida's own brand.</p>
-          <a class="btn" href="products.html#more-products">Buy Now</a>
+          <a class="btn" href="products.html#eksel4u">Buy Now</a>
         </div>
       </div>
       <div style="margin-top:1.5rem;display:flex;justify-content:center;">
@@ -479,7 +535,7 @@
     <section id="get-involved" class="band-dark">
       <div class="band-row">
         <div class="band-photo">
-          <img src="images/volunteer-with-drida.png" alt="Volunteer with Drida" onerror="tryAltExt(this)">
+          <img src="images/volunteer-with-drida.jpg" alt="Volunteer with Drida" onerror="tryAltExt(this)">
         </div>
         <div class="band-text">
           <h3>Volunteering is a way of giving back</h3>
@@ -488,8 +544,8 @@
         </div>
       </div>
       <div class="band-row reverse">
-        <div class="band-photo">
-          <img src="images/support-drida.png" alt="Support Drida's mission" onerror="tryAltExt(this)">
+        <div class="band-photo" style="height:auto;aspect-ratio:16/9;">
+          <img src="images/support-drida.jpg" alt="Support Drida's mission" onerror="tryAltExt(this)" style="object-fit:contain;background:var(--paper-alt);">
         </div>
         <div class="band-text">
           <h3>Your support can change someone's life</h3>
@@ -587,7 +643,7 @@
       <div class="footer-col">
         <h4>Offerings</h4>
         <ul>
-          <li><a href="courses.html#course-drida-15th-batch">Free Meditation Batch</a></li>
+          <li><a href="courses.html#course-batch16">Free Meditation Batch</a></li>
           <li><a href="courses.html#course-yoga-with-smitha">Yoga with Smitha</a></li>
           <li><a href="courses.html#course-fitness">Fitness Program</a></li>
           <li><a href="courses.html#course-kids-meditation">Kids Meditation</a></li>
@@ -597,7 +653,7 @@
       <div class="footer-col">
         <h4>Get Involved</h4>
         <ul>
-          <li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
+          <li><a href="courses.html#course-batch16">Join Free Batch</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
           <li><a href="trips.html">Join a Yatra</a></li>
@@ -651,7 +707,7 @@
 
   <!-- This links our JavaScript file. Placed at the end so the page loads first. -->
   <script src="auth-nav.js"></script>
-  <script src="script.js?v=10"></script>
+  <script src="script.js?v=12"></script>
   <script src="drida-effects.js?v=1"></script>
 
   <!-- Auto-detect PNG/JPG: if an image fails to load, try the other extension -->

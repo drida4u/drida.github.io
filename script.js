@@ -40,7 +40,11 @@
   const DEFAULT_FAMILY = { light: 'light', dark: 'dark' };
 
   function getPageFamily() {
-    const page = location.pathname.split('/').pop();
+    // Clean URLs (e.g. /offerings, added via .htaccess) no longer end in
+    // ".html", so normalise back to the .html key this table uses before
+    // looking it up — otherwise every page silently fell back to red.
+    let page = location.pathname.split('/').pop();
+    if (page && !page.endsWith('.html')) page = page + '.html';
     return FAMILY_BY_PAGE[page] || DEFAULT_FAMILY;
   }
 
@@ -294,5 +298,48 @@ navLinks.forEach(link => {
     const subject = encodeURIComponent("Newsletter Signup — Drida");
     const body = encodeURIComponent(`Name: ${name}\nPhone: ${phone}\nEmail: ${email}`);
     window.location.href = `mailto:drida4u@gmail.com?subject=${subject}&body=${body}`;
+  });
+})();
+
+// ---------- Click-to-enlarge image lightbox (site-wide) ----------
+// Any content image inside <main> opens full-size in a popup on click.
+// Deliberately scoped to <main> only so header/footer logos, nav icons and
+// the fixed watermark bubble stay untouched — an <img class="no-lightbox">
+// on any element opts it out individually if a future image needs that.
+// Images that are already the clickable content of a link are also
+// skipped, since a lightbox would fight with the link's own navigation.
+(() => {
+  function openLightbox(src, alt) {
+    const overlay = document.createElement("div");
+    overlay.className = "img-lightbox-overlay";
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = alt || "";
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "img-lightbox-close";
+    closeBtn.type = "button";
+    closeBtn.setAttribute("aria-label", "Close");
+    closeBtn.textContent = "×";
+    overlay.appendChild(img);
+    overlay.appendChild(closeBtn);
+    document.body.appendChild(overlay);
+    document.body.style.overflow = "hidden";
+    function close() {
+      overlay.remove();
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) { if (e.key === "Escape") close(); }
+    overlay.addEventListener("click", close);
+    document.addEventListener("keydown", onKey);
+  }
+
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest("img");
+    if (!img) return;
+    if (!img.closest("main")) return;
+    if (img.closest("a, button")) return;
+    if (img.classList.contains("no-lightbox")) return;
+    openLightbox(img.currentSrc || img.src, img.alt);
   });
 })();

@@ -1,0 +1,26 @@
+# Shorter cache lifetime for JS/CSS so future edits go live within an hour
+# on their own — no more manually bumping "?v=" numbers in every HTML file.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+RewriteEngine On
+
+# Hide .html from the address bar (e.g. drida.org/courses instead of
+# drida.org/courses.html). This only changes how the URL LOOKS in the
+# browser — the actual files still end in .html and none of our internal
+# links need to change; visiting either form works.
+
+# 1) If someone requests /courses.html directly, send them to /courses
+#    (avoids two URLs serving the same page, which is bad for SEO).
+RewriteCond %{THE_REQUEST} \s/+([^.]+)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# 2) Internally, when the browser asks for /courses, quietly serve
+#    courses.html without changing the address bar.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^([^.]+)$ $1.html [L]

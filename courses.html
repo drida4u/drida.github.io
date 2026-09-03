@@ -17,20 +17,22 @@
 <meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Smitha Haridas." name="twitter:description"/>
 <meta content="https://drida.org/drida_logo.png" name="twitter:image"/>
 <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"yellow-dark":"yellow")}()</script>
-<link href="style.css?v=51" rel="stylesheet"/>
+<link href="style.css?v=59" rel="stylesheet"/>
 <style>
-    /* Horizontal list — like Udemy/Coursera.
-       Each course is a wide row: poster left, details right.
-       Much better for portrait-orientation announcement posters. */
+    /* Horizontal row cards, one per line — poster beside the text, like
+       the rest of the site's course/offering cards. Capped at a sane
+       reading width so a short card doesn't stretch into a mostly-empty
+       bar on a wide screen (that was the original problem with this
+       layout before). */
     .courses-grid {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      align-items: center; /* .course-card is capped at max-width:760px below
+                               it — without this, "stretch" (the flex default)
+                               still lets it hit that cap but leaves it
+                               pinned to the left edge instead of centred. */
+      gap: 1.5rem;
       margin-top: 1.75rem;
-      max-width: 700px; /* tightened further (was 880px) — at 880 the text column
-                            still had a lot of dead space to the right of the
-                            short title/description/price; 700 keeps poster +
-                            text proportioned closer to the actual content */
     }
 
     .course-card {
@@ -45,14 +47,15 @@
       flex-direction: column; /* stack top-row and bottom-section */
       position: relative;
       z-index: 1;
+      width: 100%;
+      max-width: 760px;
     }
 
-    /* Top row: poster + course info side by side */
-    /* Top row: poster + text, both same height (= poster height) */
+    /* Poster beside the course info. */
     .course-card-top {
       display: flex;
       flex-direction: row;
-      align-items: stretch; /* both sides same height */
+      align-items: stretch;
     }
 
     /* Bottom row: form + button, full width, same bg as card */
@@ -78,21 +81,20 @@
 
     /* .course-poster-wrap removed — images are direct flex children, styled via .course-poster */
 
+    /* These are pre-designed announcement posters with text (join
+       instructions, WhatsApp number, price) baked into the image, so
+       cropping with object-fit:cover would cut that text off. contain
+       keeps the whole poster visible within a fixed column width instead. */
     .course-poster {
-      width: 220px;
-      min-width: 220px;
-      flex-shrink: 0;
-      height: 100%;
-      min-height: 220px;
-      max-height: 340px;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-      align-self: stretch;
-    }
-    .course-poster.portrait {
       width: 200px;
       min-width: 200px;
+      max-width: 200px;
+      flex-shrink: 0;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      background: var(--paper);
+      border-right: 1px solid var(--line-soft);
     }
 
     .course-poster-placeholder {
@@ -108,16 +110,14 @@
       opacity: 0.18;
     }
 
-    /* Body: fills width, height capped to poster, scrolls if content overflows */
+    /* Body sits below the poster now — even padding on both sides. */
     .course-body {
-      padding: 1rem 1.25rem 1rem 0.75rem;
+      padding: 1rem 1.25rem;
       flex: 1;
       min-width: 0;
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
-      overflow-y: auto;
-      max-height: 320px;
     }
 
     .course-tags {
@@ -182,10 +182,16 @@
       margin: 0 auto;
     }
 
-    /* UPI payment block — now lives in .course-bottom */
+    /* UPI payment block — now lives in .course-bottom.
+       align-items:stretch overrides the site-wide .upi-pay rule in
+       style.css (align-items:center), which was letting .upi-fields-row
+       size itself by its two inputs' natural content width instead of
+       stretching to the card — that's what was overflowing past the
+       card edges and clipping "Your full name" on narrower grid tiles. */
     .upi-pay {
       display: flex;
       flex-direction: column;
+      align-items: stretch;
       gap: 0.5rem;
       width: 100%;
       max-width: 600px;
@@ -348,17 +354,14 @@
     [data-theme="claude"] .cf-slider-values { color: var(--muted); }
 
     /* Mobile + tablet: stack poster above content */
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
+      /* Side-by-side poster+text is too cramped on a phone screen —
+         stack them like the rest of the site's row cards do at this
+         width (see the sitewide .course-card mobile rule in style.css). */
       .course-card-top { flex-direction: column; }
       .course-poster {
-        width: 100%;
-        min-width: unset;
-        height: auto;
-        min-height: unset;
-        max-height: 240px;
-        object-fit: cover;
-        object-position: center;
-        border-bottom: 1px solid var(--line-soft);
+        width: 100%; min-width: 100%; max-width: 100%;
+        border-right: none; border-bottom: 1px solid var(--line-soft);
       }
       .upi-pay { max-width: 100%; }
     }
@@ -384,7 +387,7 @@
 <svg aria-hidden="true" fill="currentColor" height="16" viewbox="0 0 320 512" width="10"><path d="M279.14 288l14.22-92.66h-86.36v-59.5c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S293.5 0 261.16 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H89.69V288h50.39v224h92.61V288z"></path></svg>
 </a>
 <span class="topstrip-sep"></span>
-<a class="topstrip-link" href="courses.html#course-drida-15th-batch">Free Batch</a>
+<a class="topstrip-link" href="courses.html#course-batch16">Free Batch</a>
 <a class="topstrip-link topstrip-donate" href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate</a>
 </div>
 <div class="topbar">
@@ -428,7 +431,7 @@
 <a href="support.html#help">Help</a>
 </div>
 </div>
-<a class="nav-cta-pill" href="courses.html#course-drida-15th-batch">Join Free Batch</a>
+<a class="nav-cta-pill" href="courses.html#course-batch16">Join Free Batch</a>
         <a href="/dashboard/">Login</a>
 </nav>
 <button aria-label="Toggle theme" id="theme-toggle" type="button"></button>
@@ -734,16 +737,29 @@
 <div class="cat-section" id="cat-meditation-free">
 <h2 class="cat-heading">Meditation — Free</h2>
 <div class="courses-grid">
+<div class="course-card" data-category="meditation" data-date="2026-06-25" data-price="0" data-type="free" id="course-batch16">
+    <div class="course-card-top"><div class="course-poster" style="background:var(--grad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;min-height:260px;"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span style="color:rgba(255,255,255,0.9);font-weight:700;font-size:0.88rem;letter-spacing:0.08em;text-transform:uppercase;">Coming Soon</span><span style="color:rgba(255,255,255,0.6);font-size:0.78rem;">Batch 16</span></div><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-free">Free</span>
+<span class="tag tag-online">Upcoming</span>
+</div>
+<h3>Drida 16th Batch — Coming Soon</h3>
+<p>The next free meditation batch from Drida. Chakra awareness, breathwork and guided affirmations — 60 days live with us. Register your interest now to be notified when enrollment opens.</p>
+
+</div></div>
+    <div class="course-bottom"><a class="btn" href="https://wa.me/918075471581?text=Hi%20Smitha%20Haridas%2C%20I'd%20like%20to%20register%20interest%20for%20Drida%20Batch%2016." target="_blank" rel="noopener noreferrer">Register Interest for Batch 16</a></div>
+  </div>
 <div class="course-card" data-category="meditation" data-date="2026-06-25" data-price="0" data-type="free" id="course-drida-15th-batch">
     <div class="course-card-top"><img alt="Drida 15th Free Batch" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-new-drida-batch.png"/><div class="course-body">
 <div class="course-tags">
 <span class="tag tag-free">Free</span>
+<span class="tag tag-active">Ongoing</span>
+<span class="tag tag-soon">Joining Closed</span>
 </div>
 <h3>Drida 15th Free Batch — Meditation</h3>
-<p>Join Drida's currently running 15th free meditation batch. Open to all — beginners and those wanting to deepen their practice.</p>
+<p>Currently in progress. Chakra meditation, breathwork and affirmations — 60 days, live sessions morning and evening. Joining is closed for this batch. Join Batch 16 above to be notified.</p>
 
 </div></div>
-    <div class="course-bottom"><button class="btn" onclick="enrollCourse('drida-15th-batch','Drida 15th Free Batch',true,this)">Register Free</button></div>
   </div>
 </div>
 </div>
@@ -829,7 +845,7 @@
 <div class="cat-section" id="cat-yoga">
 <h2 class="cat-heading">Yoga</h2>
 <div class="courses-grid">
-<div class="course-card" data-category="yoga" data-date="2026-04-21" data-price="500" data-type="paid" id="course-yoga-with-smitha">
+<div class="course-card" data-category="yoga" data-date="2026-09-01" data-price="500" data-type="paid" id="course-yoga-with-smitha">
     <div class="course-card-top"><img alt="Yoga with Smitha" class="course-poster" onerror="this.style.display='none'" src="images/course-yoga-with-smitha.jpeg"/><div class="course-body">
 <div class="course-tags">
 <span class="tag tag-active">Paid</span>
@@ -839,7 +855,7 @@
 <div class="course-details">
                 Every Monday to Friday<br/>
                 ⏰ 7 PM (40 minutes)<br/>
-                Started 21 April 2026
+                Started 1 September 2026
               </div>
 <p class="course-price">₹500</p>
 
@@ -879,7 +895,7 @@
 </div></div>
     <div class="course-bottom"><button class="btn" onclick="enrollCourse('fitness','Fitness with Drida',false,this)">Enquire &amp; Enroll</button></div>
   </div>
-<div class="course-card" data-category="fitness" data-price="1000" data-date="2026-03-08" data-type="paid" id="course-intermittent-fasting">
+<div class="course-card" data-category="fitness" data-price="1000" data-date="2026-09-01" data-type="paid" id="course-intermittent-fasting">
     <div class="course-card-top"><img alt="Intermittent Fasting with Smitha" class="course-poster" onerror="tryAltExt(this)" src="images/course-intermittent-fasting.jpeg"/><div class="course-body">
 <div class="course-tags">
 <span class="tag tag-active">Paid</span>
@@ -940,7 +956,7 @@
 <div class="footer-col">
 <h4>Offerings</h4>
 <ul>
-<li><a href="courses.html#course-drida-15th-batch">Free Meditation Batch</a></li>
+<li><a href="courses.html#course-batch16">Free Meditation Batch</a></li>
 <li><a href="courses.html#course-yoga-with-smitha">Yoga with Smitha</a></li>
 <li><a href="courses.html#course-fitness">Fitness Program</a></li>
 <li><a href="courses.html#course-kids-meditation">Kids Meditation</a></li>
@@ -951,7 +967,7 @@
 <div class="footer-col">
 <h4>Get Involved</h4>
 <ul>
-<li><a href="courses.html#course-drida-15th-batch">Join Free Batch</a></li>
+<li><a href="courses.html#course-batch16">Join Free Batch</a></li>
 <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
 <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
 <li><a href="trips.html">Join a Yatra</a></li>
@@ -1062,7 +1078,7 @@
     }
   </script>
 <script src="auth-nav.js"></script>
-<script src="script.js?v=10"></script>
+<script src="script.js?v=12"></script>
 <script src="drida-effects.js?v=1"></script>
 <script>
     // ── Course filter: search + checkboxes + categories + price range ─────────
