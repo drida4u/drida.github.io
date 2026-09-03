@@ -488,6 +488,13 @@ a.pillar-card {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(204, 40, 40, 0.32);
 }
+/* The dark text-shadow above is a safety net for text sitting on the
+   colored gradient. On a white-background btn-terra (used for "Join
+   Free Batch" pills on colored sections) it just looks like a dirty
+   smudge, so kill it whenever the button is set to a white fill. */
+.btn-terra[style*="background:#fff"] {
+  text-shadow: none;
+}
 
 .btn-outline {
   background: transparent;
@@ -3581,11 +3588,18 @@ footer.site-footer {
 .courses-grid {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  /* Cards are capped below the row's full width (see .course-card
+     max-width) so they read as tidy centered rows rather than a huge
+     empty bar. Without align-items:center here, flex's default
+     cross-axis behaviour leaves every capped card jammed against the
+     left edge with a big dead gap on the right — that's the "not
+     centered" issue reported repeatedly. */
   gap: 1.25rem;
   margin-top: 1.75rem;
 }
 .course-card {
-  background: var(--paper-alt);
+  background: color-mix(in srgb, var(--paper-alt) 85%, transparent);
   border: 1px solid var(--line-soft);
   border-left: 4px solid color-mix(in srgb, var(--paper-alt) 35%, var(--accent) 65%);
   border-radius: 16px;
@@ -3597,10 +3611,14 @@ footer.site-footer {
   position: relative;
   z-index: 1;
   align-items: stretch;
+  width: 100%;
   /* Without a cap, .course-body's flex:1 stretches the text column to the
      full page width on wide screens — a short "Enquire" card ends up as a
-     huge mostly-empty bar. Cap the whole row card at a sane reading width. */
-  max-width: 720px;
+     huge mostly-empty bar. Cap the whole row card at a sane reading width
+     (raised from 720 -> 820 per feedback that it read as too small), and
+     .courses-grid's align-items:center (above) keeps it centered instead
+     of stuck to the left edge. */
+  max-width: 820px;
 }
 .course-card:hover,
 .course-card:focus-within,

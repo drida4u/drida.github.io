@@ -45,25 +45,25 @@ const DRIDA_CONFIG = {
       id:       'drida.crystal@ybl',      // ← replace with real UPI ID
       name:     'Drida Crystal',
       label:    'Pay for Drida Crystal',
-      whatsapp: '910000000001'            // ← replace with real number
+      whatsapp: '918075471581'            // ← Smitha's number for now; replace when a dedicated crystal contact is ready
     },
     kasar: {
       id:       'kasar.naturals@ybl',     // ← replace with real UPI ID
       name:     'Kasar Naturals',
       label:    'Pay for Kasar Naturals',
-      whatsapp: '910000000002'            // ← replace with real number
+      whatsapp: '918075471581'            // ← Smitha's number for now; replace when a dedicated kasar contact is ready
     },
     nighties: {
       id:       'eksel4u@ybl',            // ← replace with real UPI ID
       name:     'EK.SEL4U',
       label:    'Pay for EK.SEL4U Nightwear',
-      whatsapp: '910000000003'            // ← replace with real number
+      whatsapp: '918075471581'            // ← Smitha's number for now; replace when a dedicated nighties contact is ready
     },
     trips: {
       id:       'drida.trips@ybl',        // ← replace with real UPI ID
       name:     'Drida Yatras',
       label:    'Pay for Trip',
-      whatsapp: '910000000004'            // ← replace with real number
+      whatsapp: '918075471581'            // ← Smitha's number for now; replace when a dedicated trips contact is ready
     }
   },
 
