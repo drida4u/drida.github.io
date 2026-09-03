@@ -1067,13 +1067,29 @@
         alert('Please fill in your name and phone number so we can confirm your enrollment after payment.');
         return;
       }
+
+      // Blur-then-confirm pause before money moves (same pattern as products.html).
+      var confirmed = window.confirm(
+        'You are about to pay ₹' + amount + ' via UPI for:\n\n' + courseName +
+        '\n\nTap OK to reveal the QR code and pay. Tap Cancel to go back.'
+      );
+      if (!confirmed) return;
+
       var note = encodeURIComponent(courseName + ' | ' + name.trim() + ' | ' + phone.trim());
       var cfg = (typeof DRIDA_CONFIG !== 'undefined') ? DRIDA_CONFIG : { upi1: {id:'drida@ybl',name:'Drida',label:'Pay'}, upi2: null };
+      var catCfg = (cfg.paymentCategories && cfg.paymentCategories.courses) || { whatsapp: cfg.whatsappNumber || '910000000000' };
+      var waMsg = encodeURIComponent('Hi, I just paid ₹' + amount + ' for ' + courseName + '. Attaching my payment screenshot — ' + name.trim() + ', ' + phone.trim() + '.');
+      var waLink = 'https://wa.me/' + catCfg.whatsapp + '?text=' + waMsg;
       var html = '<div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.6rem;">' +
                    makeUpiBlock(cfg.upi1, courseName, amount, note) +
                    (cfg.upi2 ? makeUpiBlock(cfg.upi2, courseName, amount, note) : '') +
                  '</div>' +
-                 '<p class="upi-note">Scan either QR or tap "Open UPI App" to pay ₹' + amount + '. After payment, send your screenshot via the <a href="support.html#contact">Contact page</a> with your name — you\'ll be enrolled within a few hours.</p>';
+                 '<div style="padding-top:0.6rem;border-top:1px dashed var(--line-soft);">' +
+                   '<label style="font-size:0.78rem;color:var(--muted);display:block;margin-bottom:0.35rem;">Already paid? Upload your screenshot, then tap below:</label>' +
+                   '<input type="file" accept="image/*" style="width:100%;font-size:0.78rem;margin-bottom:0.5rem;">' +
+                   '<a class="btn" style="display:block;text-align:center;background:#25D366;" href="' + waLink + '" target="_blank" rel="noopener noreferrer">Send Screenshot on WhatsApp</a>' +
+                   '<p class="upi-note" style="margin-top:0.4rem;">WhatsApp will open with a message ready — just attach the screenshot you uploaded and hit send. You\'ll be enrolled within a few hours.</p>' +
+                 '</div>';
       document.getElementById(blockId).innerHTML = html;
     }
   </script>

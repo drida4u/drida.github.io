@@ -960,7 +960,18 @@
       if (btn) btn.textContent = show ? 'Hide Benefits ▴' : 'View Benefits ▾';
     }
 
-    var DRIDA_UPI = 'drida@ybl'; // ← replace with actual UPI ID
+    var DRIDA_UPI = 'drida@ybl'; // ← fallback if drida-config.js is missing
+
+    // Works out which payment category a product belongs to, purely from
+    // its blockId prefix (upi-crystal-…, upi-kasar-…, upi-eksel4u), so none
+    // of the 30+ "Buy via UPI" buttons above needed to change individually.
+    function getProductCategory(blockId) {
+      var cats = (typeof DRIDA_CONFIG !== 'undefined' && DRIDA_CONFIG.paymentCategories) || {};
+      if (blockId.indexOf('crystal') !== -1)  return cats.crystal;
+      if (blockId.indexOf('kasar') !== -1)    return cats.kasar;
+      if (blockId.indexOf('eksel4u') !== -1)  return cats.nighties;
+      return cats.crystal || { id: DRIDA_UPI, name: 'Drida Foundation', label: 'Pay', whatsapp: '910000000000' };
+    }
 
     function showProductUpi(blockId, productName, amount) {
       var name  = (document.getElementById('n-' + blockId) || {}).value || '';
@@ -969,16 +980,35 @@
         alert('Please fill in your name and phone number so we can confirm your order.');
         return;
       }
+
+      var cat = getProductCategory(blockId);
+
+      // Blur-then-confirm step (like the payment confirmation you see in
+      // WhatsApp/Indane) — a deliberate pause before money moves, instead
+      // of the QR appearing instantly.
+      var confirmed = window.confirm(
+        'You are about to pay ₹' + amount + ' via UPI for:\n\n' + productName +
+        '\n\nTap OK to reveal the QR code and pay. Tap Cancel to go back.'
+      );
+      if (!confirmed) return;
+
       var note = encodeURIComponent(productName + ' | ' + name.trim() + ' | ' + phone.trim());
-      var upiLink = 'upi://pay?pa=' + encodeURIComponent(DRIDA_UPI) +
-                    '&pn=' + encodeURIComponent('Drida Foundation') +
+      var upiLink = 'upi://pay?pa=' + encodeURIComponent(cat.id) +
+                    '&pn=' + encodeURIComponent(cat.name) +
                     '&am=' + amount + '&cu=INR&tn=' + note;
       var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(upiLink);
+      var waMsg = encodeURIComponent('Hi, I just paid ₹' + amount + ' for ' + productName + '. Attaching my payment screenshot and delivery address.');
+      var waLink = 'https://wa.me/' + cat.whatsapp + '?text=' + waMsg;
 
       document.getElementById(blockId).innerHTML =
         '<img style="width:160px;height:160px;display:block;margin:0 auto 0.5rem" src="' + qrSrc + '" alt="Scan to pay via UPI" onerror="this.style.display=\'none\'">' +
         '<a class="btn" style="display:block;text-align:center" href="' + upiLink + '">Pay via UPI App</a>' +
-        '<p style="font-size:0.78rem;color:var(--muted);text-align:center;margin:0.5rem 0 0">After payment WhatsApp your screenshot &amp; delivery address to <a href="https://wa.me/910000000000">Smitha Ma\'am</a>.</p>';
+        '<div style="margin-top:0.75rem;padding-top:0.6rem;border-top:1px dashed var(--line-soft);">' +
+          '<label style="font-size:0.78rem;color:var(--muted);display:block;margin-bottom:0.35rem;">Already paid? Upload your screenshot, then tap below:</label>' +
+          '<input type="file" accept="image/*" style="width:100%;font-size:0.78rem;margin-bottom:0.5rem;">' +
+          '<a class="btn" style="display:block;text-align:center;background:#25D366;" href="' + waLink + '" target="_blank" rel="noopener noreferrer">Send Screenshot on WhatsApp</a>' +
+          '<p style="font-size:0.72rem;color:var(--muted);text-align:center;margin:0.4rem 0 0">WhatsApp will open with a message ready — just attach the screenshot you uploaded and hit send.</p>' +
+        '</div>';
     }
   </script>
   <script async src="//www.instagram.com/embed.js"></script>
