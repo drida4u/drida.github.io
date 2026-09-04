@@ -3611,7 +3611,7 @@ footer.site-footer {
   margin-top: 1.75rem;
 }
 .course-card {
-  background: color-mix(in srgb, var(--paper-alt) 85%, transparent);
+  background: color-mix(in srgb, var(--paper-alt) 72%, transparent);
   border: 1px solid var(--line-soft);
   border-left: 4px solid color-mix(in srgb, var(--paper-alt) 35%, var(--accent) 65%);
   border-radius: 16px;
