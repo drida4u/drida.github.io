@@ -16,7 +16,7 @@ const DRIDA_CONFIG = {
   upi1: {
     id:   'drida@ybl',             // ← replace with real UPI ID before go-live
     name: 'Smitha Haridas',        // shown to payer in their UPI app
-    label: 'Pay to Smitha Ma\'am'  // button label shown on website
+    label: 'Pay to Smitha'  // button label shown on website — generic on purpose, easy to swap later
   },
   upi2: {
     id:   'drida.foundation@ybl',  // ← replace with real UPI ID before go-live

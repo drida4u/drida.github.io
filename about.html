@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us — Drida</title>
-  <meta name="description" content="Meet Smitha Haridas — teacher, costume designer, and founder of Drida. Discover the story behind India's fastest-growing women's meditation community.">
+  <meta name="description" content="Meet Ms. Smitha Haridas — teacher, costume designer, and founder of Drida. Discover the story behind India's fastest-growing women's meditation community.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Drida">
   <meta property="og:title" content="About Us — Drida">
-  <meta property="og:description" content="Meet Smitha Haridas — teacher, costume designer, and founder of Drida. Discover the story behind India's fastest-growing women's meditation community.">
+  <meta property="og:description" content="Meet Ms. Smitha Haridas — teacher, costume designer, and founder of Drida. Discover the story behind India's fastest-growing women's meditation community.">
   <meta property="og:image" content="https://drida.org/drida_logo.png">
   <meta property="og:url" content="https://drida.org/about.html">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="About Us — Drida">
-  <meta name="twitter:description" content="Meet Smitha Haridas — teacher, costume designer, and founder of Drida.">
+  <meta name="twitter:description" content="Meet Ms. Smitha Haridas — teacher, costume designer, and founder of Drida.">
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"indigo-dark":"indigo")}()</script>
-  <link rel="stylesheet" href="style.css?v=59">
+  <link rel="stylesheet" href="style.css?v=63">
   <style>
     /* ── About page layout ── */
     /* Solid backdrop so the fixed watermark logo (position:fixed, always
@@ -31,7 +31,10 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
-      text-align: center;
+      /* Left-aligned (was centered) to match the hero heading above it —
+         centering each stat inside its own column made the whole band
+         read as offset from the heading's left edge. */
+      text-align: left;
       padding: clamp(2.5rem,5vw,3.5rem) clamp(1.5rem,6vw,5rem);
       background: var(--grad);
       border-radius: 16px;
@@ -78,6 +81,10 @@
       object-fit: cover;
       object-position: center top;
       display: block;
+      /* border + shadow — the photo's own background is near-white,
+         which was blending straight into the page background on the
+         left/top edges with nothing to mark where it actually starts. */
+      border: 1px solid var(--line-soft);
       box-shadow: var(--shadow-hover);
     }
     .founder-photo-badge {
@@ -104,8 +111,10 @@
       font-style: italic;
       font-size: 1.1rem;
       color: var(--accent);
-      border-left: 3px solid var(--accent);
-      padding-left: 1rem;
+      background: var(--paper-alt);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 1rem 1.25rem;
       margin: 1.5rem 0;
       line-height: 1.6;
     }
@@ -340,20 +349,20 @@
     <div class="stats-band">
       <div class="stat-item"><h3>7,000+</h3><p>Women in community</p></div>
       <div class="stat-item"><h3>15</h3><p>Free batches completed</p></div>
-      <div class="stat-item"><h3>60 days</h3><p>Per meditation batch</p></div>
+      <div class="stat-item"><h3>60 days</h3><p>Free meditation course</p></div>
       <div class="stat-item"><h3>2021</h3><p>Founded</p></div>
     </div>
 
     <!-- Founder spotlight -->
     <div class="founder-spotlight">
       <div class="founder-photo-col">
-        <img src="images/founder-mission.png" alt="Smitha Haridas, Founder of Drida">
+        <img src="images/founder-mission.png" alt="Ms. Smitha Haridas, Founder of Drida">
         <span class="founder-photo-badge">Founder &amp; Mentor</span>
       </div>
       <div class="founder-text">
         <span class="section-tag">The Founder</span>
-        <h2>Smitha Haridas</h2>
-        <p>Smitha Haridas is the founder of Drida — a non-profit meditation community that offers free chakra meditation, breathwork, yoga, and guided wellness to women across India and beyond.</p>
+        <h2>Ms. Smitha Haridas</h2>
+        <p>Ms. Smitha Haridas is the founder of Drida — a non-profit meditation community that offers free chakra meditation, breathwork, yoga, and guided wellness to women across India and beyond.</p>
         <p>Before Drida, Smitha was a school teacher — patient, nurturing, deeply attentive to every student. Her next chapter was creativity: she founded <strong>S.fab Designs</strong>, a boutique costume design studio in Irinjalakuda, Thrissur, whose work dressed Malayalam television actresses for serials and award shows. She had a gift for seeing the best in every woman — and bringing it out.</p>
         <p>Then, one day, she set it all aside. The studio, the costumes, the classroom. She turned inward, discovered the transformative power of chakra meditation and breathwork, and decided she wanted to share it freely with other women. On 21 September 2021, she started a small WhatsApp group called <em>Positive Vibes</em>. What happened next surprised everyone — including her.</p>
         <blockquote class="founder-quote">"I was a teacher, then a designer. Both were about giving women their best selves. Meditation was simply the next — and deepest — way to do that."</blockquote>
@@ -367,15 +376,15 @@
         <div class="smitha-journey-header">
           <span class="section-tag">Before Drida</span>
           <h2>The Teacher and Designer Who Became a Spiritual Guru</h2>
-          <p class="smitha-journey-lead">Before she led 7,000 women into stillness, Smitha Haridas spent years giving other women their most confident moments — stitch by stitch, design by design.</p>
+          <p class="smitha-journey-lead">Before she led 7,000 women into stillness, Ms. Smitha Haridas spent years giving other women their most confident moments — stitch by stitch, design by design.</p>
         </div>
 
         <div class="smitha-story-row">
           <div class="smitha-photo-panel">
             <img src="images/smitha-designer-banner.jpeg" alt="S.fab Designs — My Designs Your Prestige" class="smitha-banner-img" loading="lazy">
             <div class="smitha-atwork-photos">
-              <img src="images/smitha-designer-atwork1.jpeg" alt="Smitha Haridas doing hand embroidery" loading="lazy">
-              <img src="images/smitha-designer-atwork2.jpeg" alt="Smitha Haridas at her design studio" loading="lazy">
+              <img src="images/smitha-designer-atwork1.jpeg" alt="Ms. Smitha Haridas doing hand embroidery" loading="lazy">
+              <img src="images/smitha-designer-atwork2.jpeg" alt="Ms. Smitha Haridas at her design studio" loading="lazy">
             </div>
           </div>
           <div class="smitha-story-text">
@@ -407,7 +416,7 @@
             <span class="smitha-gallery-caption">Rust gown, statement necklace</span>
           </div>
           <div class="smitha-gallery-item">
-            <img src="images/smitha-designer-stage-black.jpeg" alt="Smitha Haridas on stage in black S.fab Designs outfit" loading="lazy">
+            <img src="images/smitha-designer-stage-black.jpeg" alt="Ms. Smitha Haridas on stage in black S.fab Designs outfit" loading="lazy">
             <span class="smitha-gallery-caption">On stage — S.fab Designs</span>
           </div>
           <div class="smitha-gallery-item">
@@ -423,7 +432,7 @@
         </div>
         <div class="smitha-drida-birth">
           <p>Smitha started a small WhatsApp group called <strong>Positive Vibes</strong>. Women showed up every morning and evening for guided meditation. Word spread — batch after batch, city after city. What began as a handful of women became hundreds, then thousands.</p>
-          <p>In 2025, Positive Vibes became <strong>Drida</strong> — rooted in the Sanskrit word for inner strength and steadiness. Today, with over 7,000 members across 15 completed free batches, Drida is one of India's most vibrant women's wellness communities. Still free. Still led by Smitha Haridas. Still rooted in the same quiet intention that started it all.</p>
+          <p>In 2025, Positive Vibes became <strong>Drida</strong> — rooted in the Sanskrit word for inner strength and steadiness. Today, with over 7,000 members across 15 completed free batches, Drida is one of India's most vibrant women's wellness communities. Still free. Still led by Ms. Smitha Haridas. Still rooted in the same quiet intention that started it all.</p>
         </div>
       </div>
     </section>
@@ -438,10 +447,10 @@
       <div class="founder-row">
         <div class="founder-bubble">
           <div class="founder-avatar">
-            <img src="images/founder-smitha.png" alt="Smitha Haridas — Founder">
+            <img src="images/founder-smitha.png" alt="Ms. Smitha Haridas — Founder">
           </div>
           <div class="founder-info">
-            <h3>Smitha Haridas</h3>
+            <h3>Ms. Smitha Haridas</h3>
             <p>Founder &amp; Mentor</p>
           </div>
         </div>
@@ -450,25 +459,25 @@
       <div class="team-river-grid">
         <div class="river-card river-ganga">
           <span class="river-name">Team Ganga</span>
-          <span class="river-lead">Led by Smitha Haridas</span>
+          <span class="river-lead">Led by Ms. Smitha Haridas</span>
           <p>Smitha's executive circle — 4 assistants who keep the wheels turning on every daily Drida activity.</p>
           <span class="river-count">4 Executive Assistants</span>
         </div>
         <div class="river-card river-yamuna">
           <span class="river-name">Team Yamuna</span>
-          <span class="river-lead">Led by Geetha P</span>
+          <span class="river-lead">Led by Ms. Geetha P</span>
           <p>All existing Drida batch members — our growing family of women on their wellness journey.</p>
-          <span class="river-count">3,500+ Members</span>
+          <span class="river-count">5,000+ Members</span>
         </div>
         <div class="river-card river-narmada">
           <span class="river-name">Team Narmada</span>
-          <span class="river-lead">Led by Sheeba</span>
+          <span class="river-lead">Led by Ms. Sheeba</span>
           <p>Our rock stars — the programme coordinators who organise every meetup, event and live session.</p>
           <span class="river-count">17 Coordinators</span>
         </div>
         <div class="river-card river-godavari">
           <span class="river-name">Team Godavari</span>
-          <span class="river-lead">Led by Sujatha</span>
+          <span class="river-lead">Led by Ms. Sujatha</span>
           <p>New batch members and admins — the future of Drida, trained and supported by chief admins and trainers.</p>
           <span class="river-count">4 Chief Admins · 8 Trainers · 36 Admins</span>
         </div>

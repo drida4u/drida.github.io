@@ -5,19 +5,19 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Courses — Drida</title>
-<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Smitha Haridas." name="description"/>
+<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Ms. Smitha Haridas." name="description"/>
 <meta content="website" property="og:type"/>
 <meta content="Drida" property="og:site_name"/>
 <meta content="Courses — Drida" property="og:title"/>
-<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Smitha Haridas." property="og:description"/>
+<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Ms. Smitha Haridas." property="og:description"/>
 <meta content="https://drida.org/drida_logo.png" property="og:image"/>
 <meta content="https://drida.org/courses.html" property="og:url"/>
 <meta content="summary" name="twitter:card"/>
 <meta content="Courses — Drida" name="twitter:title"/>
-<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Smitha Haridas." name="twitter:description"/>
+<meta content="Explore Drida's meditation and yoga courses — free beginner batches, advanced chakra practice, kids' meditation and more. Live online sessions led by Ms. Smitha Haridas." name="twitter:description"/>
 <meta content="https://drida.org/drida_logo.png" name="twitter:image"/>
 <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"yellow-dark":"yellow")}()</script>
-<link href="style.css?v=59" rel="stylesheet"/>
+<link href="style.css?v=63" rel="stylesheet"/>
 <style>
     /* Horizontal row cards, one per line — poster beside the text, like
        the rest of the site's course/offering cards. Capped at a sane
@@ -27,7 +27,7 @@
     .courses-grid {
       display: flex;
       flex-direction: column;
-      align-items: center; /* .course-card is capped at max-width:760px below
+      align-items: center; /* .course-card is capped at max-width:1320px below
                                it — without this, "stretch" (the flex default)
                                still lets it hit that cap but leaves it
                                pinned to the left edge instead of centred. */
@@ -35,6 +35,13 @@
       margin-top: 1.75rem;
     }
 
+    /* Poster in its own column (spanning both content rows), course-body
+       and course-bottom stacked in the second column — so text/buttons
+       use the empty space beside the poster first, and only drop below
+       the poster's own bottom edge once they run past its height.
+       .course-card-top is display:contents so its two children (the
+       poster and .course-body) become direct grid items here, sitting
+       alongside .course-bottom instead of being trapped in their own row. */
     .course-card {
       background: var(--paper-alt);
       border: 1px solid var(--line-soft);
@@ -43,28 +50,42 @@
       overflow: hidden;
       box-shadow: var(--shadow);
       transition: box-shadow 0.22s ease, transform 0.22s ease, border-left-color 0.22s;
-      display: flex;
-      flex-direction: column; /* stack top-row and bottom-section */
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      align-items: start;
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 760px;
+      max-width: 1320px;
     }
 
-    /* Poster beside the course info. */
-    .course-card-top {
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
+    .course-card-top { display: contents; }
+
+    .course-poster {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      align-self: start;
     }
 
-    /* Bottom row: form + button, full width, same bg as card */
+    /* Bottom row: form + button. Lives in the same column as .course-body
+       (not the full card width) so it naturally uses the space beside the
+       poster. No border-top by default — it should read as a continuation
+       of the text above it; a separator only appears (via .spills-below,
+       added by script below) once this section actually runs past the
+       poster's bottom edge. */
     .course-bottom {
+      grid-column: 2;
+      grid-row: 2;
       padding: 0.9rem 1.25rem 1.1rem;
-      border-top: 1px solid var(--line-soft);
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+
+    .course-bottom.spills-below {
+      border-top: 1px solid var(--line-soft);
+      margin-top: 0.4rem;
+      padding-top: 0.9rem;
     }
 
     .course-card:hover,
@@ -89,12 +110,22 @@
       width: 200px;
       min-width: 200px;
       max-width: 200px;
+      height: 260px;
       flex-shrink: 0;
-      height: auto;
-      object-fit: contain;
+      object-fit: cover;
+      object-position: center top;
       display: block;
       background: var(--paper);
       border-right: 1px solid var(--line-soft);
+    }
+
+    /* Some newer posters are square graphics with text/pricing baked in
+       right up to the edges — top-anchored cover crops that off. This
+       override shows the whole poster instead, matching the approach
+       already used for the Kasardevi Yatra poster on trips.html. */
+    .course-poster.course-poster-full {
+      object-fit: contain;
+      object-position: center;
     }
 
     .course-poster-placeholder {
@@ -112,6 +143,8 @@
 
     /* Body sits below the poster now — even padding on both sides. */
     .course-body {
+      grid-column: 2;
+      grid-row: 1;
       padding: 1rem 1.25rem;
       flex: 1;
       min-width: 0;
@@ -129,17 +162,20 @@
 
     .tag {
       font-size: 0.68rem;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       padding: 0.15rem 0.55rem;
       border-radius: 999px;
     }
 
-    .tag-free { background: #e8f8f0; color: #1a7a47; }
-    .tag-active { background: #fff3e0; color: #b85c00; }
-    .tag-soon { background: var(--line-soft); color: var(--muted); }
-    .tag-online { background: #e8f0fe; color: #3a5fc4; }
+    /* Unified with style.css's shared tag styling — all status tags
+       (Free, Ongoing, Joining Closed, Upcoming, Paid, Closed, Online)
+       share one neutral pill instead of a different color each. */
+    .tag-free, .tag-active, .tag-paid, .tag-soon, .tag-closed, .tag-online {
+      background: var(--line-soft);
+      color: var(--ink);
+    }
 
     .course-card h3 {
       margin: 0;
@@ -197,10 +233,19 @@
       max-width: 600px;
     }
 
-    /* Name + phone side by side */
+    /* Label sits to the left of the two fields (instead of on its own
+       line above them) to keep this section shorter — more likely to
+       fit beside the poster instead of spilling below it. */
     .upi-fields-row {
       display: flex;
+      align-items: center;
+      flex-wrap: wrap;
       gap: 0.5rem;
+    }
+    .upi-fields-row .upi-note {
+      margin: 0;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .upi-fields-row .upi-input {
       flex: 1;
@@ -357,11 +402,22 @@
     @media (max-width: 600px) {
       /* Side-by-side poster+text is too cramped on a phone screen —
          stack them like the rest of the site's row cards do at this
-         width (see the sitewide .course-card mobile rule in style.css). */
-      .course-card-top { flex-direction: column; }
+         width (see the sitewide .course-card mobile rule in style.css).
+         Drop back to a single-column flow (grid-template-columns:1fr)
+         so the poster, body and bottom all sit full-width, stacked. */
+      .course-card { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+      .course-card-top { display: flex; flex-direction: column; }
       .course-poster {
+        grid-row: auto;
         width: 100%; min-width: 100%; max-width: 100%;
         border-right: none; border-bottom: 1px solid var(--line-soft);
+      }
+      .course-body { grid-row: auto; }
+      .course-bottom {
+        grid-row: auto;
+        border-top: none !important;
+        margin-top: 0 !important;
+        padding-top: 0.9rem !important;
       }
       .upi-pay { max-width: 100%; }
     }
@@ -710,6 +766,11 @@
             Fitness
             <span class="cf-count" id="count-cat-fitness"></span>
 </label>
+<label class="cf-checkbox-label">
+<input class="cf-cat-checkbox" type="checkbox" value="diet"/>
+            Diet &amp; Nutrition
+            <span class="cf-count" id="count-cat-diet"></span>
+</label>
 </div>
 <!-- Price Range slider -->
 <div class="cf-group">
@@ -767,24 +828,16 @@
 <div class="cat-section" id="cat-meditation-paid">
 <h2 class="cat-heading">Meditation — Paid</h2>
 <div class="courses-grid">
-<div class="course-card" data-category="chakra" data-date="2026-05-17" data-price="1250" data-type="paid" id="course-advanced-chakra-meditation">
+<div class="course-card" data-category="chakra" data-price="1250" data-type="closed" id="course-advanced-chakra-meditation">
     <div class="course-card-top"><img alt="Advanced Chakra Meditation" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-advanced-chakra.png"/><div class="course-body">
 <div class="course-tags">
-<span class="tag tag-active">Paid</span>
+<span class="tag tag-closed">Closed</span>
 </div>
 <h3>Chakra Meditation — Advanced</h3>
 <p>An advanced programme exploring the seven chakras in depth — activating, balancing and working with each energy centre through guided meditation.</p>
-<p class="course-price">₹1,250</p>
 
 </div></div>
-    <div class="course-bottom"><div class="upi-pay" id="upi-chakra">
-<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
-<div class="upi-fields-row">
-<input class="upi-input" id="n-upi-chakra" placeholder="Your full name" type="text"/>
-<input class="upi-input" id="p-upi-chakra" placeholder="Your phone number" type="tel"/>
-</div>
-<button class="btn" onclick="showUpi('upi-chakra','Chakra Meditation Advanced',1250)" type="button">Continue to Pay ₹1,250</button>
-</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Not accepting new joins right now.</p></div>
   </div>
 <div class="course-card" data-category="meditation level2" data-date="2026-08-01" data-price="500" data-type="paid" id="course-drida-level-2">
     <div class="course-card-top"><img alt="Drida Meditation Level 2" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-drida-stage2.png"/><div class="course-body">
@@ -795,13 +848,47 @@
 
 </div></div>
     <div class="course-bottom"><div class="upi-pay" id="upi-level2">
-<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
 <div class="upi-fields-row">
+<p class="upi-note">Enter your details to proceed:</p>
 <input class="upi-input" id="n-upi-level2" placeholder="Your full name" type="text"/>
 <input class="upi-input" id="p-upi-level2" placeholder="Your phone number" type="tel"/>
 </div>
 <button class="btn" onclick="showUpi('upi-level2','Drida Meditation Level 2',500)" type="button">Continue to Pay ₹500</button>
 </div></div>
+  </div>
+<div class="course-card" data-category="chakra" data-price="1000" data-type="closed" id="course-chakra-meditation">
+    <div class="course-card-top"><img alt="Chakra Meditation" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-chakra-meditation-bw.png"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-active">Ongoing</span>
+<span class="tag tag-closed">Joining Closed</span>
+</div>
+<h3>Chakra Meditation</h3>
+<p>Meditation, asanas, mudras and mantras to open and balance the seven chakras — currently running for enrolled members.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Currently ongoing — not accepting new joins right now.</p></div>
+  </div>
+<div class="course-card" data-category="meditation" data-price="500" data-type="closed" id="course-online-meditation-430am">
+    <div class="course-card-top"><img alt="Online Meditation — 4:30 AM / 9:30 PM" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-online-meditation-430am.png" style="aspect-ratio:1188/1186;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>Online Meditation — 4:30 AM / 9:30 PM</h3>
+<p>A guided daily online meditation session, held early morning and evening, for building a consistent practice.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+<div class="course-card" data-category="meditation" data-price="1000" data-type="closed" id="course-hooponopono">
+    <div class="course-card-top"><img alt="Ho'oponopono with Smitha" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-hooponopono-advanced.png" style="aspect-ratio:840/1190;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>Ho'oponopono with Smitha</h3>
+<p>A guided programme on the Hawaiian practice of Ho'oponopono — healing, reconciliation and forgiveness through a simple repeated meditation.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
   </div>
 </div>
 </div>
@@ -809,35 +896,16 @@
 <div class="cat-section" id="cat-kids">
 <h2 class="cat-heading">Kids Meditation</h2>
 <div class="courses-grid">
-<div class="course-card" data-category="kids" data-date="2026-04-08" data-price="1000" data-type="paid" id="course-kutties-live-meditation">
-    <div class="course-card-top"><img alt="Kutties Live Meditation Classes" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-kutties-meditation.png"/><div class="course-body">
+<div class="course-card" data-category="kids" data-price="1000" data-type="closed" id="course-kids-meditation">
+    <div class="course-card-top"><img alt="Kids Meditation" class="course-poster portrait" onerror="tryAltExt(this)" src="images/course-kutties-meditation.png"/><div class="course-body">
 <div class="course-tags">
-<span class="tag tag-active">Paid</span>
-</div>
-<h3>Kutties Live Meditation Classes</h3>
-<p>Live online meditation sessions specially designed for children — helping kids build focus, calm and emotional balance from a young age.</p>
-<p class="course-price">₹1,000 <span style="font-size:0.75rem;font-weight:400;color:var(--muted);">/ connection</span></p>
-
-</div></div>
-    <div class="course-bottom"><div class="upi-pay" id="upi-kutties">
-<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
-<div class="upi-fields-row">
-<input class="upi-input" id="n-upi-kutties" placeholder="Your full name" type="text"/>
-<input class="upi-input" id="p-upi-kutties" placeholder="Your phone number" type="tel"/>
-</div>
-<button class="btn" onclick="showUpi('upi-kutties','Kutties Live Meditation Classes',1000)" type="button">Continue to Pay ₹1,000</button>
-</div></div>
-  </div>
-<div class="course-card" data-category="kids" data-date="2026-01-01" data-price="0" data-type="paid" id="course-kids-meditation">
-    <div class="course-card-top"><img alt="Kids Meditation" class="course-poster" onerror="tryAltExt(this)" src="images/course-kids-meditation.png"/><div class="course-body">
-<div class="course-tags">
-<span class="tag tag-active">Paid</span>
+<span class="tag tag-closed">Closed</span>
 </div>
 <h3>Kids Meditation</h3>
-<p>A structured meditation programme for children — building concentration, inner calm and joyful awareness through age-appropriate techniques.</p>
+<p>Live online meditation sessions designed for children — helping kids build focus, calm and emotional balance from a young age.</p>
 
 </div></div>
-    <div class="course-bottom"><button class="btn" onclick="enrollCourse('kids-meditation','Kids Meditation',false,this)">Enquire &amp; Enroll</button></div>
+    <div class="course-bottom"><a class="btn" href="https://wa.me/918075471581?text=Hi%20Ms.%20Smitha%20Haridas%2C%20I'd%20like%20to%20register%20interest%20for%20Kids%20Meditation." target="_blank" rel="noopener noreferrer">Closed for now — Register Interest</a></div>
   </div>
 </div>
 </div>
@@ -861,41 +929,71 @@
 
 </div></div>
     <div class="course-bottom"><div class="upi-pay" id="upi-yoga">
-<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
 <div class="upi-fields-row">
+<p class="upi-note">Enter your details to proceed:</p>
 <input class="upi-input" id="n-upi-yoga" placeholder="Your full name" type="text"/>
 <input class="upi-input" id="p-upi-yoga" placeholder="Your phone number" type="tel"/>
 </div>
 <button class="btn" onclick="showUpi('upi-yoga','Yoga with Smitha',500)" type="button">Continue to Pay ₹500</button>
 </div></div>
   </div>
-<div class="course-card coming-soon" data-category="yoga" data-date="2099-01-01" data-price="0" data-type="soon" id="course-yoga-class">
-    <div class="course-card-top"><img alt="Yoga Class — Coming Soon" class="course-poster" onerror="tryAltExt(this)" src="images/course-yoga-coming-soon.jpeg"/><div class="course-body">
-<div class="course-tags"><span class="tag tag-soon">Coming Soon</span></div>
-<h3>Yoga Class</h3>
-<p>A new Drida yoga class is being planned. Stay tuned for details on timings and enrollment.</p>
-
-</div></div>
-    <div class="course-bottom"><button class="btn" onclick="notifyMeCourse('yoga-class','Yoga Class',this)">Notify Me</button></div>
-  </div>
 </div>
 </div>
-<!-- ══════════ FITNESS & DIETING ══════════ -->
+<!-- ══════════ FITNESS ══════════ -->
 <div class="cat-section" id="cat-fitness">
-<h2 class="cat-heading">Fitness &amp; Dieting</h2>
+<h2 class="cat-heading">Fitness</h2>
 <div class="courses-grid">
-<div class="course-card" data-category="fitness" data-date="2026-01-01" data-price="0" data-type="paid" id="course-fitness">
+<div class="course-card" data-category="fitness" data-price="0" data-type="closed" id="course-fitness">
     <div class="course-card-top"><img alt="Fitness with Drida" class="course-poster" onerror="tryAltExt(this)" src="images/course-fitness.jpeg"/><div class="course-body">
 <div class="course-tags">
-<span class="tag tag-active">Paid</span>
+<span class="tag tag-closed">Closed</span>
 </div>
 <h3>Fitness with Drida</h3>
 <p>A guided fitness programme that combines physical conditioning with mindful movement — building strength, flexibility and vitality.</p>
 
 </div></div>
-    <div class="course-bottom"><button class="btn" onclick="enrollCourse('fitness','Fitness with Drida',false,this)">Enquire &amp; Enroll</button></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this month.</p></div>
   </div>
-<div class="course-card" data-category="fitness" data-price="1000" data-date="2026-09-01" data-type="paid" id="course-intermittent-fasting">
+<div class="course-card" data-category="fitness" data-price="500" data-type="closed" id="course-fitness-21day-jul2024">
+    <div class="course-card-top"><img alt="21 Days Fitness Programme — July 2024" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-fitness-21day-jul2024.png" style="aspect-ratio:1186/1186;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>21 Days Fitness Programme — July 2024</h3>
+<p>A 21-day guided fitness programme focused on building consistent movement and strength habits.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+<div class="course-card" data-category="fitness" data-price="500" data-type="closed" id="course-fitness-21day-oct2024">
+    <div class="course-card-top"><img alt="21 Days Fitness Programme — October 2024" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-fitness-21day-oct2024.png" style="aspect-ratio:1190/1188;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>21 Days Fitness Programme — October 2024</h3>
+<p>A 21-day guided fitness programme focused on building consistent movement and strength habits.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+<div class="course-card" data-category="fitness" data-price="250" data-type="closed" id="course-fitness-dreamfit">
+    <div class="course-card-top"><img alt="Fitness with Smitha (Dream Fit)" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-fitness-with-smitha-dreamfit.png" style="aspect-ratio:1192/1190;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>Fitness with Smitha (Dream Fit)</h3>
+<p>A guided fitness programme combining structured workouts with mindful movement for lasting results.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+</div>
+</div>
+<!-- ══════════ DIET & NUTRITION ══════════ -->
+<div class="cat-section" id="cat-diet">
+<h2 class="cat-heading">Diet &amp; Nutrition</h2>
+<div class="courses-grid">
+<div class="course-card" data-category="diet" data-price="1000" data-date="2026-09-01" data-type="paid" id="course-intermittent-fasting">
     <div class="course-card-top"><img alt="Intermittent Fasting with Smitha" class="course-poster" onerror="tryAltExt(this)" src="images/course-intermittent-fasting.jpeg"/><div class="course-body">
 <div class="course-tags">
 <span class="tag tag-active">Paid</span>
@@ -906,14 +1004,71 @@
 
 </div></div>
     <div class="course-bottom"><div class="upi-pay" id="upi-if">
-<p class="upi-note" style="text-align:left;margin-bottom:0.25rem;">Enter your details to proceed:</p>
 <div class="upi-fields-row">
+<p class="upi-note">Enter your details to proceed:</p>
 <input class="upi-input" id="n-upi-if" placeholder="Your full name" type="text"/>
 <input class="upi-input" id="p-upi-if" placeholder="Your phone number" type="tel"/>
 </div>
 <button class="btn" onclick="showUpi('upi-if','Intermittent Fasting with Smitha',1000)" type="button">Continue to Pay ₹1,000</button>
 </div></div>
   </div>
+<div class="course-card" data-category="diet" data-price="750" data-type="closed" id="course-yes-you-can">
+    <div class="course-card-top"><img alt="'Yes, You Can' — Weight Loss in 21 Days" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-yes-you-can-weightloss.png" style="aspect-ratio:950/1188;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>'Yes, You Can' — Weight Loss in 21 Days</h3>
+<p>A structured 21-day weight-loss programme combining nutrition guidance with daily accountability.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+<div class="course-card" data-category="diet" data-price="2000" data-type="closed" id="course-weightloss-programme">
+    <div class="course-card-top"><img alt="Weight Loss Programme" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-weightloss-programme-2000.png" style="aspect-ratio:878/1168;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>Weight Loss Programme</h3>
+<p>A comprehensive guided programme for sustainable weight loss through nutrition and lifestyle changes.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+<div class="course-card" data-category="diet" data-price="0" data-type="closed" id="course-7days-mental-diet">
+    <div class="course-card-top"><img alt="7 Days Mental Diet" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-7days-mental-diet.png" style="aspect-ratio:714/1014;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>7 Days Mental Diet</h3>
+<p>A 7-day programme on cultivating a positive, disciplined mindset — a "mental diet" to reshape habitual thought patterns.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+<div class="course-card" data-category="diet" data-price="300" data-type="closed" id="course-weightloss-10day-challenge">
+    <div class="course-card-top"><img alt="10-Day Weight Loss Challenge with Smitha" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-weightloss-10day-challenge.png" style="aspect-ratio:2282/1676;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>10-Day Weight Loss Challenge</h3>
+<p>A quick 10-day challenge targeting a 3kg weight reduction, with free meditation sessions included.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+<div class="course-card" data-category="diet" data-price="300" data-type="closed" id="course-weightloss-10day-dreamfit">
+    <div class="course-card-top"><img alt="10-Day Weight Loss Challenge — Dream Fit" class="course-poster course-poster-full" onerror="tryAltExt(this)" src="images/course-weightloss-10day-dreamfit.png" style="aspect-ratio:2996/1668;height:auto;"/><div class="course-body">
+<div class="course-tags">
+<span class="tag tag-closed">Closed</span>
+</div>
+<h3>10-Day Weight Loss Challenge (Dream Fit)</h3>
+<p>A 10-day guided challenge with Dream Fit — just 10 minutes of workout morning and evening, targeting 3-5kg weight loss, plus free meditation sessions.</p>
+
+</div></div>
+    <div class="course-bottom"><p class="course-closed-note">Enrollment closed for this batch.</p></div>
+  </div>
+</div>
+</div>
 </div>
 </div>
 </div><!-- /courses-list -->
@@ -1048,14 +1203,22 @@
     }
 
     // Generic UPI payment flow — reads IDs from drida-config.js
+    // Only the primary UPI recipient (upi1) is shown — a second QR block
+    // for upi2 read as confusing ("which one do I pay?"), so that path
+    // was removed rather than just hidden.
     function makeUpiBlock(upiCfg, courseName, amount, note) {
       var upiLink = 'upi://pay?pa=' + encodeURIComponent(upiCfg.id) +
                     '&pn=' + encodeURIComponent(upiCfg.name) +
                     '&am=' + amount + '&cu=INR&tn=' + note;
       var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' + encodeURIComponent(upiLink);
+      // QR starts blurred (like the Indane payment flow) — tapping it
+      // reveals the clear code, one extra deliberate step before paying.
       return '<div style="text-align:center;border:1px solid var(--line-soft);border-radius:10px;padding:0.75rem;flex:1;">' +
                '<p style="font-size:0.75rem;font-weight:700;color:var(--muted);margin:0 0 0.4rem;">' + upiCfg.label + '</p>' +
-               '<img src="' + qrSrc + '" alt="QR" style="width:130px;height:130px;display:block;margin:0 auto 0.5rem;" onerror="this.style.display=\'none\'">' +
+               '<div class="qr-reveal-wrap" style="position:relative;width:130px;height:130px;margin:0 auto 0.5rem;cursor:pointer;" onclick="var i=this.querySelector(\'img\'),h=this.querySelector(\'.qr-reveal-hint\');i.style.filter=\'none\';h.style.display=\'none\';">' +
+                 '<img src="' + qrSrc + '" alt="QR" style="width:130px;height:130px;display:block;border-radius:6px;filter:blur(7px);transition:filter 0.15s ease;" onerror="this.style.display=\'none\'">' +
+                 '<div class="qr-reveal-hint" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);color:#fff;font-size:0.7rem;font-weight:700;border-radius:6px;text-align:center;padding:0.5rem;">Tap to reveal QR</div>' +
+               '</div>' +
                '<a class="btn" href="' + upiLink + '" style="font-size:0.8rem;padding:0.35rem 0.75rem;">Open UPI App</a>' +
              '</div>';
     }
@@ -1065,6 +1228,11 @@
       var phone = (document.getElementById('p-' + blockId) || {}).value || '';
       if (!name.trim() || !phone.trim()) {
         alert('Please fill in your name and phone number so we can confirm your enrollment after payment.');
+        return;
+      }
+      var phoneDigits = phone.replace(/\D/g, '');
+      if (phoneDigits.length !== 10) {
+        alert('Please enter a valid 10-digit phone number.');
         return;
       }
 
@@ -1082,7 +1250,6 @@
       var waLink = 'https://wa.me/' + catCfg.whatsapp + '?text=' + waMsg;
       var html = '<div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:0.6rem;">' +
                    makeUpiBlock(cfg.upi1, courseName, amount, note) +
-                   (cfg.upi2 ? makeUpiBlock(cfg.upi2, courseName, amount, note) : '') +
                  '</div>' +
                  '<div style="padding-top:0.6rem;border-top:1px dashed var(--line-soft);">' +
                    '<label style="font-size:0.78rem;color:var(--muted);display:block;margin-bottom:0.35rem;">Already paid? Upload your screenshot, then tap below:</label>' +
@@ -1137,7 +1304,7 @@
       });
 
       // Populate category count badges
-      ['meditation','chakra','level2','kids','yoga','fitness'].forEach(function(cat) {
+      ['meditation','chakra','level2','kids','yoga','fitness','diet'].forEach(function(cat) {
         var el = document.getElementById('count-cat-' + cat);
         if (el) el.textContent = allCards.filter(function(c) {
           return (c.dataset.category || '').split(' ').indexOf(cat) !== -1;
@@ -1190,6 +1357,36 @@ function render() {
       });
 
       render();
+    })();
+  </script>
+  <script>
+    // Only above the 600px breakpoint does the poster sit beside the text
+    // (below that, .course-card switches to a stacked single column and
+    // this separator isn't relevant). When the body+bottom content is
+    // short enough to sit fully alongside the poster, no divider line is
+    // shown; once it runs past the poster's own bottom edge, add one back.
+    (function () {
+      function updateCourseSeparators() {
+        var stacked = window.matchMedia('(max-width: 600px)').matches;
+        document.querySelectorAll('.course-card').forEach(function (card) {
+          var poster = card.querySelector('.course-poster');
+          var bottom = card.querySelector('.course-bottom');
+          if (!poster || !bottom) return;
+          if (stacked) { bottom.classList.remove('spills-below'); return; }
+          var posterBottom = poster.getBoundingClientRect().bottom;
+          var bottomTop = bottom.getBoundingClientRect().top;
+          bottom.classList.toggle('spills-below', bottomTop >= posterBottom - 1);
+        });
+      }
+      window.addEventListener('load', updateCourseSeparators);
+      window.addEventListener('resize', updateCourseSeparators);
+      document.querySelectorAll('.course-poster').forEach(function (img) {
+        if (img.tagName === 'IMG') img.addEventListener('load', updateCourseSeparators);
+      });
+      // Filter/search re-renders the list — recheck after it settles.
+      document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(updateCourseSeparators, 50);
+      });
     })();
   </script>
 </body>

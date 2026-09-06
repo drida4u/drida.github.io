@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Experiences — Drida</title>
-  <meta name="description" content="Wellness retreats and sacred experiences with Drida — nature escapes, spiritual journeys and group yatras led by Smitha Haridas.">
+  <meta name="description" content="Wellness retreats and sacred experiences with Drida — nature escapes, spiritual journeys and group yatras led by Ms. Smitha Haridas.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Drida">
   <meta property="og:title" content="Experiences & Retreats — Drida">
-  <meta property="og:description" content="Wellness retreats and sacred experiences with Drida — nature escapes, spiritual journeys and group yatras led by Smitha Haridas.">
+  <meta property="og:description" content="Wellness retreats and sacred experiences with Drida — nature escapes, spiritual journeys and group yatras led by Ms. Smitha Haridas.">
   <meta property="og:image" content="https://drida.org/drida_logo.png">
   <meta property="og:url" content="https://drida.org/trips.html">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Experiences & Retreats — Drida">
-  <meta name="twitter:description" content="Wellness retreats and sacred experiences with Drida — nature escapes, spiritual journeys and group yatras led by Smitha Haridas.">
+  <meta name="twitter:description" content="Wellness retreats and sacred experiences with Drida — nature escapes, spiritual journeys and group yatras led by Ms. Smitha Haridas.">
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"green-dark":"pastel-green")}()</script>
-  <link rel="stylesheet" href="style.css?v=59">
+  <link rel="stylesheet" href="style.css?v=63">
   <style>
     .trips-section {
       margin-bottom: 3.5rem;
@@ -41,7 +41,12 @@
 
     .trip-card {
       background: var(--paper-alt);
-      border: 1px solid var(--line-soft);
+      /* A couple of poster graphics (e.g. the Kasardevi Yatra card) are a
+         solid colour that's close to the page background, so a plain
+         1px var(--line-soft) border nearly disappeared at the edge —
+         mixing in more --ink gives every card a visible outline
+         regardless of what its poster looks like. */
+      border: 1.5px solid color-mix(in srgb, var(--ink) 20%, var(--line-soft));
       border-radius: 16px;
       overflow: hidden;
       box-shadow: var(--shadow);
@@ -57,11 +62,17 @@
       transform: translateY(-3px);
     }
 
+    /* Every trip poster is a designed graphic with text/pricing baked in
+       right up to the edges, so any "cover" crop risks cutting off part
+       of the design (as happened with the Kasardevi poster). Showing the
+       whole poster via "contain" avoids that everywhere, even though it
+       may letterbox slightly against the background instead of filling
+       the box edge-to-edge. */
     .trip-poster {
       width: 100%;
       height: 260px;
-      object-fit: cover;
-      object-position: center top;
+      object-fit: contain;
+      object-position: center;
       display: block;
       background: var(--paper-alt);
     }
@@ -268,8 +279,8 @@
 
         <!-- Adikailash Yatra -->
         <div class="trip-card">
-          <img class="trip-poster" src="images/trip-pil-adikailash-new4.jpg" alt="Adikailash Yatra"
-               style="height:auto;aspect-ratio:2/3;object-fit:contain;background:var(--paper-alt);"
+          <img class="trip-poster" src="images/trip-pil-adikailash-full.png" alt="Adikailash Yatra"
+               style="height:auto;aspect-ratio:581/862;object-fit:contain;background:var(--paper-alt);"
                onerror="tryAltExt(this)">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -288,7 +299,7 @@
         <!-- Kashi & Ayodhya Yatra -->
         <div class="trip-card">
           <img class="trip-poster" src="images/trip-kashi-ayodhya.jpg" alt="Kashi &amp; Ayodhya Yatra"
-               style="height:auto;aspect-ratio:2/3;object-fit:contain;background:var(--paper-alt);"
+               style="height:auto;aspect-ratio:1212/1676;object-fit:contain;background:var(--paper-alt);"
                onerror="tryAltExt(this)">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -318,7 +329,7 @@
         <!-- Thiruvannamalai / Thanjavur / Chidambaram -->
         <div class="trip-card">
           <img class="trip-poster" src="images/trip-tanjore-chidambaram.jpg" alt="Thiruvannamalai, Thanjavur &amp; Chidambaram Yatra"
-               style="height:auto;aspect-ratio:1/1;object-fit:contain;background:var(--paper-alt);"
+               style="height:auto;aspect-ratio:1614/1616;object-fit:contain;background:var(--paper-alt);"
                onerror="tryAltExt(this)">
           <div class="trip-body">
             <span class="trip-label">Pilgrimage</span>
@@ -344,7 +355,7 @@
 
         <!-- Kasardevi Yatra -->
         <div class="trip-card">
-          <img class="trip-poster" src="images/trip-pil-kasar-devi.png" alt="Kasardevi Yatra"
+          <img class="trip-poster trip-poster-full" src="images/trip-pil-kasar-devi.png" alt="Kasardevi Yatra"
                onerror="tryAltExt(this)">
           <div class="trip-gallery">
             <img src="images/trip-pil-kasar-devi1.jpeg" alt="Kasardevi" onerror="this.style.display='none'">

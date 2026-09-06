@@ -6,20 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- The <title> shows up in the browser tab -->
   <title>Drida</title>
-  <meta name="description" content="Drida is a non-profit meditation, yoga and fitness community led by Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
+  <meta name="description" content="Drida is a non-profit meditation, yoga and fitness community led by Ms. Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Drida">
   <meta property="og:title" content="Drida — Meditation, Yoga & Mindful Living">
-  <meta property="og:description" content="Drida is a non-profit meditation, yoga and fitness community led by Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
+  <meta property="og:description" content="Drida is a non-profit meditation, yoga and fitness community led by Ms. Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
   <meta property="og:image" content="https://drida.org/drida_logo.png">
   <meta property="og:url" content="https://drida.org/">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Drida — Meditation, Yoga & Mindful Living">
-  <meta name="twitter:description" content="Drida is a non-profit meditation, yoga and fitness community led by Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
+  <meta name="twitter:description" content="Drida is a non-profit meditation, yoga and fitness community led by Ms. Smitha Haridas. Join free and paid courses, wellness retreats, and a growing community of mindful living.">
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <!-- This links our CSS file (styling) to this HTML file (structure) -->
   <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"dark":"light")}()</script>
-  <link rel="stylesheet" href="style.css?v=59">
+  <link rel="stylesheet" href="style.css?v=63">
   <style>
     /* Breathing room between opaque blocks — plain transparent margin so
        the fixed Drida watermark can show through naturally, same treatment
@@ -42,60 +42,97 @@
       color: var(--ink-2);
     }
 
-    /* TRIAL — diagonal colour band behind card titles, like Isha
-       Foundation's programme cards (photo full, untouched — then a
-       diagonal-cut colour band BELOW it holding the title + a "More"
-       button in the same row — then plain white body text below).
-       Each card cycles through a different shade, like Isha's cards.
+    /* Diagonal colour band — matched to Isha Foundation's actual programme
+       cards (reference: isha.sadhguru.org program pages): photo on top,
+       untouched — then a solid-colour diagonal-cut band directly under it
+       holding ONLY the title (no button in the band) — then plain white
+       body text below, with the CTA as its own pill button under the text.
+       Each card cycles through a different flat colour, like Isha's cards
+       (Isha uses solid fills, not gradients, for these bands).
        Scoped to #courses only so it's easy to compare against the rest
        of the site's plain cards and roll back/out. */
-    #courses .card { padding: 0; overflow: hidden; }
+    #courses .card {
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      /* Wider + taller than the shared .card-grid default (260/320px) —
+         at that width, longer titles like "Drida 15th Free Batch" wrapped
+         to 2 lines in the bottom band, forcing the band taller than the
+         other cards. More width gives the title room to sit on one line
+         next to the button. */
+      flex: 0 1 340px;
+      max-width: 380px;
+    }
     #courses .card img {
       margin: 0;
       border-radius: 0;
       width: 100%;
-      height: 220px;
-      object-fit: contain;      /* shows the FULL poster, nothing cropped */
+      height: 260px;
+      /* cover (was contain) — contain was leaving grey letterbox bands
+         wherever a poster's own aspect ratio didn't exactly match this
+         box, which looked worse than cropping a sliver off the poster.
+         top-center keeps each poster's headline in frame. */
+      object-fit: cover;
+      object-position: center top;
       background: var(--paper-alt);
     }
+    /* Body text sits directly under the photo now; the colour band moves
+       to the BOTTOM of the card (Isha-style) and holds the title AND the
+       CTA button together, title left / button right in the same band. */
+    #courses .card p {
+      margin: 1rem 1.25rem 1.25rem;
+      flex: 1;
+    }
     #courses .card h3 {
+      background: #d8461f;
+      color: #fff;
+      margin: 0;
+      margin-top: auto;
+      padding: 1.1rem 1.25rem;
+      /* thin-on-left diagonal (top-left corner cut away) */
+      clip-path: polygon(0 100%, 0 22%, 100% 0%, 100% 100%);
+      font-size: 1.05rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
-      background: var(--grad);
-      color: #fff;
-      margin: 0;
-      padding: 1.1rem 1.25rem;
-      clip-path: polygon(0 22%, 100% 0%, 100% 100%, 0% 100%);
-      font-size: 1.05rem;
+      gap: 1rem;
     }
-    /* Different shade per card, fire-palette variants — echoes Isha's
-       alternating band colours while staying on-brand. */
+    #courses .card h3 span {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    /* Different flat shade per card, fire-palette variants — echoes Isha's
+       alternating band colours while staying on-brand. Cards 1 & 2 keep the
+       default thin-on-left cut; card 3 mirrors it (thin-on-right) so the
+       row doesn't read as one repeated shape. */
     #courses .card:nth-child(2) h3 {
-      background: linear-gradient(135deg, #b7231a 0%, #d8461f 50%, #e87a1c 100%);
+      background: #b7231a;
     }
     #courses .card:nth-child(3) h3 {
-      background: linear-gradient(135deg, #7a1f1f 0%, #a8341c 50%, #c25a1a 100%);
+      background: #7a1f1f;
+      clip-path: polygon(0 0%, 0 100%, 100% 100%, 100% 22%);
     }
-    #courses .card h3 .band-more {
+    #courses .card .band-more {
+      display: inline-block;
       flex-shrink: 0;
-      background: rgba(255,255,255,0.22);
+      background: transparent;
       color: #fff;
-      border: 1px solid rgba(255,255,255,0.55);
+      border: 1.5px solid rgba(255,255,255,0.85);
       border-radius: 999px;
-      padding: 0.35rem 0.9rem;
-      font-size: 0.78rem;
+      padding: 0.4rem 1.1rem;
+      font-size: 0.82rem;
       font-weight: 600;
       text-decoration: none;
       white-space: nowrap;
-      transition: background 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease;
     }
-    #courses .card h3 .band-more:hover {
-      background: rgba(255,255,255,0.36);
-    }
-    #courses .card p {
-      margin: 0.85rem 1.25rem 1.25rem;
+    #courses .card .band-more:hover {
+      background: #fff;
+      color: #7a1f1f;
     }
 
     /* Mission & values — moved here from About Us, uses this page's own
@@ -198,7 +235,7 @@
           <a href="stories.html" class="nav-parent">Drida Stories</a>
           <div class="nav-submenu">
             <a href="stories.html">Member Stories</a>
-            <a href="stories.html#recordings">Meetup Recordings</a>
+            <a href="stories.html#recordings">Meetup Memories</a>
           </div>
         </div>
         <div class="nav-dropdown">
@@ -266,7 +303,7 @@
       <div class="program-body">
         <span class="section-tag">Meditation</span>
         <h2>Find Your Inner Stillness</h2>
-        <p>Drida's guided meditation programme helps you build a daily practice — using breathwork, chakra awareness and visualisation techniques taught by Smitha Haridas over 15 free batches.</p>
+        <p>Drida's guided meditation programme helps you build a daily practice — using breathwork, chakra awareness and visualisation techniques taught by Ms. Smitha Haridas over 15 free batches.</p>
         <a class="btn-terra" href="courses.html#course-batch16">Know More</a>
       </div>
     </section>
@@ -341,7 +378,7 @@
       <div class="about-content">
         <span class="section-tag">Our Story</span>
         <h2>From a Small Group to 7,000+ Women</h2>
-        <p>On 21 September 2021, Smitha Haridas started a simple WhatsApp group called <strong>Positive Vibes</strong> — a handful of women seeking stillness together. Nobody could have predicted what it would grow into.</p>
+        <p>On 21 September 2021, Ms. Smitha Haridas started a simple WhatsApp group called <strong>Positive Vibes</strong> — a handful of women seeking stillness together. Nobody could have predicted what it would grow into.</p>
         <p>Batch by batch, the community grew. Women who came for meditation stayed for yoga and fitness. They found confidence, purpose — and then livelihood. Today Drida women run their own businesses, sell their own products, and support other women in becoming self-earning.</p>
         <p>Along the way, Drida launched <strong>Kasar</strong> — our own line of wellness products born from the community: hair mist, herbal shampoo and face toner, made with care and love.</p>
         <p>In 2025, Positive Vibes became <strong>Drida</strong> — <em>"where she awakens."</em> A new name for an ever-deepening mission.</p>
@@ -353,12 +390,12 @@
     <!-- ═══ BEFORE DRIDA — SHORT SUMMARY (full story on About Us) ═══ -->
     <section id="smitha-journey" class="about-editorial reveal">
       <div class="about-photo-wrap">
-        <img src="images/founder-mission.png" alt="Smitha Haridas, founder of Drida" style="object-fit:contain;object-position:center;width:100%;height:100%;background:var(--paper-alt);">
+        <img src="images/founder-mission.png" alt="Ms. Smitha Haridas, founder of Drida" style="object-fit:cover;object-position:center top;width:100%;height:100%;">
       </div>
       <div class="about-content">
         <span class="section-tag">Before Drida</span>
         <h2>The Teacher and Designer Who Became a Spiritual Guru</h2>
-        <p>Before she led 7,000 women into stillness, Smitha Haridas was a schoolteacher, then the founder of <strong>S.fab Designs</strong> — a costume studio whose work dressed well-known Malayalam TV actresses. In 2021, she set it all aside to share meditation freely, and Drida was born.</p>
+        <p>Before she led 7,000 women into stillness, Ms. Smitha Haridas was a schoolteacher, then the founder of <strong>S.fab Designs</strong> — a costume studio whose work dressed well-known Malayalam TV actresses. In 2021, she set it all aside to share meditation freely, and Drida was born.</p>
         <a class="btn-terra" href="about.html">Read Smitha's Full Story &rarr;</a>
       </div>
     </section>
@@ -387,7 +424,7 @@
         </div>
         <div class="mission-card">
           <h3>Pilgrimage &amp; Travel</h3>
-          <p>Spiritual yatras to sacred sites across India — curated, safe, and accompanied by Smitha Haridas and the Drida family.</p>
+          <p>Spiritual yatras to sacred sites across India — curated, safe, and accompanied by Ms. Smitha Haridas and the Drida family.</p>
         </div>
         <div class="mission-card">
           <h3>Mindful Products</h3>
@@ -412,19 +449,19 @@
       <p>Meditation, yoga, fitness &amp; more — for every stage of your journey.</p>
       <div class="card-grid">
         <div class="card">
-          <img src="images/course-new-drida-batch.png" alt="Drida 15th Free Batch" onerror="this.style.display='none'">
+          <img src="images/Drida_batch_15.jpeg" alt="Drida 15th Free Batch" onerror="this.style.display='none'">
           <p>Drida's 15th free meditation batch is currently running; admissions are closed. See details and register interest for the next batch.</p>
-          <h3>Drida 15th Free Batch <a class="band-more" href="courses.html#course-batch16">See Details</a></h3>
+          <h3><span>Drida 15th Free Batch</span><a class="band-more" href="courses.html#course-batch16">See Details</a></h3>
         </div>
         <div class="card">
-          <img src="images/course-yoga-with-smitha.jpeg" alt="Yoga with Smitha" style="object-position:top;" onerror="this.style.display='none'">
+          <img src="images/course-yoga-coming-soon.jpeg" alt="Yoga with Smitha" onerror="this.style.display='none'">
           <p>Live daily yoga — exercises, chakra poses &amp; breathing. 40 mins every weekday.</p>
-          <h3>Yoga with Smitha <a class="band-more" href="courses.html#course-yoga-with-smitha">Learn More</a></h3>
+          <h3><span>Yoga with Smitha</span><a class="band-more" href="courses.html#course-yoga-with-smitha">Learn More</a></h3>
         </div>
         <div class="card">
-          <img src="images/course-advanced-chakra.png" alt="Chakra Meditation Advanced" onerror="this.style.display='none'">
-          <p>Deep dive into the seven chakras — for those who have completed the free batch.</p>
-          <h3>Advanced Chakra Meditation <a class="band-more" href="courses.html#course-advanced-chakra-meditation">Learn More</a></h3>
+          <img src="images/course-chakra-meditation-bw.png" alt="Chakra Meditation" onerror="this.style.display='none'">
+          <p>Meditation, asanas, mudras and mantras to open and balance the seven chakras — currently ongoing.</p>
+          <h3><span>Chakra Meditation</span><a class="band-more" href="courses.html#course-chakra-meditation">Learn More</a></h3>
         </div>
       </div>
       <div style="margin-top:1.5rem;display:flex;justify-content:center;">
@@ -445,20 +482,22 @@
     <!-- ═══ IMPACT STATS ═══ -->
     <div class="impact-stats reveal">
       <div class="stat-block">
+        <span class="stat-num" data-count="5" data-suffix="">5</span>
+        <span class="stat-label">Years</span>
+      </div>
+      <div class="stat-block">
         <span class="stat-num" data-count="7000" data-suffix="+">7,000+</span>
         <span class="stat-label">Members</span>
       </div>
       <div class="stat-block">
+        <!-- Meditation, Yoga, Fitness (workouts), Diet/Mental Fitness — the
+             4 pillar cards shown elsewhere on this page. -->
+        <span class="stat-num" data-count="4" data-suffix="">4</span>
+        <span class="stat-label">Programmes</span>
+      </div>
+      <div class="stat-block">
         <span class="stat-num" data-count="15" data-suffix="">15</span>
         <span class="stat-label">Free Batches</span>
-      </div>
-      <div class="stat-block">
-        <span class="stat-num" data-count="14" data-suffix="">14</span>
-        <span class="stat-label">Batch Meet-ups</span>
-      </div>
-      <div class="stat-block">
-        <span class="stat-num" data-count="5" data-suffix="">5</span>
-        <span class="stat-label">Programmes</span>
       </div>
     </div>
 
@@ -471,20 +510,21 @@
       <p>Sacred pilgrimages, nature getaways and community meet-ups — journeys that nourish the soul.</p>
       <div class="card-grid">
         <div class="card">
-          <img src="images/trip-pil-adikailash-new4.jpg" alt="Adikailash Yatra" style="aspect-ratio:2/3;object-fit:contain;background:var(--paper)" onerror="tryAltExt(this)">
+          <img src="images/trip-pil-adikailash-full.png" alt="Adikailash Yatra" style="aspect-ratio:581/862;object-fit:contain;background:var(--paper);cursor:pointer" onerror="tryAltExt(this)">
           <span class="badge">Ladies Only · Pilgrimage</span>
           <h3>Adikailash Yatra</h3>
           <p>A divine trek to Adikailash — the ancient Himalayan abode of Lord Shiva in Uttarakhand.</p>
           <a class="btn" href="trips.html#pilgrimages">View &amp; Register</a>
         </div>
         <div class="card">
-          <img src="images/trip-nainital.jpeg" alt="Nainital" onerror="this.style.display='none'">
+          <img src="images/trip-nainital.jpeg" alt="Nainital" style="aspect-ratio:2/3;object-fit:cover;object-position:center;background:var(--paper);cursor:pointer" onerror="this.style.display='none'">
           <span class="badge">Fun Yatra</span>
           <h3>Nainital</h3>
           <p>The jewel of Kumaon — a hill station around the sparkling Naini Lake, a perfect blend of peace and adventure.</p>
           <a class="btn" href="trips.html#fun-trips">View All Fun Yatras</a>
         </div>
         <div class="card">
+          <img src="https://img.youtube.com/vi/yhEW6tbJRTs/hqdefault.jpg" alt="Drida Batch Meet-up" style="aspect-ratio:2/3;object-fit:cover;object-position:center;background:var(--paper);cursor:pointer" onerror="this.style.display='none'">
           <span class="badge">Events</span>
           <h3>Drida Batch Meet-ups</h3>
           <p>After every free batch, we celebrate together. Watch recordings from all 14 previous batch meet-ups.</p>
@@ -654,7 +694,7 @@
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to volunteer with Drida">Volunteer with Us</a></li>
           <li><a href="mailto:drida4u@gmail.com?subject=I'd like to support Drida">Donate &amp; Support</a></li>
           <li><a href="trips.html">Join a Yatra</a></li>
-          <li><a href="stories.html#recordings">Watch Meetup Recordings</a></li>
+          <li><a href="stories.html#recordings">Watch Meetup Memories</a></li>
         </ul>
       </div>
       <div class="footer-col">

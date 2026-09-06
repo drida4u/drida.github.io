@@ -16,7 +16,7 @@
   <meta name="twitter:description" content="Real voices from the Drida community.">
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"violet-dark":"violet")}()</script>
-  <link rel="stylesheet" href="style.css?v=59">
+  <link rel="stylesheet" href="style.css?v=63">
   <style>
     /* Keep content sections visible immediately rather than depending on the
        scroll-triggered reveal script (same fix used on offerings.html). */
@@ -26,7 +26,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
-      max-width: 1140px;
+      max-width: 1320px;
       margin: 2rem auto 0;
       padding: 0 clamp(1.5rem, 6vw, 5rem);
     }
@@ -48,16 +48,9 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
-    }
-    .story-avatar {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: var(--grad);
-      display: flex; align-items: center; justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.95rem;
-      flex-shrink: 0;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line-soft);
     }
     .story-meta strong { display: block; font-size: 0.92rem; color: var(--ink); }
     .story-meta span { display: block; font-size: 0.78rem; color: var(--muted); }
@@ -71,16 +64,22 @@
       text-align: center;
     }
     .share-story-band p { color: var(--ink-2); margin: 0.5rem 0 1.25rem; }
+    .share-story-band .section-tag { font-size: 1.05rem; font-weight: 800; letter-spacing: 0.12em; }
 
     /* ── Meetup recordings (moved here from meetups.html so all "Drida
          Stories" content — written stories + video recordings — lives on
          one scrollable page) ── */
     #recordings p { max-width: none; }
     .meetup-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 1.5rem;
       margin-top: 2rem;
+    }
+    .meetup-grid > .meetup-card {
+      flex: 1 1 300px;
+      max-width: 360px;
     }
     .meetup-card {
       background: var(--paper-alt);
@@ -224,7 +223,7 @@
           <a href="stories.html" class="nav-parent active">Drida Stories</a>
           <div class="nav-submenu">
             <a href="stories.html" class="active">Member Stories</a>
-            <a href="stories.html#recordings">Meetup Recordings</a>
+            <a href="stories.html#recordings">Meetup Memories</a>
           </div>
         </div>
         <div class="nav-dropdown">
@@ -251,10 +250,10 @@
 
   <main>
 
-    <section style="padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,6vw,5rem) 0;text-align:center;">
+    <section style="padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,6vw,5rem) 0;text-align:left;">
       <span class="section-tag">Also In This Family</span>
       <h2>7,000+ Women, One Community</h2>
-      <p style="color:var(--muted);max-width:640px;margin:0.75rem auto 0;">Since the first free batch in 2021, Drida has grown into one of India's most active women's meditation communities — 15 batches completed, meet-ups held across cities, and a family that keeps showing up for each other, long after the 40 days end.</p>
+      <p style="color:var(--muted);max-width:640px;margin:0.75rem 0 0;">Since the first free batch in 2021, Drida has grown into one of India's most active women's meditation communities — 15 batches completed, meet-ups held across cities, and a family that keeps showing up for each other, long after the 40 days end.</p>
     </section>
 
     <!-- ═══ STORIES ═══ -->
@@ -267,7 +266,6 @@
         <div class="story-card">
           <blockquote>&ldquo;Since joining Drida from the very first class, this has been such a good journey. With every class from Smitha ma'am I've experienced new things and real changes in myself — through those experiences I've now reached Level 2. Thank you to Mini ma'am for adding me to Drida, and thank you to my guru Smitha ma'am. Thank you, thank you, thank you!&rdquo;</blockquote>
           <div class="story-meta">
-            <span class="story-avatar">R</span>
             <div><strong>Rajitha Ravi</strong><span>PV Batch 10</span></div>
           </div>
         </div>
@@ -277,7 +275,6 @@
           <p style="font-weight:600;margin:0 0 0.5rem;color:var(--ink)">🎙 Voice testimonial</p>
           <audio controls style="width:100%"><source src="audio/testimonial-voice-1.mp3" type="audio/mpeg"></audio>
           <div class="story-meta">
-            <span class="story-avatar">P</span>
             <div><strong>Pushpa</strong><span>Drida 15th Batch</span></div>
           </div>
         </div>
@@ -286,7 +283,6 @@
           <p style="font-weight:600;margin:0 0 0.5rem;color:var(--ink)">🎙 Voice testimonial &mdash; Chakra Meditation and Level 2</p>
           <audio controls style="width:100%"><source src="audio/testimonial-voice-3-shiji.mp3" type="audio/mpeg"></audio>
           <div class="story-meta">
-            <span class="story-avatar">S</span>
             <div><strong>Shiji</strong><span>Drida 13th Batch &mdash; Chakra Meditation and Level 2 (group practice)</span></div>
           </div>
         </div>
@@ -301,18 +297,18 @@
     </section>
 
     <!-- ═══ FROM INSTAGRAM ═══ -->
-    <section style="padding:0 clamp(1.5rem,6vw,5rem) 3.5rem;">
-      <span class="section-tag">From Instagram</span>
+    <section style="padding:0 clamp(1.5rem,6vw,5rem) 3.5rem;text-align:left;">
+      <span class="section-tag">Community Voices</span>
       <h2>Drida Meditation — Featured on Instagram</h2>
-      <div style="display:flex;flex-wrap:wrap;justify-content:flex-start;gap:1.25rem;margin-top:1.5rem;">
-        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DQtoRO7iJOo/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; max-width:340px; min-width:280px; width:100%;"></blockquote>
-        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DVGiUGbkX9n/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; max-width:340px; min-width:280px; width:100%;"></blockquote>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2.5rem 4.5rem;margin-top:2rem;">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DQtoRO7iJOo/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; max-width:340px; min-width:280px; width:100%; box-shadow:var(--shadow-hover);"></blockquote>
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DVGiUGbkX9n/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; max-width:340px; min-width:280px; width:100%; box-shadow:var(--shadow-hover);"></blockquote>
       </div>
     </section>
 
     <!-- ═══ MEETUP RECORDINGS (moved here from meetups.html) ═══ -->
     <section id="recordings" style="padding:clamp(3rem,6vw,4.5rem) clamp(1.5rem,6vw,5rem) 0;">
-      <h2>Meetup Recordings</h2>
+      <h2 style="text-align:left;">Meetup Memories</h2>
       <p>After every free batch, Drida holds a community meet-up — a celebration of the journey together. Here are recordings from all 14 previous batch meet-ups. <strong>Note:</strong> Batches 1–10 were held under the name <em>Positive Vibes (PV)</em> — Drida's earlier name before the 2025 rebrand. Drida Day is celebrated every year on <strong>19th March</strong>!</p>
 
       <div class="meetup-grid" id="meetup-list">
@@ -320,7 +316,7 @@
         <!-- Batch 14 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/yhEW6tbJRTs" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/OqmVM-wBNnA" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
             <span class="meetup-batch-num">Drida 14th Batch</span>
@@ -380,7 +376,7 @@
         <!-- Batch 9 -->
         <div class="meetup-card">
           <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/4Au1XWyfKwA" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/cIQwoT2mueI" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
             <span class="meetup-batch-num">Drida 9th Batch</span>
@@ -389,15 +385,15 @@
           </div>
         </div>
 
-        <!-- Batch 8 -->
+        <!-- Batch 8 (shorts version only, per Sara) -->
         <div class="meetup-card">
-          <div class="meetup-video">
-            <iframe src="https://www.youtube.com/embed/JOIjF9ecUJ4" allowfullscreen></iframe>
+          <div class="meetup-video shorts">
+            <iframe src="https://www.youtube.com/embed/Qo8G4s90ABM" allowfullscreen></iframe>
           </div>
           <div class="meetup-info">
             <span class="meetup-batch-num">Drida 8th Batch</span>
             <h3>Drida 8th Batch Meet-up</h3>
-            <p>Drida 8th batch meetup memories &middot; <a href="https://youtube.com/shorts/Qo8G4s90ABM" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">Watch Short →</a></p>
+            <p>Drida 8th batch meetup memories</p>
           </div>
         </div>
 
@@ -507,8 +503,8 @@
             </div>
             <div class="meetup-info">
               <span class="meetup-batch-num">Special</span>
-              <h3>Guru Poornima with Smitha Haridas</h3>
-              <p>A special video message from Smitha Haridas on Guru Poornima</p>
+              <h3>Guru Poornima with Ms. Smitha Haridas</h3>
+              <p>A special video message from Ms. Smitha Haridas on Guru Poornima</p>
             </div>
           </div>
 

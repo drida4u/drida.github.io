@@ -16,12 +16,76 @@
   <meta name="twitter:description" content="Drida's curated wellness products supporting your meditation and yoga practice. Proceeds support the Drida non-profit community.">
   <meta name="twitter:image" content="https://drida.org/drida_logo.png">
   <script>!function(){var m=localStorage.getItem("drida-theme-mode");var mode=(m==="light"||m==="dark")?m:(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?"dark":"light");document.documentElement.setAttribute("data-theme", mode==="dark"?"blue-dark":"pastel-bright")}()</script>
-  <link rel="stylesheet" href="style.css?v=59">
+  <link rel="stylesheet" href="style.css?v=63">
   <style>
     .locked-video { position:absolute;inset:0;overflow:hidden; }
     .locked-video img { width:100%;height:100%;object-fit:cover;filter:blur(3px) brightness(0.55); }
     .lock-overlay { position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;color:#fff;text-align:center;padding:1rem;font-size:0.85rem; }
     .lock-overlay .lock-icon { font-size:2rem; }
+
+    /* Kasar Naturals row: the 3 product cards and the 2 Instagram video
+       embeds used to sit as five siblings in one flex-wrap row, so at
+       in-between widths they interleaved awkwardly (a video tucked next
+       to a product). Group each kind in its own wrapping row, with a
+       vertical rule between on wide screens that collapses to a plain
+       horizontal gap when the groups stack on narrow ones. */
+    .kasar-milestone {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: var(--paper-alt);
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .kasar-milestone img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 12px;
+      flex-shrink: 0;
+      display: block;
+    }
+    .kasar-milestone-text .section-tag { margin-bottom: 0.4rem; display: inline-block; }
+    .kasar-milestone-text p { margin: 0; color: var(--ink-2); font-size: 0.92rem; line-height: 1.6; }
+    @media (max-width: 480px) {
+      .kasar-milestone { flex-direction: column; text-align: center; }
+    }
+
+    .kasar-split {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    .kasar-products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      flex: 2 1 600px;
+    }
+    .kasar-videos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      flex: 1 1 280px;
+    }
+    .kasar-section-divider {
+      align-self: stretch;
+      width: 1px;
+      min-height: 200px;
+      background: var(--line-soft);
+    }
+    @media (max-width: 900px) {
+      .kasar-section-divider {
+        width: 100%;
+        min-height: 1px;
+        height: 1px;
+      }
+    }
   </style>
 </head>
 <body>  <header>
@@ -106,13 +170,13 @@
       <p class="section-intro">Drida's product lines &mdash; pick one to jump straight to it, or scroll through all three below.</p>
       <div class="card-grid">
         <div class="card">
-          <img src="images/crystal_oud_bracelet.jpg?v=2" alt="Drida Crystal">
+          <img loading="lazy" src="images/crystal_oud_bracelet.jpg?v=2" alt="Drida Crystal">
           <h3>Drida Crystal</h3>
           <p>Handcrafted chakra bracelets, malas, pendants and more &mdash; each piece energised and aligned to specific chakras.</p>
           <p style="margin:0.5rem 0 0;flex:none;margin-top:auto"><a class="btn" href="#drida-crystal">See the full Drida Crystal collection &darr;</a></p>
         </div>
         <div class="card">
-          <img src="images/kasar_face_toner.png" alt="Kasar Naturals">
+          <img loading="lazy" src="images/kasar_face_toner.png" alt="Kasar Naturals">
           <h3>Kasar Naturals</h3>
           <p>Natural skincare and haircare rooted in Ayurvedic tradition &mdash; chemical-free, sulfate-free and paraben-free.</p>
           <p style="margin:0.5rem 0 0;flex:none;margin-top:auto"><a class="btn" href="#kasar">See the full Kasar Naturals collection &darr;</a></p>
@@ -145,7 +209,7 @@
 
       <div class="card-grid">
         <div class="card">
-          <img src="images/crystal_oud_bracelet.jpg?v=2" alt="Original Oud Bracelet, Unisex Premium">
+          <img loading="lazy" src="images/crystal_oud_bracelet.jpg?v=2" alt="Original Oud Bracelet, Unisex Premium">
           <h3>Original Oud Bracelet</h3>
           <p>Unisex premium bracelet for protection, calm and positive energy.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-oud', this)">View Benefits ▾</button>
@@ -168,7 +232,7 @@
         </div>
 
         <div class="card">
-          <img src="images/crystal_rose_quartz_trio.jpg?v=2" alt="Rose Quartz, White Howlite and Green Aventurine Trio Bracelet (GRH Mix)">
+          <img loading="lazy" src="images/crystal_rose_quartz_trio.jpg?v=2" alt="Rose Quartz, White Howlite and Green Aventurine Trio Bracelet (GRH Mix)">
           <h3>Rose Quartz · Howlite · Green Aventurine Trio (GRH Mix)</h3>
           <p>Three stones combined for love, peace and abundance.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-trio', this)">View Benefits ▾</button>
@@ -188,7 +252,7 @@
         </div>
 
         <div class="card">
-          <img src="images/crystal_green_aventurine.jpg?v=2" alt="Green Aventurine Bracelet">
+          <img loading="lazy" src="images/crystal_green_aventurine.jpg?v=2" alt="Green Aventurine Bracelet">
           <h3>Green Aventurine Bracelet</h3>
           <p>For luck, healing and creativity.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-aventurine', this)">View Benefits ▾</button>
@@ -207,7 +271,7 @@
         </div>
 
         <div class="card">
-          <img src="images/crystal_tigers_eye.jpg?v=2" alt="Tiger's Eye Bracelet">
+          <img loading="lazy" src="images/crystal_tigers_eye.jpg?v=2" alt="Tiger's Eye Bracelet">
           <h3>Tiger's Eye Bracelet</h3>
           <p>For courage, balance and focus.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-tigereye', this)">View Benefits ▾</button>
@@ -226,7 +290,7 @@
         </div>
 
         <div class="card">
-          <img src="images/crystal_howlite.jpg?v=2" alt="Howlite Bracelet">
+          <img loading="lazy" src="images/crystal_howlite.jpg?v=2" alt="Howlite Bracelet">
           <h3>Howlite Bracelet</h3>
           <p>For calm, sleep and stress relief.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-howlite', this)">View Benefits ▾</button>
@@ -245,7 +309,7 @@
         </div>
 
         <div class="card">
-          <img src="images/crystal_carnelian.jpg?v=2" alt="Carnelian Bracelet">
+          <img loading="lazy" src="images/crystal_carnelian.jpg?v=2" alt="Carnelian Bracelet">
           <h3>Carnelian Bracelet</h3>
           <p>For motivation, creativity and vitality.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-carnelian', this)">View Benefits ▾</button>
@@ -264,7 +328,7 @@
         </div>
 
         <div class="card">
-          <img src="images/crystal_weight_loss.jpg?v=2" alt="Weight Loss Bracelet">
+          <img loading="lazy" src="images/crystal_weight_loss.jpg?v=2" alt="Weight Loss Bracelet">
           <h3>Weight Loss Bracelet</h3>
           <p>Supports weight management and healthy habits.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-weightloss', this)">View Benefits ▾</button>
@@ -286,7 +350,7 @@
         </div>
 
         <div class="card">
-          <img src="images/crystal_chakra_keychain.jpg?v=2" alt="7 Chakra Beads Keychain with Mom Charm">
+          <img loading="lazy" src="images/crystal_chakra_keychain.jpg?v=2" alt="7 Chakra Beads Keychain with Mom Charm">
           <h3>7 Chakra Beads Keychain</h3>
           <p>"Mom You Are the Heart of Our Family" charm with 7 natural chakra beads.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-keychain', this)">View Benefits ▾</button>
@@ -309,7 +373,7 @@
       <h3 style="margin-top:2rem">More Bracelets</h3>
       <div class="card-grid">
         <div class="card">
-          <img src="images/crystal_7chakra_lava_bracelet.jpg?v=2" alt="7 Chakra Lava Stone Bracelet">
+          <img loading="lazy" src="images/crystal_7chakra_lava_bracelet.jpg?v=2" alt="7 Chakra Lava Stone Bracelet">
           <h3>7 Chakra Lava Stone Bracelet</h3>
           <p>Lava stone with 7 chakra gemstones for balance and harmony.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-7chakra-lava', this)">View Benefits &#9662;</button>
@@ -332,7 +396,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_dhan_yoga_bracelet.jpg?v=2" alt="Natural Dhan Yoga Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
+          <img loading="lazy" src="images/crystal_dhan_yoga_bracelet.jpg?v=2" alt="Natural Dhan Yoga Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
           <h3>Dhan Yoga Bracelet</h3>
           <p>For wealth, prosperity and financial clarity.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-dhanyoga', this)">View Benefits &#9662;</button>
@@ -351,7 +415,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_karungali_bracelet.jpg?v=2" alt="Karungali Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
+          <img loading="lazy" src="images/crystal_karungali_bracelet.jpg?v=2" alt="Karungali Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
           <h3>Karungali Bracelet</h3>
           <p>Traditional black wood bracelet for calm and protection.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-karungali', this)">View Benefits &#9662;</button>
@@ -370,7 +434,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_karungali_7chakra.jpg?v=2" alt="Natural Karungali with Seven Chakra Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
+          <img loading="lazy" src="images/crystal_karungali_7chakra.jpg?v=2" alt="Natural Karungali with Seven Chakra Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
           <h3>Karungali 7 Chakra Bracelet</h3>
           <p>Karungali wood combined with 7 chakra stones.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-karungali7chakra', this)">View Benefits &#9662;</button>
@@ -389,7 +453,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_black_obsidian.jpg?v=2" alt="Black Obsidian Bracelet">
+          <img loading="lazy" src="images/crystal_black_obsidian.jpg?v=2" alt="Black Obsidian Bracelet">
           <h3>Black Obsidian Bracelet</h3>
           <p>Deep black stone for grounding and protection.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-blackobsidian', this)">View Benefits &#9662;</button>
@@ -407,7 +471,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_lapis_lazuli.jpg?v=2" alt="Lapis Lazuli Bracelet">
+          <img loading="lazy" src="images/crystal_lapis_lazuli.jpg?v=2" alt="Lapis Lazuli Bracelet">
           <h3>Lapis Lazuli Bracelet</h3>
           <p>Deep blue stone for wisdom and calm communication.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-lapislazuli', this)">View Benefits &#9662;</button>
@@ -425,7 +489,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_clear_quartz.jpg?v=2" alt="Clear Quartz Bracelet">
+          <img loading="lazy" src="images/crystal_clear_quartz.jpg?v=2" alt="Clear Quartz Bracelet">
           <h3>Clear Quartz Bracelet</h3>
           <p>The master healer stone — clear and amplifying.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-clearquartz', this)">View Benefits &#9662;</button>
@@ -443,7 +507,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_triple_protection.jpg?v=2" alt="Triple Protection Bracelet">
+          <img loading="lazy" src="images/crystal_triple_protection.jpg?v=2" alt="Triple Protection Bracelet">
           <h3>Triple Protection Bracelet</h3>
           <p>Tiger's Eye, Black Obsidian and Hematite combined for full-spectrum protection.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-tripleprotection', this)">View Benefits &#9662;</button>
@@ -461,7 +525,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_yellow_citrine.jpg?v=2" alt="Yellow Citrine Bracelet">
+          <img loading="lazy" src="images/crystal_yellow_citrine.jpg?v=2" alt="Yellow Citrine Bracelet">
           <h3>Yellow Citrine Bracelet</h3>
           <p>Sunny stone for wealth, confidence and joy.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-yellowcitrine', this)">View Benefits &#9662;</button>
@@ -480,8 +544,7 @@
           </div>
         </div>
         <div class="card">
-          <p style="font-size:0.75rem;font-weight:700;color:#b45309;background:#fef3c7;display:inline-block;padding:0.15rem 0.55rem;border-radius:999px;margin-bottom:0.5rem">&#9888; Unconfirmed &mdash; checking with Cristal team</p>
-          <img src="images/crystal_pyrite.jpg?v=2" alt="Pyrite Bracelet">
+          <img loading="lazy" src="images/crystal_pyrite.jpg?v=2" alt="Pyrite Bracelet">
           <h3>Pyrite Bracelet</h3>
           <p>Metallic stone known for abundance and willpower.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-pyrite', this)">View Benefits &#9662;</button>
@@ -490,7 +553,7 @@
             <li>Enhances willpower &amp; confidence</li>
             <li>Protects against negativity</li>
           </ul>
-          <p style="font-size:0.82rem;color:var(--muted);margin:0 0 0.5rem">Gem Quality also available &mdash; &#8377;650. We're double-checking the exact product photo with the Cristal team &mdash; price and benefits are confirmed.</p>
+          <p style="font-size:0.82rem;color:var(--muted);margin:0 0 0.5rem">Gem Quality also available &mdash; &#8377;650.</p>
           <p class="price">&#8377;550.00</p>
           <div id="upi-crystal-pyrite" style="display:flex;flex-direction:column;gap:0.45rem">
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
@@ -500,7 +563,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_red_jasper.jpg?v=2" alt="Red Jasper Bracelet">
+          <img loading="lazy" src="images/crystal_red_jasper.jpg?v=2" alt="Red Jasper Bracelet">
           <h3>Red Jasper Bracelet</h3>
           <p>Grounding red stone for stability and strength.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-redjasper', this)">View Benefits &#9662;</button>
@@ -518,7 +581,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_rose_quartz_single.jpg?v=2" alt="Rose Quartz Bracelet">
+          <img loading="lazy" src="images/crystal_rose_quartz_single.jpg?v=2" alt="Rose Quartz Bracelet">
           <h3>Rose Quartz Bracelet</h3>
           <p>The stone of love and emotional healing.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-rosequartzsingle', this)">View Benefits &#9662;</button>
@@ -536,7 +599,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_rudraksha_bracelet.jpg?v=2" alt="Rudraksha Bracelet">
+          <img loading="lazy" src="images/crystal_rudraksha_bracelet.jpg?v=2" alt="Rudraksha Bracelet">
           <h3>Rudraksha Bracelet</h3>
           <p>Lava stone bracelet with a sacred Rudraksha centre bead.</p>
           <p class="price">&#8377;350.00</p>
@@ -548,7 +611,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_pietersite.jpg?v=2" alt="Pietersite Bracelet">
+          <img loading="lazy" src="images/crystal_pietersite.jpg?v=2" alt="Pietersite Bracelet">
           <h3>Pietersite Bracelet</h3>
           <p>Storm within, strength beyond &mdash; a premium transformation stone.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-pietersite', this)">View Benefits &#9662;</button>
@@ -568,7 +631,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_selenite.jpg?v=2" alt="Selenite Bracelet">
+          <img loading="lazy" src="images/crystal_selenite.jpg?v=2" alt="Selenite Bracelet">
           <h3>Selenite Bracelet</h3>
           <p>Clear the noise &mdash; calm energy, clear mind, peaceful space.</p>
           <p class="price">&#8377;600.00</p>
@@ -583,7 +646,7 @@
       <h3 style="margin-top:2rem">Malas, Anklets &amp; Car</h3>
       <div class="card-grid">
         <div class="card">
-          <img src="images/crystal_karungali_mala.jpg?v=2" alt="Karungali Mala" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
+          <img loading="lazy" src="images/crystal_karungali_mala.jpg?v=2" alt="Karungali Mala" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
           <h3>Karungali Mala</h3>
           <p>Traditional 108-bead Karungali meditation mala.</p>
           <p class="price">&#8377;1,050.00</p>
@@ -595,7 +658,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_dhan_yoga_anklet.jpg?v=2" alt="Dhan Yoga Anklet">
+          <img loading="lazy" src="images/crystal_dhan_yoga_anklet.jpg?v=2" alt="Dhan Yoga Anklet">
           <h3>Dhan Yoga Anklet</h3>
           <p>Beaded anklet for wealth, prosperity and financial clarity.</p>
           <p style="font-size:0.82rem;color:var(--muted);margin:0 0 0.5rem">Single piece.</p>
@@ -608,7 +671,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_pyrite_anklet.jpg?v=2" alt="Pyrite Crystal Anklet">
+          <img loading="lazy" src="images/crystal_pyrite_anklet.jpg?v=2" alt="Pyrite Crystal Anklet">
           <h3>Pyrite Anklet</h3>
           <p>100% original crystals &mdash; loved by 10,000+ women.</p>
           <p style="font-size:0.82rem;color:var(--muted);margin:0 0 0.5rem">Single piece.</p>
@@ -621,7 +684,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_car_hanging.jpg?v=2" alt="7 Chakra Car Hanging">
+          <img loading="lazy" src="images/crystal_car_hanging.jpg?v=2" alt="7 Chakra Car Hanging">
           <h3>7 Chakra Car Hanging</h3>
           <p>Hang it in your car for continuous positive energy on the go.</p>
           <p class="price">&#8377;480.00</p>
@@ -636,7 +699,7 @@
       <h3 style="margin-top:2rem">Pendants, Pendulums &amp; Journals</h3>
       <div class="card-grid">
         <div class="card">
-          <img src="images/crystal_pendulum.jpg?v=2" alt="Crystal Pendulum">
+          <img loading="lazy" src="images/crystal_pendulum.jpg?v=2" alt="Crystal Pendulum">
           <h3>Crystal Pendulum</h3>
           <p>For divination, energy healing, meditation and decision making. Available as Rudraksha or Ball Pendulum.</p>
           <p class="price">&#8377;150.00</p>
@@ -648,7 +711,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/crystal_seven_chakra_journal.jpg?v=2" alt="Seven Chakra Journal">
+          <img loading="lazy" src="images/crystal_seven_chakra_journal.jpg?v=2" alt="Seven Chakra Journal">
           <h3>7 Chakra Journal</h3>
           <p>Handmade leather-bound journal, 7&times;5 inches, premium unlined paper.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-journal', this)">View Benefits &#9662;</button>
@@ -667,9 +730,9 @@
           </div>
         </div>
       </div>
-      <div style="margin-top:2rem;padding:1.5rem;border:1px solid var(--line-soft);border-radius:14px;background:var(--paper);position:relative;z-index:1">
-      <h3 style="margin-top:0">Full Drida Crystal Price List</h3>
-      <p style="font-size:0.9rem;color:var(--muted)">For any item below, WhatsApp Ms. Smitha Haridas with your selection and delivery address.</p>
+      <h3 style="margin-top:2rem;margin-bottom:0.25rem">Full Drida Crystal Price List</h3>
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1rem">For any item below, WhatsApp Ms. Smitha Haridas with your selection and delivery address.</p>
+      <div style="padding:1.5rem;border:1px solid var(--line-soft);border-radius:14px;background:var(--paper);position:relative;z-index:1">
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:1rem">
         <div>
@@ -748,9 +811,17 @@
         Ayurvedic ingredients like rosemary, kesar, and panchpushp into safe,
         chemical-free products - free from sulfates and parabens.
       </p>
-      <div class="card-grid">
+      <div class="kasar-milestone">
+        <img src="images/kasar-first-product-launch.png" alt="Kasar Naturals — Our First Product Launch, a skintoner exclusively for PV members" loading="lazy">
+        <div class="kasar-milestone-text">
+          <span class="section-tag">Where It Began</span>
+          <p>Kasar Naturals launched with a single skintoner, exclusively for our Positive Vibes members. That first sale has grown into the full range you see below.</p>
+        </div>
+      </div>
+      <div class="kasar-split">
+       <div class="kasar-products">
         <div class="card">
-          <img src="images/kasar_face_toner.png" alt="Kasar Panchpushp Face Toner">
+          <img loading="lazy" src="images/kasar_face_toner.png" alt="Kasar Panchpushp Face Toner">
           <h3>Panchpushp Face Toner</h3>
           <p>Inspired by ancient beauty rituals - Kewda, Kesar and five sacred flowers, for hydrated, glowing skin.</p>
           <p class="price">&#8377;630.00</p>
@@ -762,7 +833,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/kasar_hair_mist.png" alt="Rosemary Hair Mist">
+          <img loading="lazy" src="images/kasar_hair_mist.png" alt="Rosemary Hair Mist">
           <h3>Rosemary Hair Mist</h3>
           <p>A lightweight mist that refreshes and revives hair, reduces frizz, and adds natural shine.</p>
           <p class="price">&#8377;430.00</p>
@@ -774,7 +845,7 @@
           </div>
         </div>
         <div class="card">
-          <img src="images/kasar_herbal_shampoo.png" alt="Rosemary Herbal Shampoo">
+          <img loading="lazy" src="images/kasar_herbal_shampoo.png" alt="Rosemary Herbal Shampoo">
           <h3>Rosemary Herbal Shampoo</h3>
           <p>Strengthens roots and promotes hair growth with pure rosemary extract - no harsh chemicals.</p>
           <p class="price">&#8377;539.00</p>
@@ -785,11 +856,12 @@
             <button class="btn" type="button" onclick="showProductUpi('upi-kasar-shampoo','Kasar Naturals - Rosemary Herbal Shampoo',539)">Buy via UPI</button>
           </div>
         </div>
-      </div>
-      <h3 style="margin-top:2rem">See Kasar Naturals in Action</h3>
-      <div style="display:flex;flex-wrap:wrap;justify-content:flex-start;gap:1.25rem;margin-top:1.5rem;">
-        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DMxhiCvSpYx/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; max-width:340px; min-width:280px; width:100%;"></blockquote>
-        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DM2pmwry7fc/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; max-width:340px; min-width:280px; width:100%;"></blockquote>
+       </div>
+       <div class="kasar-section-divider" aria-hidden="true"></div>
+       <div class="kasar-videos">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DMxhiCvSpYx/" data-instgrm-version="14" style="background:#FFF; border:0; border-left:2px solid var(--line-soft); border-radius:12px; margin:0; padding-left:1.25rem; flex:1 1 260px; max-width:320px; min-width:260px;"></blockquote>
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DM2pmwry7fc/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; flex:1 1 260px; max-width:320px; min-width:260px;"></blockquote>
+       </div>
       </div>
       <p style="margin-top: 1.25rem; font-size:0.85rem; color:var(--muted)">
         Prefer to browse the full Kasar Naturals store? <a href="https://kasarnaturals.com/shop-2/" target="_blank" rel="noopener noreferrer">Shop all Kasar Naturals products &rarr;</a>
@@ -822,10 +894,7 @@
             <button class="btn" type="button" onclick="showProductUpi('upi-eksel4u','EK.SEL4U Nightwear',799)">Buy via UPI</button>
           </div>
         </div>
-      </div>
-      <h3 style="margin-top:2rem">See EK.SEL4U in Action</h3>
-      <div style="display:flex;flex-wrap:wrap;justify-content:flex-start;gap:1.25rem;margin-top:1.5rem;">
-        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DQ8jWvGk9gV/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; max-width:340px; min-width:280px; width:100%;"></blockquote>
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DQ8jWvGk9gV/" data-instgrm-version="14" style="background:#FFF; border:0; border-left:2px solid var(--line-soft); border-radius:12px; margin:0; margin-left:2.5rem; padding-left:1.25rem; flex:1 1 300px; max-width:360px; min-width:280px;"></blockquote>
       </div>
     </section>
 
@@ -980,6 +1049,11 @@
         alert('Please fill in your name and phone number so we can confirm your order.');
         return;
       }
+      var phoneDigits = phone.replace(/\D/g, '');
+      if (phoneDigits.length !== 10) {
+        alert('Please enter a valid 10-digit phone number.');
+        return;
+      }
 
       var cat = getProductCategory(blockId);
 
@@ -1001,7 +1075,10 @@
       var waLink = 'https://wa.me/' + cat.whatsapp + '?text=' + waMsg;
 
       document.getElementById(blockId).innerHTML =
-        '<img style="width:160px;height:160px;display:block;margin:0 auto 0.5rem" src="' + qrSrc + '" alt="Scan to pay via UPI" onerror="this.style.display=\'none\'">' +
+        '<div style="position:relative;width:160px;height:160px;margin:0 auto 0.5rem;cursor:pointer;" onclick="var i=this.querySelector(\'img\'),h=this.querySelector(\'.qr-reveal-hint\');i.style.filter=\'none\';h.style.display=\'none\';">' +
+          '<img style="width:160px;height:160px;display:block;border-radius:6px;filter:blur(7px);transition:filter 0.15s ease;" src="' + qrSrc + '" alt="Scan to pay via UPI" onerror="this.style.display=\'none\'">' +
+          '<div class="qr-reveal-hint" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);color:#fff;font-size:0.72rem;font-weight:700;border-radius:6px;text-align:center;padding:0.5rem;">Tap to reveal QR</div>' +
+        '</div>' +
         '<a class="btn" style="display:block;text-align:center" href="' + upiLink + '">Pay via UPI App</a>' +
         '<div style="margin-top:0.75rem;padding-top:0.6rem;border-top:1px dashed var(--line-soft);">' +
           '<label style="font-size:0.78rem;color:var(--muted);display:block;margin-bottom:0.35rem;">Already paid? Upload your screenshot, then tap below:</label>' +
@@ -1011,6 +1088,34 @@
         '</div>';
     }
   </script>
-  <script async src="//www.instagram.com/embed.js"></script>
+  <script>
+    // The Instagram embed script + its network round-trip to instagram.com
+    // is the slowest thing on this page (it's what makes "opening" the
+    // Kasar/EK.SEL4U videos feel slow) -- loading it immediately means
+    // every visitor pays that cost even if they never scroll that far.
+    // Load it lazily instead: only once an actual embed block is about to
+    // come into view, so the rest of the page stays fast.
+    (() => {
+      let loaded = false;
+      function loadEmbed() {
+        if (loaded) return;
+        loaded = true;
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = '//www.instagram.com/embed.js';
+        document.body.appendChild(s);
+      }
+      const targets = document.querySelectorAll('.instagram-media');
+      if (!targets.length) return;
+      if (!('IntersectionObserver' in window)) { loadEmbed(); return; }
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) {
+          loadEmbed();
+          io.disconnect();
+        }
+      }, { rootMargin: '600px 0px' });
+      targets.forEach(t => io.observe(t));
+    })();
+  </script>
 </body>
 </html>
