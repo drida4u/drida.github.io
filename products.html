@@ -30,26 +30,34 @@
        vertical rule between on wide screens that collapses to a plain
        horizontal gap when the groups stack on narrow ones. */
     .kasar-milestone {
+      /* Size the card to its own content (image + a comfortably capped
+         text column) and center that on the page, instead of stretching
+         to the full row width -- that stretch is what was leaving a big
+         empty gap next to the short text. */
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 2.5rem;
       background: var(--paper-alt);
       border: 1px solid var(--line-soft);
       border-radius: 16px;
-      padding: 1.25rem;
-      margin-top: 1.5rem;
+      padding: 2.5rem;
+      margin: 1.5rem auto 1.75rem;
       flex-wrap: wrap;
+      max-width: fit-content;
+    }
+    .kasar-milestone-text {
+      max-width: 380px;
     }
     .kasar-milestone img {
-      width: 160px;
-      height: 160px;
+      width: 320px;
+      height: 320px;
       object-fit: cover;
       border-radius: 12px;
       flex-shrink: 0;
       display: block;
     }
-    .kasar-milestone-text .section-tag { margin-bottom: 0.4rem; display: inline-block; }
-    .kasar-milestone-text p { margin: 0; color: var(--ink-2); font-size: 0.92rem; line-height: 1.6; }
+    .kasar-milestone-text .section-tag { margin-bottom: 0.8rem; display: inline-block; font-size: 1.2rem; }
+    .kasar-milestone-text p { margin: 0; color: var(--ink-2); font-size: 1.25rem; line-height: 1.8; }
     @media (max-width: 480px) {
       .kasar-milestone { flex-direction: column; text-align: center; }
     }
@@ -88,6 +96,56 @@
       border-top: 1px solid var(--line-soft);
       margin: 0 0 1.25rem;
     }
+    .kasar-subsection-heading {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #1a3d6d;
+      margin: 2rem 0 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #a9c8ea;
+    }
+
+
+    /* Full Drida Cristal Price List: bold + slightly larger category
+       headings, and a light blue rule between the three columns
+       (vertical side-by-side, horizontal once they stack on narrow
+       screens) plus between the two stacked categories in the middle
+       column -- nothing else changed from the base list styling. */
+    .price-list-grid > div {
+      padding: 0 1.5rem;
+    }
+    .price-list-grid > div:first-child {
+      padding-left: 0;
+    }
+    .price-list-grid > div:last-child {
+      padding-right: 0;
+    }
+    .price-list-grid > div + div {
+      border-left: 1px solid #a9c8ea;
+    }
+    .price-list-grid h4 {
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: #1a3d6d;
+    }
+    .price-list-grid h4.price-list-subheading {
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 720px) {
+      .price-list-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .price-list-grid > div + div {
+        border-left: none;
+        border-top: 1px solid #a9c8ea;
+        padding-top: 1.5rem;
+        margin-top: 0.5rem;
+      }
+      .price-list-grid > div {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
 
     /* Kasar product cards were inheriting the site-wide .card size (up to
        320px wide) which read as oversized for a 3-up row in this narrower
@@ -101,16 +159,19 @@
     .kasar-products .card h3 { font-size: 1rem; }
     .kasar-products .card p { font-size: 0.85rem; }
 
-    /* Drida Crystal cards: same oversizing issue, plus a handful of
+    /* Drida Cristal cards: same oversizing issue, plus a handful of
        bracelets used a taller 3:4 image box (to show info-graphic text
        without cropping) while the rest use the default square 1:1 -- that
        mismatch made cards in the same row different heights. Both fixed
        below: smaller card width, and every crystal image forced to the
        same 1:1 box (object-fit:contain keeps the taller graphics fully
        visible within that square instead of cropping them). */
+    #drida-crystal .card-grid {
+      justify-content: space-evenly;
+    }
     #drida-crystal .card-grid > .card {
-      flex: 0 1 190px;
-      max-width: 210px;
+      flex: 1 1 240px;
+      max-width: 280px;
       padding: 1rem;
     }
     #drida-crystal .card-grid > .card h3 {
@@ -129,8 +190,18 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    #drida-crystal .card-grid > .card > p.price {
+      flex: none;
+      margin-top: auto;
+    }
     #drida-crystal .card-grid > .card img {
       aspect-ratio: 1 / 1 !important;
+    }
+
+    /* EK.SEL4U card reads narrow next to its own image -- widen it a
+       little beyond the site-wide 320px card cap. */
+    #eksel4u .card-grid > .card {
+      max-width: 400px;
     }
 
   </style>
@@ -217,10 +288,10 @@
       <p class="section-intro">Drida's product lines &mdash; pick one to jump straight to it, or scroll through all three below.</p>
       <div class="card-grid">
         <div class="card">
-          <img loading="lazy" src="images/crystal_oud_bracelet.jpg?v=2" alt="Drida Crystal">
-          <h3>Drida Crystal</h3>
+          <img loading="lazy" src="images/crystal_oud_bracelet.jpg?v=3" alt="Drida Cristal">
+          <h3>Drida Cristal</h3>
           <p>Handcrafted chakra bracelets, malas, pendants and more &mdash; each piece energised and aligned to specific chakras.</p>
-          <p style="margin:0.5rem 0 0;flex:none;margin-top:auto"><a class="btn" href="#drida-crystal">See the full Drida Crystal collection &darr;</a></p>
+          <p style="margin:0.5rem 0 0;flex:none;margin-top:auto"><a class="btn" href="#drida-crystal">See the full Drida Cristal collection &darr;</a></p>
         </div>
         <div class="card">
           <img loading="lazy" src="images/kasar_face_toner.png" alt="Kasar Naturals">
@@ -247,7 +318,7 @@
     </section>
 
     <section id="drida-crystal">
-      <h2>Drida Crystal</h2>
+      <h2>Drida Cristal</h2>
       <p>
         Handcrafted crystal &amp; chakra jewellery, energised and blessed by Smitha Ma'am —
         each bracelet, mala, pendant and anklet is chosen to bring balance, protection and
@@ -256,10 +327,10 @@
 
       <div class="card-grid">
         <div class="card">
-          <img loading="lazy" src="images/crystal_oud_bracelet.jpg?v=2" alt="Original Oud Bracelet, Unisex Premium">
+          <div style="position:relative;width:100%;padding-top:100%;overflow:hidden;border-radius:12px;margin-bottom:0.75rem;background:var(--paper)"><img loading="lazy" src="images/crystal_oud_bracelet.jpg?v=3" alt="Original Oud Bracelet, Unisex Premium" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;margin:0"></div>
           <h3>Original Oud Bracelet</h3>
           <p>Unisex premium bracelet for protection, calm and positive energy.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-oud', this)">View Benefits ▾</button>
+          <button type="button" onclick="toggleBenefits('benefits-oud', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-oud" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Protection &amp; grounding</li>
             <li>Calmness &amp; emotional balance</li>
@@ -274,15 +345,15 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-oud" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-oud" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-oud','Drida Crystal - Original Oud Bracelet',7900)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-oud','Drida Cristal - Original Oud Bracelet',7900)">Buy via UPI</button>
           </div>
         </div>
 
         <div class="card">
-          <img loading="lazy" src="images/crystal_rose_quartz_trio.jpg?v=2" alt="Rose Quartz, White Howlite and Green Aventurine Trio Bracelet (GRH Mix)">
-          <h3>Rose Quartz · Howlite · Green Aventurine Trio (GRH Mix)</h3>
+          <img loading="lazy" src="images/crystal_rose_quartz_trio.jpg?v=4" alt="Green Aventurine, Rose Quartz and White Howlite Trio Bracelet (GRH Mix)">
+          <h3>Green Aventurine · Rose Quartz · Howlite Trio (GRH Mix)</h3>
           <p>Three stones combined for love, peace and abundance.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-trio', this)">View Benefits ▾</button>
+          <button type="button" onclick="toggleBenefits('benefits-trio', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-trio" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li><strong>Rose Quartz:</strong> love, emotional healing, self-love &amp; harmony</li>
             <li><strong>White Howlite:</strong> calmness, relaxation &amp; peaceful energy</li>
@@ -294,15 +365,15 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-grhmix" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-grhmix" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-grhmix','Drida Crystal - GRH Mix (Rose Quartz + Howlite + Green Aventurine)',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-grhmix','Drida Cristal - GRH Mix (Green Aventurine + Rose Quartz + Howlite)',550)">Buy via UPI</button>
           </div>
         </div>
 
         <div class="card">
-          <img loading="lazy" src="images/crystal_green_aventurine.jpg?v=2" alt="Green Aventurine Bracelet">
+          <img loading="lazy" src="images/crystal_green_aventurine.jpg?v=3" alt="Green Aventurine Bracelet">
           <h3>Green Aventurine Bracelet</h3>
           <p>For luck, healing and creativity.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-aventurine', this)">View Benefits ▾</button>
+          <button type="button" onclick="toggleBenefits('benefits-aventurine', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-aventurine" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Attracts luck &amp; abundance</li>
             <li>Promotes emotional healing</li>
@@ -313,15 +384,15 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-aventurine" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-aventurine" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-aventurine','Drida Crystal - Green Aventurine Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-aventurine','Drida Cristal - Green Aventurine Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
 
         <div class="card">
-          <img loading="lazy" src="images/crystal_tigers_eye.jpg?v=2" alt="Tiger's Eye Bracelet">
+          <img loading="lazy" src="images/crystal_tigers_eye.jpg?v=3" alt="Tiger's Eye Bracelet">
           <h3>Tiger's Eye Bracelet</h3>
           <p>For courage, balance and focus.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-tigereye', this)">View Benefits ▾</button>
+          <button type="button" onclick="toggleBenefits('benefits-tigereye', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-tigereye" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Boosts courage &amp; confidence</li>
             <li>Brings balance &amp; clarity</li>
@@ -332,7 +403,7 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-tigereye" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-tigereye" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-tigereye','Drida Crystal - Tiger&#39;s Eye Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-tigereye','Drida Cristal - Tiger&#39;s Eye Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
 
@@ -340,7 +411,7 @@
           <img loading="lazy" src="images/crystal_howlite.jpg?v=2" alt="Howlite Bracelet">
           <h3>Howlite Bracelet</h3>
           <p>For calm, sleep and stress relief.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-howlite', this)">View Benefits ▾</button>
+          <button type="button" onclick="toggleBenefits('benefits-howlite', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-howlite" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Calms the mind &amp; emotions</li>
             <li>Aids sleep &amp; relaxation</li>
@@ -351,7 +422,7 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-howlite" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-howlite" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-howlite','Drida Crystal - Howlite Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-howlite','Drida Cristal - Howlite Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
 
@@ -359,7 +430,7 @@
           <img loading="lazy" src="images/crystal_carnelian.jpg?v=2" alt="Carnelian Bracelet">
           <h3>Carnelian Bracelet</h3>
           <p>For motivation, creativity and vitality.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-carnelian', this)">View Benefits ▾</button>
+          <button type="button" onclick="toggleBenefits('benefits-carnelian', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-carnelian" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Boosts motivation &amp; confidence</li>
             <li>Enhances creativity &amp; passion</li>
@@ -370,15 +441,15 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-carnelian" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-carnelian" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-carnelian','Drida Crystal - Carnelian Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-carnelian','Drida Cristal - Carnelian Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
 
         <div class="card">
-          <img loading="lazy" src="images/crystal_weight_loss.jpg?v=2" alt="Weight Loss Bracelet">
+          <img loading="lazy" src="images/crystal_weight_loss.jpg?v=3" alt="Weight Loss Bracelet">
           <h3>Weight Loss Bracelet</h3>
           <p>Supports weight management and healthy habits.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-weightloss', this)">View Benefits ▾</button>
+          <button type="button" onclick="toggleBenefits('benefits-weightloss', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-weightloss" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Weight management support</li>
             <li>Motivation &amp; energy boost</li>
@@ -392,15 +463,15 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-weightloss" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-weightloss" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-weightloss','Drida Crystal - Weight Loss Bracelet',750)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-weightloss','Drida Cristal - Weight Loss Bracelet',750)">Buy via UPI</button>
           </div>
         </div>
 
         <div class="card">
-          <img loading="lazy" src="images/crystal_chakra_keychain.jpg?v=2" alt="7 Chakra Beads Keychain with Mom Charm">
+          <div style="position:relative;width:100%;padding-top:100%;overflow:hidden;border-radius:12px;margin-bottom:0.75rem;background:var(--paper)"><img loading="lazy" src="images/crystal_chakra_keychain.jpg?v=3" alt="7 Chakra Beads Keychain with Mom Charm" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;margin:0"></div>
           <h3>7 Chakra Beads Keychain</h3>
           <p>"Mom You Are the Heart of Our Family" charm with 7 natural chakra beads.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-keychain', this)">View Benefits ▾</button>
+          <button type="button" onclick="toggleBenefits('benefits-keychain', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-keychain" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Balances Chakras</li>
             <li>Brings Positivity &amp; Healing</li>
@@ -413,17 +484,17 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-keychain" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-keychain" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-keychain','Drida Crystal - 7 Chakra Beads Keychain',320)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-keychain','Drida Cristal - 7 Chakra Beads Keychain',320)">Buy via UPI</button>
           </div>
         </div>
       </div>
       <h3 style="margin-top:2rem">More Bracelets</h3>
       <div class="card-grid">
         <div class="card">
-          <img loading="lazy" src="images/crystal_7chakra_lava_bracelet.jpg?v=2" alt="7 Chakra Lava Stone Bracelet">
+          <img loading="lazy" src="images/crystal_7chakra_lava_bracelet.jpg?v=3" alt="7 Chakra Lava Stone Bracelet">
           <h3>7 Chakra Lava Stone Bracelet</h3>
           <p>Lava stone with 7 chakra gemstones for balance and harmony.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-7chakra-lava', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-7chakra-lava', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-7chakra-lava" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Turquoise: fosters friendship &amp; joy</li>
             <li>Lapis: enhances wisdom &amp; vision</li>
@@ -439,14 +510,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-7chakra-lava" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-7chakra-lava" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-7chakra-lava','Drida Crystal - 7 Chakra Lava Stone Bracelet',400)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-7chakra-lava','Drida Cristal - 7 Chakra Lava Stone Bracelet',400)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_dhan_yoga_bracelet.jpg?v=2" alt="Natural Dhan Yoga Bracelet" style="object-fit:contain;background:var(--paper)">
+          <div style="position:relative;width:100%;padding-top:100%;overflow:hidden;border-radius:12px;margin-bottom:0.75rem;background:var(--paper)"><img loading="lazy" src="images/crystal_dhan_yoga_bracelet.jpg?v=2" alt="Natural Dhan Yoga Bracelet" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;margin:0"></div>
           <h3>Dhan Yoga Bracelet</h3>
           <p>For wealth, prosperity and financial clarity.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-dhanyoga', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-dhanyoga', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-dhanyoga" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Attracts Wealth &amp; Prosperity</li>
             <li>Improves Financial Stability</li>
@@ -458,14 +529,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-dhanyoga" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-dhanyoga" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-dhanyoga','Drida Crystal - Dhan Yoga Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-dhanyoga','Drida Cristal - Dhan Yoga Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_karungali_bracelet.jpg?v=2" alt="Karungali Bracelet" style="object-fit:contain;background:var(--paper)">
+          <div style="position:relative;width:100%;padding-top:100%;overflow:hidden;border-radius:12px;margin-bottom:0.75rem;background:var(--paper)"><img loading="lazy" src="images/crystal_karungali_bracelet.jpg?v=2" alt="Karungali Bracelet" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;margin:0"></div>
           <h3>Karungali Bracelet</h3>
           <p>Traditional black wood bracelet for calm and protection.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-karungali', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-karungali', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-karungali" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Stress Relief &amp; Calm Mind</li>
             <li>Enhances Spiritual Growth</li>
@@ -477,14 +548,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-karungali" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-karungali" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-karungali','Drida Crystal - Karungali Bracelet',650)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-karungali','Drida Cristal - Karungali Bracelet',650)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_karungali_7chakra.jpg?v=2" alt="Natural Karungali with Seven Chakra Bracelet" style="object-fit:contain;background:var(--paper)">
+          <div style="position:relative;width:100%;padding-top:100%;overflow:hidden;border-radius:12px;margin-bottom:0.75rem;background:var(--paper)"><img loading="lazy" src="images/crystal_karungali_7chakra.jpg?v=2" alt="Natural Karungali with Seven Chakra Bracelet" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;margin:0"></div>
           <h3>Karungali 7 Chakra Bracelet</h3>
           <p>Karungali wood combined with 7 chakra stones.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-karungali7chakra', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-karungali7chakra', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-karungali7chakra" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Balances &amp; Aligns Chakras</li>
             <li>Enhances Meditation &amp; Focus</li>
@@ -496,14 +567,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-karungali7chakra" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-karungali7chakra" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-karungali7chakra','Drida Crystal - Karungali 7 Chakra Bracelet',650)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-karungali7chakra','Drida Cristal - Karungali 7 Chakra Bracelet',650)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_black_obsidian.jpg?v=2" alt="Black Obsidian Bracelet">
+          <img loading="lazy" src="images/crystal_black_obsidian.jpg?v=3" alt="Black Obsidian Bracelet">
           <h3>Black Obsidian Bracelet</h3>
           <p>Deep black stone for grounding and protection.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-blackobsidian', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-blackobsidian', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-blackobsidian" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Provides strong protection</li>
             <li>Blocks negative energy</li>
@@ -514,14 +585,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-blackobsidian" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-blackobsidian" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-blackobsidian','Drida Crystal - Black Obsidian Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-blackobsidian','Drida Cristal - Black Obsidian Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_lapis_lazuli.jpg?v=2" alt="Lapis Lazuli Bracelet">
+          <img loading="lazy" src="images/crystal_lapis_lazuli.jpg?v=3" alt="Lapis Lazuli Bracelet">
           <h3>Lapis Lazuli Bracelet</h3>
           <p>Deep blue stone for wisdom and calm communication.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-lapislazuli', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-lapislazuli', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-lapislazuli" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Boosts wisdom &amp; intuition</li>
             <li>Promotes truth &amp; communication</li>
@@ -532,14 +603,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-lapislazuli" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-lapislazuli" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-lapislazuli','Drida Crystal - Lapis Lazuli Bracelet',650)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-lapislazuli','Drida Cristal - Lapis Lazuli Bracelet',650)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_clear_quartz.jpg?v=2" alt="Clear Quartz Bracelet">
+          <img loading="lazy" src="images/crystal_clear_quartz.jpg?v=3" alt="Clear Quartz Bracelet">
           <h3>Clear Quartz Bracelet</h3>
           <p>The master healer stone — clear and amplifying.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-clearquartz', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-clearquartz', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-clearquartz" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Amplifies energy &amp; intention</li>
             <li>Enhances mental clarity</li>
@@ -550,14 +621,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-clearquartz" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-clearquartz" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-clearquartz','Drida Crystal - Clear Quartz Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-clearquartz','Drida Cristal - Clear Quartz Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_triple_protection.jpg?v=2" alt="Triple Protection Bracelet">
+          <img loading="lazy" src="images/crystal_triple_protection.jpg?v=3" alt="Triple Protection Bracelet">
           <h3>Triple Protection Bracelet</h3>
           <p>Tiger's Eye, Black Obsidian and Hematite combined for full-spectrum protection.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-tripleprotection', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-tripleprotection', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-tripleprotection" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Tiger's Eye: Power</li>
             <li>Black Obsidian: Protection</li>
@@ -568,14 +639,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-tripleprotection" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-tripleprotection" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-tripleprotection','Drida Crystal - Triple Protection Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-tripleprotection','Drida Cristal - Triple Protection Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_yellow_citrine.jpg?v=2" alt="Yellow Citrine Bracelet">
+          <img loading="lazy" src="images/crystal_yellow_citrine.jpg?v=3" alt="Yellow Citrine Bracelet">
           <h3>Yellow Citrine Bracelet</h3>
           <p>Sunny stone for wealth, confidence and joy.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-yellowcitrine', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-yellowcitrine', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-yellowcitrine" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Attracts wealth and success</li>
             <li>Boosts confidence and joy</li>
@@ -587,14 +658,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-yellowcitrine" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-yellowcitrine" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-yellowcitrine','Drida Crystal - Yellow Citrine Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-yellowcitrine','Drida Cristal - Yellow Citrine Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_pyrite.jpg?v=2" alt="Pyrite Bracelet">
+          <img loading="lazy" src="images/crystal_pyrite.jpg?v=3" alt="Pyrite Bracelet">
           <h3>Pyrite Bracelet</h3>
           <p>Metallic stone known for abundance and willpower.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-pyrite', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-pyrite', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-pyrite" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Attracts abundance &amp; prosperity</li>
             <li>Enhances willpower &amp; confidence</li>
@@ -606,14 +677,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-pyrite" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-pyrite" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-pyrite','Drida Crystal - Pyrite Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-pyrite','Drida Cristal - Pyrite Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
           <img loading="lazy" src="images/crystal_red_jasper.jpg?v=2" alt="Red Jasper Bracelet">
           <h3>Red Jasper Bracelet</h3>
           <p>Grounding red stone for stability and strength.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-redjasper', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-redjasper', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-redjasper" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Provides stability &amp; balance</li>
             <li>Boosts physical strength &amp; energy</li>
@@ -624,14 +695,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-redjasper" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-redjasper" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-redjasper','Drida Crystal - Red Jasper Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-redjasper','Drida Cristal - Red Jasper Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
           <img loading="lazy" src="images/crystal_rose_quartz_single.jpg?v=2" alt="Rose Quartz Bracelet">
           <h3>Rose Quartz Bracelet</h3>
           <p>The stone of love and emotional healing.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-rosequartzsingle', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-rosequartzsingle', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-rosequartzsingle" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Encourages love &amp; compassion</li>
             <li>Attracts romance &amp; harmony</li>
@@ -642,7 +713,7 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-rosequartzsingle" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-rosequartzsingle" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-rosequartzsingle','Drida Crystal - Rose Quartz Bracelet',550)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-rosequartzsingle','Drida Cristal - Rose Quartz Bracelet',550)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
@@ -654,14 +725,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-rudraksha" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-rudraksha" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-rudraksha','Drida Crystal - Rudraksha Bracelet',350)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-rudraksha','Drida Cristal - Rudraksha Bracelet',350)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_pietersite.jpg?v=2" alt="Pietersite Bracelet">
+          <div style="position:relative;width:100%;padding-top:100%;overflow:hidden;border-radius:12px;margin-bottom:0.75rem;background:var(--paper)"><img loading="lazy" src="images/crystal_pietersite.jpg?v=2" alt="Pietersite Bracelet" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;margin:0"></div>
           <h3>Pietersite Bracelet</h3>
           <p>Storm within, strength beyond &mdash; a premium transformation stone.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-pietersite', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-pietersite', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-pietersite" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Enhances Inner Vision: awakens intuition &amp; deep perception</li>
             <li>Emotional Strength: helps overcome fears &amp; instability</li>
@@ -674,7 +745,7 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-pietersite" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-pietersite" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-pietersite','Drida Crystal - Pietersite Bracelet',2500)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-pietersite','Drida Cristal - Pietersite Bracelet',2500)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
@@ -686,14 +757,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-selenite" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-selenite" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-selenite','Drida Crystal - Selenite Bracelet',600)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-selenite','Drida Cristal - Selenite Bracelet',600)">Buy via UPI</button>
           </div>
         </div>
       </div>
-      <h3 style="margin-top:2rem">Malas, Anklets &amp; Car</h3>
+      <h3 style="margin-top:2rem">Malas &amp; Anklets</h3>
       <div class="card-grid">
         <div class="card">
-          <img loading="lazy" src="images/crystal_karungali_mala.jpg?v=2" alt="Karungali Mala" style="object-fit:contain;background:var(--paper)">
+          <div style="position:relative;width:100%;padding-top:165.75%;overflow:hidden;border-radius:12px;margin-bottom:0.75rem;background:var(--paper)"><img loading="lazy" src="images/crystal_karungali_mala.jpg?v=3" alt="Karungali Mala" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;margin:0;aspect-ratio:unset !important"></div>
           <h3>Karungali Mala</h3>
           <p>Traditional 108-bead Karungali meditation mala.</p>
           <p class="price">&#8377;1,050.00</p>
@@ -701,7 +772,7 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-karungalimala" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-karungalimala" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-karungalimala','Drida Crystal - Karungali Mala',1050)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-karungalimala','Drida Cristal - Karungali Mala',1050)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
@@ -714,7 +785,7 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-dhanyoganklet" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-dhanyoganklet" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-dhanyoganklet','Drida Crystal - Dhan Yoga Anklet',480)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-dhanyoganklet','Drida Cristal - Dhan Yoga Anklet',480)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
@@ -727,9 +798,12 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-pyriteanklet" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-pyriteanklet" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-pyriteanklet','Drida Crystal - Pyrite Anklet',700)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-pyriteanklet','Drida Cristal - Pyrite Anklet',700)">Buy via UPI</button>
           </div>
         </div>
+      </div>
+      <h3 style="margin-top:2rem">Car, Pendulums &amp; Journals</h3>
+      <div class="card-grid">
         <div class="card">
           <img loading="lazy" src="images/crystal_car_hanging.jpg?v=2" alt="7 Chakra Car Hanging">
           <h3>7 Chakra Car Hanging</h3>
@@ -739,12 +813,9 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-carhanging" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-carhanging" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-carhanging','Drida Crystal - 7 Chakra Car Hanging',480)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-carhanging','Drida Cristal - 7 Chakra Car Hanging',480)">Buy via UPI</button>
           </div>
         </div>
-      </div>
-      <h3 style="margin-top:2rem">Pendants, Pendulums &amp; Journals</h3>
-      <div class="card-grid">
         <div class="card">
           <img loading="lazy" src="images/crystal_pendulum.jpg?v=2" alt="Crystal Pendulum">
           <h3>Crystal Pendulum</h3>
@@ -754,14 +825,14 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-pendulum" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-pendulum" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-pendulum','Drida Crystal - Crystal Pendulum',150)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-pendulum','Drida Cristal - Crystal Pendulum',150)">Buy via UPI</button>
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_seven_chakra_journal.jpg?v=2" alt="Seven Chakra Journal">
+          <div style="position:relative;width:100%;padding-top:100%;overflow:hidden;border-radius:12px;margin-bottom:0.75rem;background:var(--paper)"><img loading="lazy" src="images/crystal_seven_chakra_journal.jpg?v=2" alt="Seven Chakra Journal" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;margin:0"></div>
           <h3>7 Chakra Journal</h3>
           <p>Handmade leather-bound journal, 7&times;5 inches, premium unlined paper.</p>
-          <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-journal', this)">View Benefits &#9662;</button>
+          <button type="button" onclick="toggleBenefits('benefits-journal', this)" style="background:none;border:1px solid var(--accent, #1a3d6d);border-radius:999px;padding:0.3rem 0.9rem;margin:0 0 0.7rem;color:var(--accent, #1a3d6d);font-size:0.8rem;font-weight:600;cursor:pointer;display:inline-block">View Benefits &#9662;</button>
           <ul id="benefits-journal" style="display:none;margin:0 0 0.75rem;padding-left:1.1rem;font-size:0.88rem;color:var(--muted)">
             <li>Balance Chakras</li>
             <li>Enhance Creativity</li>
@@ -773,15 +844,15 @@
             <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
             <input id="n-upi-crystal-journal" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
             <input id="p-upi-crystal-journal" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-journal','Drida Crystal - 7 Chakra Journal',800)">Buy via UPI</button>
+            <button class="btn" type="button" onclick="showProductUpi('upi-crystal-journal','Drida Cristal - 7 Chakra Journal',800)">Buy via UPI</button>
           </div>
         </div>
       </div>
-      <h3 style="margin-top:2rem;margin-bottom:0.25rem">Full Drida Crystal Price List</h3>
+      <h3 style="margin-top:2rem;margin-bottom:0.25rem">Full Drida Cristal Price List</h3>
       <p style="font-size:0.9rem;color:var(--muted);margin-bottom:1rem">For any item below, WhatsApp Ms. Smitha Haridas with your selection and delivery address.</p>
       <div style="padding:1.5rem;border:1px solid var(--line-soft);border-radius:14px;background:var(--paper);position:relative;z-index:1">
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:1rem">
+      <div class="price-list-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:1rem">
         <div>
           <h4 style="margin-bottom:0.5rem">Bracelets &amp; Malas</h4>
           <ul style="list-style:none;padding:0;margin:0;border-top:1px solid var(--line-soft)">
@@ -794,7 +865,7 @@
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Karungali Bracelet</span><span>&#8377;650</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Karungali 7 Chakra Bracelet</span><span>&#8377;650</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Triple Protection Bracelet</span><span>&#8377;550</span></li>
-            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>GRH Mix Bracelet <em style="font-style:normal;color:var(--muted);font-size:0.8rem">(Rose Quartz + Howlite + Green Aventurine)</em></span><span>&#8377;550</span></li>
+            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>GRH Mix Bracelet <em style="font-style:normal;color:var(--muted);font-size:0.8rem">(Green Aventurine + Rose Quartz + Howlite)</em></span><span>&#8377;550</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Pyrite Bracelet</span><span>&#8377;550</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Pyrite Bracelet (Gem Quality)</span><span>&#8377;650</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Green Aventurine Bracelet</span><span>&#8377;550</span></li>
@@ -803,27 +874,16 @@
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Carnelian Bracelet</span><span>&#8377;550</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0"><span>Weight Loss Bracelet</span><span>&#8377;750</span></li>
           </ul>
-        </div>
-
-        <div>
-          <h4 style="margin-bottom:0.5rem">Anklets, Car &amp; Home</h4>
+          <h4 style="font-weight:700;font-size:1.35rem;color:#1a3d6d;margin:1.5rem 0 0.5rem">Anklets</h4>
           <ul style="list-style:none;padding:0;margin:0;border-top:1px solid var(--line-soft)">
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Dhan Yoga Anklet <em style="font-style:normal;color:var(--muted);font-size:0.8rem">(single)</em></span><span>&#8377;480</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Pyrite Anklet <em style="font-style:normal;color:var(--muted);font-size:0.8rem">(single)</em></span><span>&#8377;700</span></li>
-            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>7 Chakra Anklet <em style="font-style:normal;color:var(--muted);font-size:0.8rem">(single)</em></span><span>&#8377;480</span></li>
-            <li style="display:flex;justify-content:space-between;padding:0.4rem 0"><span>7 Chakra Car Hanging</span><span>&#8377;480</span></li>
-          </ul>
-          <h4 style="margin:1.25rem 0 0.5rem">Pendants, Pendulums &amp; Journals</h4>
-          <ul style="list-style:none;padding:0;margin:0;border-top:1px solid var(--line-soft)">
-            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Rudraksha Pendulum</span><span>&#8377;150</span></li>
-            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Ball Pendulum <em style="font-style:normal;color:var(--muted);font-size:0.8rem">(original)</em></span><span>&#8377;150</span></li>
-            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>7 Chakra Pendant</span><span>&#8377;260</span></li>
-            <li style="display:flex;justify-content:space-between;padding:0.4rem 0"><span>7 Chakra Journal</span><span>&#8377;800</span></li>
+            <li style="display:flex;justify-content:space-between;padding:0.4rem 0"><span>7 Chakra Anklet <em style="font-style:normal;color:var(--muted);font-size:0.8rem">(single)</em></span><span>&#8377;480</span></li>
           </ul>
         </div>
 
         <div>
-          <h4 style="margin-bottom:0.5rem">Loose Healing Crystal Bracelets</h4>
+          <h4 style="margin-bottom:0.5rem">Healing Crystal Bracelets</h4>
           <ul style="list-style:none;padding:0;margin:0;border-top:1px solid var(--line-soft)">
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Selenite</span><span>&#8377;600</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Red Jasper</span><span>&#8377;550</span></li>
@@ -836,8 +896,18 @@
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Clear Quartz</span><span>&#8377;550</span></li>
             <li style="display:flex;justify-content:space-between;padding:0.4rem 0"><span>7 Chakra Beads Keychain</span><span>&#8377;320</span></li>
           </ul>
+          <h4 class="price-list-subheading">Pendulums</h4>
+          <ul style="list-style:none;padding:0;margin:0;border-top:1px solid var(--line-soft)">
+            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>Rudraksha Pendulum</span><span>&#8377;150</span></li>
+            <li style="display:flex;justify-content:space-between;padding:0.4rem 0"><span>Ball Pendulum <em style="font-style:normal;color:var(--muted);font-size:0.8rem">(original)</em></span><span>&#8377;150</span></li>
+          </ul>
+          <h4 class="price-list-subheading">Pendants, Journals &amp; More</h4>
+          <ul style="list-style:none;padding:0;margin:0;border-top:1px solid var(--line-soft)">
+            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>7 Chakra Pendant</span><span>&#8377;260</span></li>
+            <li style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--line-soft)"><span>7 Chakra Journal</span><span>&#8377;800</span></li>
+            <li style="display:flex;justify-content:space-between;padding:0.4rem 0"><span>7 Chakra Car Hanging</span><span>&#8377;480</span></li>
+          </ul>
         </div>
-      </div>
       </div>
 
       <div style="margin-top:1.5rem;padding:1rem 1.25rem;border:1px solid var(--line-soft);border-radius:10px;background:var(--paper)">
@@ -855,13 +925,15 @@
         Ayurvedic ingredients like rosemary, kesar, and panchpushp into safe,
         chemical-free products - free from sulfates and parabens.
       </p>
+      <h3 class="kasar-subsection-heading">Our First Product Launch</h3>
       <div class="kasar-milestone">
-        <img src="images/kasar-first-product-launch.png" alt="Kasar Naturals — Our First Product Launch, a skintoner exclusively for PV members" loading="lazy">
+        <img src="images/kasar-first-product-launch.png?v=5" alt="Kasar Naturals — Our First Product Launch, a skintoner exclusively for PV members" loading="lazy">
         <div class="kasar-milestone-text">
           <span class="section-tag">Where It Began</span>
-          <p>Kasar Naturals launched with a single skintoner, exclusively for our Positive Vibes members. That first sale has grown into the full range you see below.</p>
+          <p>Kasar Naturals launched with a single skintoner, exclusively for our Drida members. That first sale has grown into the full range you see below.</p>
         </div>
       </div>
+      <h3 class="kasar-subsection-heading">Shop Kasar Naturals</h3>
       <div class="kasar-split">
        <div class="kasar-products">
         <div class="card">
@@ -919,35 +991,39 @@
     <section id="eksel4u">
       <h2>EK.SEL4U &mdash; Nightwear</h2>
       <p>Comfortable, stylish nightwear from Drida's own brand &mdash; crafted for quality sleep and relaxed living.</p>
-      <div class="card-grid" style="justify-content:center;">
-        <div class="card">
-          <img src="images/product-eksel4u.png" alt="EK.SEL4U Nightwear"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="product-placeholder" style="display:none">
-            <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-              <rect width="120" height="80" fill="none"/>
-              <path d="M45 15 L35 30 L25 28 L32 45 L32 70 L88 70 L88 45 L95 28 L85 30 L75 15 Q60 22 45 15 Z"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" opacity="0.25"/>
-              <path d="M45 15 Q60 10 75 15" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.2"/>
-            </svg>
-          </div>
-          <h3>EK.SEL4U &mdash; Nightwear</h3>
-          <p>Comfortable, stylish nightwear from Drida's own brand &mdash; crafted for quality sleep and relaxed living.</p>
-          <p class="price">&#8377;799.00</p>
-          <div id="upi-eksel4u" style="display:flex;flex-direction:column;gap:0.45rem">
-            <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
-            <input id="n-upi-eksel4u" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
-            <input id="p-upi-eksel4u" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
-            <button class="btn" type="button" onclick="showProductUpi('upi-eksel4u','EK.SEL4U Nightwear',799)">Buy via UPI</button>
+      <div style="display:flex;flex-wrap:wrap;gap:2rem;margin-top:1.5rem;align-items:stretch;justify-content:center">
+        <div style="flex:0 0 360px;width:360px;display:flex;flex-direction:column">
+          <h3 class="kasar-subsection-heading" style="margin-top:0">Shop EK.SEL4U</h3>
+          <div class="card-grid" style="justify-content:center;margin:0;flex:1;display:flex">
+            <div class="card" style="width:360px;max-width:360px;flex:0 0 360px">
+              <img src="images/product-eksel4u.png" alt="EK.SEL4U Nightwear"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="product-placeholder" style="display:none">
+                <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                  <rect width="120" height="80" fill="none"/>
+                  <path d="M45 15 L35 30 L25 28 L32 45 L32 70 L88 70 L88 45 L95 28 L85 30 L75 15 Q60 22 45 15 Z"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" opacity="0.25"/>
+                  <path d="M45 15 Q60 10 75 15" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.2"/>
+                </svg>
+              </div>
+              <h3>EK.SEL4U &mdash; Nightwear</h3>
+              <p>Comfortable, stylish nightwear from Drida's own brand &mdash; crafted for quality sleep and relaxed living.</p>
+              <p class="price">&#8377;799.00</p>
+              <div id="upi-eksel4u" style="display:flex;flex-direction:column;gap:0.45rem">
+                <p style="font-size:0.82rem;color:var(--muted);margin:0">Enter your details to buy:</p>
+                <input id="n-upi-eksel4u" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="text" placeholder="Your full name" />
+                <input id="p-upi-eksel4u" style="border:1px solid var(--line-soft);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.9rem;font-family:inherit;background:var(--paper);color:var(--ink);width:100%;box-sizing:border-box" type="tel" placeholder="Your phone number" />
+                <button class="btn" type="button" onclick="showProductUpi('upi-eksel4u','EK.SEL4U Nightwear',799)">Buy via UPI</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="kasar-videos-heading">
-        <h3>See It In Action</h3>
-        <hr class="kasar-videos-rule">
-      </div>
-      <div class="kasar-videos">
-        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DQ8jWvGk9gV/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; flex:1 1 300px; max-width:360px; min-width:280px;"></blockquote>
+        <div style="flex:0 0 360px;width:360px;display:flex;flex-direction:column">
+          <h3 class="kasar-subsection-heading" style="margin-top:0">See It In Action</h3>
+          <div class="kasar-videos" style="margin-top:0;justify-content:center;align-items:center;flex:1;display:flex">
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DQ8jWvGk9gV/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; width:360px; max-width:360px; min-width:360px;"></blockquote>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1057,7 +1133,7 @@
 
   <!-- Firebase removed — members-only video unlock will be rebuilt via WordPress/Tutor LMS enrollment later -->
   <script src="auth-nav.js"></script>
-  <script src="script.js?v=12"></script>
+  <script src="script.js?v=13"></script>
   <script src="drida-effects.js?v=1"></script>
   <script>
     function tryAltExt(img) {
@@ -1155,7 +1231,7 @@
         loaded = true;
         const s = document.createElement('script');
         s.async = true;
-        s.src = '//www.instagram.com/embed.js';
+        s.src = 'https://www.instagram.com/embed.js';
         document.body.appendChild(s);
       }
       const targets = document.querySelectorAll('.instagram-media');
