@@ -54,36 +54,94 @@
       .kasar-milestone { flex-direction: column; text-align: center; }
     }
 
+    /* Kasar Naturals: user wants two clean stacked rows instead of a
+       side-by-side split with a divider -- 3 product cards evenly spaced
+       in their own row, then the 2 Instagram videos evenly spaced in the
+       row below. */
     .kasar-split {
       display: flex;
-      align-items: flex-start;
-      gap: 2rem;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 1.75rem;
       margin-top: 1.5rem;
     }
     .kasar-products {
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-evenly;
       gap: 1.25rem;
-      flex: 2 1 600px;
     }
     .kasar-videos {
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-evenly;
       gap: 1.25rem;
-      flex: 1 1 280px;
+      margin-top: 0.5rem;
     }
-    .kasar-section-divider {
-      align-self: stretch;
-      width: 1px;
-      min-height: 200px;
-      background: var(--line-soft);
+    .kasar-videos-heading {
+      margin-top: 1rem;
     }
-    @media (max-width: 900px) {
-      .kasar-section-divider {
-        width: 100%;
-        min-height: 1px;
-        height: 1px;
+    .kasar-videos-heading h3 {
+      margin-bottom: 0.75rem;
+    }
+    .kasar-videos-rule {
+      border: none;
+      border-top: 1px solid var(--line-soft);
+      margin: 0 0 1.25rem;
+    }
+
+    /* Kasar product cards were inheriting the site-wide .card size (up to
+       320px wide) which read as oversized for a 3-up row in this narrower
+       column. Scope a smaller card here without touching the shared .card
+       class used elsewhere on the site. */
+    .kasar-products .card {
+      flex: 1 1 240px;
+      max-width: 280px;
+      padding: 1rem;
+    }
+    .kasar-products .card h3 { font-size: 1rem; }
+    .kasar-products .card p { font-size: 0.85rem; }
+
+    /* Drida Crystal cards: same oversizing issue, plus a handful of
+       bracelets used a taller 3:4 image box (to show info-graphic text
+       without cropping) while the rest use the default square 1:1 -- that
+       mismatch made cards in the same row different heights. Both fixed
+       below: smaller card width, and every crystal image forced to the
+       same 1:1 box (object-fit:contain keeps the taller graphics fully
+       visible within that square instead of cropping them). */
+    #drida-crystal .card-grid > .card {
+      flex: 0 1 190px;
+      max-width: 210px;
+      padding: 1rem;
+    }
+    #drida-crystal .card-grid > .card h3 {
+      font-size: 0.95rem;
+      min-height: 2.4em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    #drida-crystal .card-grid > .card p { font-size: 0.85rem; }
+    #drida-crystal .card-grid > .card > p:not(.price) {
+      min-height: 2.6em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    #drida-crystal .card-grid > .card img {
+      aspect-ratio: 1 / 1 !important;
+    }
+
+    /* EK.SEL4U: nightwear card and its Instagram video sat too close
+       together on wide screens where they land side by side. */
+    #eksel4u .card-grid > blockquote.instagram-media {
+      margin-left: 4rem !important;
+    }
+    @media (max-width: 700px) {
+      #eksel4u .card-grid > blockquote.instagram-media {
+        margin-left: 0 !important;
+        margin-top: 2rem !important;
       }
     }
   </style>
@@ -396,7 +454,7 @@
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_dhan_yoga_bracelet.jpg?v=2" alt="Natural Dhan Yoga Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
+          <img loading="lazy" src="images/crystal_dhan_yoga_bracelet.jpg?v=2" alt="Natural Dhan Yoga Bracelet" style="object-fit:contain;background:var(--paper)">
           <h3>Dhan Yoga Bracelet</h3>
           <p>For wealth, prosperity and financial clarity.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-dhanyoga', this)">View Benefits &#9662;</button>
@@ -415,7 +473,7 @@
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_karungali_bracelet.jpg?v=2" alt="Karungali Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
+          <img loading="lazy" src="images/crystal_karungali_bracelet.jpg?v=2" alt="Karungali Bracelet" style="object-fit:contain;background:var(--paper)">
           <h3>Karungali Bracelet</h3>
           <p>Traditional black wood bracelet for calm and protection.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-karungali', this)">View Benefits &#9662;</button>
@@ -434,7 +492,7 @@
           </div>
         </div>
         <div class="card">
-          <img loading="lazy" src="images/crystal_karungali_7chakra.jpg?v=2" alt="Natural Karungali with Seven Chakra Bracelet" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
+          <img loading="lazy" src="images/crystal_karungali_7chakra.jpg?v=2" alt="Natural Karungali with Seven Chakra Bracelet" style="object-fit:contain;background:var(--paper)">
           <h3>Karungali 7 Chakra Bracelet</h3>
           <p>Karungali wood combined with 7 chakra stones.</p>
           <button class="btn" type="button" style="background:transparent;border:1px solid var(--line-soft);color:var(--ink);margin-bottom:0.5rem" onclick="toggleBenefits('benefits-karungali7chakra', this)">View Benefits &#9662;</button>
@@ -646,7 +704,7 @@
       <h3 style="margin-top:2rem">Malas, Anklets &amp; Car</h3>
       <div class="card-grid">
         <div class="card">
-          <img loading="lazy" src="images/crystal_karungali_mala.jpg?v=2" alt="Karungali Mala" style="aspect-ratio:3/4;object-fit:contain;background:var(--paper)">
+          <img loading="lazy" src="images/crystal_karungali_mala.jpg?v=2" alt="Karungali Mala" style="object-fit:contain;background:var(--paper)">
           <h3>Karungali Mala</h3>
           <p>Traditional 108-bead Karungali meditation mala.</p>
           <p class="price">&#8377;1,050.00</p>
@@ -798,9 +856,6 @@
         <p style="margin:0;font-size:0.9rem;color:var(--muted)">Within Kerala: &#8377;50 (up to 5 pcs) &middot; Outside Kerala: &#8377;100 (up to 5 pcs)</p>
       </div>
 
-      <p style="margin-top:1.25rem">
-        <a class="btn" href="https://wa.me/918075471581?text=Hi%2C%20I%27d%20like%20to%20order%20from%20the%20Drida%20Crystal%20price%20list" target="_blank" rel="noopener noreferrer">Order from the price list on WhatsApp</a>
-      </p>
     </section>
 
 
@@ -857,7 +912,10 @@
           </div>
         </div>
        </div>
-       <div class="kasar-section-divider" aria-hidden="true"></div>
+       <div class="kasar-videos-heading">
+         <h3>Loved By Our Community</h3>
+         <hr class="kasar-videos-rule">
+       </div>
        <div class="kasar-videos">
         <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DMxhiCvSpYx/" data-instgrm-version="14" style="background:#FFF; border:0; border-left:2px solid var(--line-soft); border-radius:12px; margin:0; padding-left:1.25rem; flex:1 1 260px; max-width:320px; min-width:260px;"></blockquote>
         <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DM2pmwry7fc/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; flex:1 1 260px; max-width:320px; min-width:260px;"></blockquote>
