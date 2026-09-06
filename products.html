@@ -133,17 +133,6 @@
       aspect-ratio: 1 / 1 !important;
     }
 
-    /* EK.SEL4U: nightwear card and its Instagram video sat too close
-       together on wide screens where they land side by side. */
-    #eksel4u .card-grid > blockquote.instagram-media {
-      margin-left: 4rem !important;
-    }
-    @media (max-width: 700px) {
-      #eksel4u .card-grid > blockquote.instagram-media {
-        margin-left: 0 !important;
-        margin-top: 2rem !important;
-      }
-    }
   </style>
 </head>
 <body>  <header>
@@ -930,7 +919,7 @@
     <section id="eksel4u">
       <h2>EK.SEL4U &mdash; Nightwear</h2>
       <p>Comfortable, stylish nightwear from Drida's own brand &mdash; crafted for quality sleep and relaxed living.</p>
-      <div class="card-grid">
+      <div class="card-grid" style="justify-content:center;">
         <div class="card">
           <img src="images/product-eksel4u.png" alt="EK.SEL4U Nightwear"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -952,7 +941,13 @@
             <button class="btn" type="button" onclick="showProductUpi('upi-eksel4u','EK.SEL4U Nightwear',799)">Buy via UPI</button>
           </div>
         </div>
-        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DQ8jWvGk9gV/" data-instgrm-version="14" style="background:#FFF; border:0; border-left:2px solid var(--line-soft); border-radius:12px; margin:0; margin-left:2.5rem; padding-left:1.25rem; flex:1 1 300px; max-width:360px; min-width:280px;"></blockquote>
+      </div>
+      <div class="kasar-videos-heading">
+        <h3>See It In Action</h3>
+        <hr class="kasar-videos-rule">
+      </div>
+      <div class="kasar-videos">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DQ8jWvGk9gV/" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:12px; margin:0; flex:1 1 300px; max-width:360px; min-width:280px;"></blockquote>
       </div>
     </section>
 
@@ -1173,6 +1168,39 @@
         }
       }, { rootMargin: '600px 0px' });
       targets.forEach(t => io.observe(t));
+    })();
+  </script>
+  <script>
+    // WHY card heights kept drifting: each .card-grid row only stretches
+    // its own cards to match each other (flex align-items:stretch is
+    // per-row), and which cards land in the same row changes with screen
+    // width and with how long each title/description is. So two cards
+    // could match on a wide screen and mismatch the moment the row
+    // rewraps. Fix: after layout, measure every card in each Drida
+    // Crystal grid and force them ALL to the tallest one's height --
+    // not just row by row, but across the whole grid.
+    (function () {
+      function equalizeCards() {
+        document.querySelectorAll('#drida-crystal .card-grid').forEach(function (grid) {
+          var cards = grid.querySelectorAll(':scope > .card');
+          if (cards.length < 2) return;
+          cards.forEach(function (c) { c.style.height = 'auto'; });
+          var max = 0;
+          cards.forEach(function (c) { max = Math.max(max, c.offsetHeight); });
+          cards.forEach(function (c) { c.style.height = max + 'px'; });
+        });
+      }
+      window.addEventListener('load', equalizeCards);
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(equalizeCards, 150);
+      });
+      // "View Benefits" toggles change a card's own content height, which
+      // can change which card is tallest -- re-run after any of those.
+      document.querySelectorAll('#drida-crystal [onclick^="toggleBenefits"]').forEach(function (btn) {
+        btn.addEventListener('click', function () { setTimeout(equalizeCards, 20); });
+      });
     })();
   </script>
 </body>
